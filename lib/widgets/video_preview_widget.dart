@@ -1,17 +1,13 @@
 import 'dart:io';
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 import '../providers/project_provider.dart';
+import '../providers/audio_player_provider.dart';
 import '../models/audio_timeline_item.dart';
 
 class VideoPreviewWidget extends StatefulWidget {
-  final AudioPlayer audioPlayer;
-  
-  const VideoPreviewWidget({
-    Key? key,
-    required this.audioPlayer,
-  }) : super(key: key);
+  const VideoPreviewWidget({Key? key}) : super(key: key);
 
   @override
   State<VideoPreviewWidget> createState() => _VideoPreviewWidgetState();
@@ -25,13 +21,35 @@ class _VideoPreviewWidgetState extends State<VideoPreviewWidget> {
   void initState() {
     super.initState();
     
+    // A inicialização do listener será feita no didChangeDependencies
+  }
+  
+  StreamSubscription? _positionSubscription;
+  
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    
+    // Cancelar subscription anterior se existir
+    _positionSubscription?.cancel();
+    
+    // Obter o AudioPlayerProvider
+    final audioPlayerProvider = Provider.of<AudioPlayerProvider>(context);
+    
     // Ouvir as mudanças na posição do áudio
-    widget.audioPlayer.positionStream.listen((position) {
+    _positionSubscription = audioPlayerProvider.audioPlayer.positionStream.listen((position) {
       setState(() {
         _position = position;
         _updateCurrentImage();
       });
     });
+  }
+  
+  @override
+  void dispose() {
+    // Cancelar subscription ao destruir o widget
+    _positionSubscription?.cancel();
+    super.dispose();
   }
   
   // Atualiza a imagem atual com base na posição do áudio

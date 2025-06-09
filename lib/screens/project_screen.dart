@@ -105,6 +105,25 @@ class ProjectScreen extends StatelessWidget {
                         icon: const Icon(Icons.edit),
                         label: const Text('Alterar Áudio'),
                       ),
+                      
+                      // Preview do vídeo
+                      const SizedBox(height: 30),
+                      Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              Text(
+                                'Preview do Vídeo',
+                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                              ),
+                              SizedBox(height: 12),
+                              VideoPreviewWidget(),
+                            ],
+                          ),
+                        ),
+                      ),
                     ],
                   );
                 } else {
