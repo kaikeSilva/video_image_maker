@@ -6,6 +6,7 @@ import '../widgets/audio_player_widget.dart';
 import '../widgets/image_timeline_list.dart';
 import '../widgets/draggable_image_item.dart';
 import '../routes.dart';
+import '../widgets/progress_indicator_widget.dart';
 
 class EditorScreen extends StatelessWidget {
   const EditorScreen({Key? key}) : super(key: key);
@@ -22,6 +23,10 @@ class EditorScreen extends StatelessWidget {
           builder: (context, projectProvider, child) {
             return Text('Editor: ${projectProvider.project.name}');
           },
+        ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
+          child: const FlowProgressIndicator(currentStep: 2),
         ),
         actions: [
           IconButton(
@@ -275,15 +280,36 @@ class EditorScreen extends StatelessWidget {
           }
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Implementação futura: gerar vídeo
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Funcionalidade de exportação em desenvolvimento')),
-          );
-        },
-        tooltip: 'Exportar Vídeo',
-        child: const Icon(Icons.movie_creation),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          // Botão Preview
+          FloatingActionButton(
+            heroTag: "preview",
+            onPressed: () {
+              final projectProvider = Provider.of<ProjectProvider>(context, listen: false);
+              if (projectProvider.project.timelineItems.isNotEmpty) {
+                Navigator.pushNamed(context, Routes.preview);
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Adicione pelo menos uma imagem para fazer o preview')),
+                );
+              }
+            },
+            child: const Icon(Icons.play_arrow),
+            tooltip: 'Preview do Vídeo',
+          ),
+          const SizedBox(width: 16),
+          // Botão Exportar
+          FloatingActionButton(
+            heroTag: "export",
+            onPressed: () {
+              Navigator.pushNamed(context, Routes.videoGeneration);
+            },
+            child: const Icon(Icons.movie_creation),
+            tooltip: 'Exportar Vídeo',
+          ),
+        ],
       ),
     );
   }

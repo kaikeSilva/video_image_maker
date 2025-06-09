@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, Routes.project);
+                Navigator.pushNamed(context, Routes.audioSelection); // MUDANÇA: era Routes.project
               },
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
@@ -31,14 +31,14 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, Routes.editor);
+                Navigator.pushNamed(context, Routes.project); // NOVA FUNCIONALIDADE
               },
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                 backgroundColor: Colors.deepPurple,
                 foregroundColor: Colors.white,
               ),
-              child: const Text('Abrir Editor', style: TextStyle(fontSize: 18)),
+              child: const Text('Projetos Recentes', style: TextStyle(fontSize: 18)),
             ),
           ],
         ),

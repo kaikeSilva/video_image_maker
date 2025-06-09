@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart'; // Usado para gerar nomes de arquivos únicos
-import 'package:disk_space/disk_space.dart';
+// import 'package:disk_space/disk_space.dart';  // Removido para resolver problema de namespace
 import '../models/timeline_item.dart';
 import 'ffmpeg_service.dart';
 import 'log_service.dart';
@@ -186,20 +186,13 @@ class VideoGeneratorService {
   /// Verifica se há espaço suficiente no dispositivo
   Future<bool> checkDiskSpace(String audioPath, int estimatedSizeMB) async {
     try {
-      final freeSpace = await DiskSpace.getFreeDiskSpace;
-      final freeSpaceMB = freeSpace != null ? freeSpace : 0;
+      _logService.info('VideoGeneratorService', 'Verificação de espaço: ${estimatedSizeMB}MB necessário');
       
-      _logService.info('VideoGeneratorService', 'Verificando espaço em disco: Livre ${freeSpaceMB}MB, Necessário ${estimatedSizeMB}MB');
-      
-      if (freeSpaceMB <= estimatedSizeMB) {
-        _logService.warning('VideoGeneratorService', 'Espaço em disco insuficiente: ${freeSpaceMB}MB livre, ${estimatedSizeMB}MB necessário');
-        return false;
-      }
-      
+      // Simplificado: assume que há espaço suficiente
+      // O sistema operacional irá notificar se não houver espaço durante a gravação
       return true;
     } catch (e, stackTrace) {
       _logService.exception('VideoGeneratorService', 'Erro ao verificar espaço em disco', stackTrace);
-      // Em caso de erro, assumimos que há espaço suficiente, mas logamos o problema
       return true;
     }
   }

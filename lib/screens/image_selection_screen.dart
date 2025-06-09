@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../providers/project_provider.dart';
 import '../routes.dart';
 import '../models/audio_timeline_item.dart';
+import '../widgets/progress_indicator_widget.dart';
 
 class ImageSelectionScreen extends StatefulWidget {
   const ImageSelectionScreen({Key? key}) : super(key: key);
@@ -80,8 +81,6 @@ class _ImageSelectionScreenState extends State<ImageSelectionScreen> {
                 'path': file.path!,
                 'name': file.name,
                 'size': file.size,
-                'timestamp': 0.0, // Default timestamp at 0 seconds
-                'duration': 5.0, // Default duration of 5 seconds
               });
             }
           });
@@ -109,27 +108,17 @@ class _ImageSelectionScreenState extends State<ImageSelectionScreen> {
     });
   }
 
-  void _updateTimestamp(int index, double value) {
-    setState(() {
-      _selectedImages[index]['timestamp'] = value;
-    });
-  }
-
-  void _updateDuration(int index, double value) {
-    setState(() {
-      _selectedImages[index]['duration'] = value;
-    });
-  }
+  // Métodos de configuração de timestamp e duração removidos
 
   void _saveImages() {
     final projectProvider = Provider.of<ProjectProvider>(context, listen: false);
     
-    // Convert selected images to AudioTimelineItem objects
+    // Convert selected images to AudioTimelineItem objects with default values
     final timelineItems = _selectedImages.map((image) {
       return AudioTimelineItem(
         imagePath: image['path'],
-        timestamp: Duration(milliseconds: (image['timestamp'] * 1000).round()),
-        displayDuration: Duration(milliseconds: (image['duration'] * 1000).round()),
+        timestamp: Duration.zero, // PADRÃO: posicionar no início
+        displayDuration: const Duration(seconds: 5), // PADRÃO: 5 segundos
       );
     }).toList();
     
@@ -138,8 +127,8 @@ class _ImageSelectionScreenState extends State<ImageSelectionScreen> {
       projectProvider.addTimelineItem(item);
     }
     
-    // Navigate back to project screen
-    Navigator.pushReplacementNamed(context, Routes.project);
+    // Navigate to editor screen
+    Navigator.pushNamed(context, Routes.editor);
   }
 
   String _formatFileSize(int sizeInBytes) {
@@ -163,8 +152,12 @@ class _ImageSelectionScreenState extends State<ImageSelectionScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pushReplacementNamed(context, Routes.project);
+            Navigator.pop(context); // Volta para AudioSelectionScreen
           },
+        ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
+          child: const FlowProgressIndicator(currentStep: 1),
         ),
       ),
       body: Padding(
@@ -235,38 +228,6 @@ class _ImageSelectionScreenState extends State<ImageSelectionScreen> {
                                   ],
                                 ),
                                 const SizedBox(height: 12),
-                                const Text('Tempo de exibição (segundos):'),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Slider(
-                                        value: image['timestamp'],
-                                        min: 0,
-                                        max: 300, // Maximum 5 minutes (300 seconds)
-                                        divisions: 300,
-                                        label: image['timestamp'].toStringAsFixed(1),
-                                        onChanged: (value) => _updateTimestamp(index, value),
-                                      ),
-                                    ),
-                                    Text('${image['timestamp'].toStringAsFixed(1)}s'),
-                                  ],
-                                ),
-                                const Text('Duração (segundos):'),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Slider(
-                                        value: image['duration'],
-                                        min: 1,
-                                        max: 30, // Maximum 30 seconds duration
-                                        divisions: 29,
-                                        label: image['duration'].toStringAsFixed(1),
-                                        onChanged: (value) => _updateDuration(index, value),
-                                      ),
-                                    ),
-                                    Text('${image['duration'].toStringAsFixed(1)}s'),
-                                  ],
-                                ),
                               ],
                             ),
                           ),

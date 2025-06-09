@@ -7,6 +7,9 @@ import '../services/video_generator_service.dart';
 import '../services/storage_service.dart';
 import '../services/share_service.dart';
 import '../models/timeline_item.dart';
+import '../routes.dart';
+import '../widgets/progress_indicator_widget.dart';
+import '../widgets/loading_overlay.dart';
 
 class VideoGenerationScreen extends StatefulWidget {
   const VideoGenerationScreen({Key? key}) : super(key: key);
@@ -33,9 +36,47 @@ class _VideoGenerationScreenState extends State<VideoGenerationScreen> {
   Widget build(BuildContext context) {
     final projectProvider = Provider.of<ProjectProvider>(context);
     
-    return Scaffold(
+    return LoadingOverlay(
+      isLoading: _isGenerating,
+      message: 'Gerando vídeo... ${(_progress.progress * 100).toStringAsFixed(0)}%',
+      child: Scaffold(
       appBar: AppBar(
-        title: const Text('Geração de Vídeo'),
+        title: const Text('Exportar Vídeo'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            if (_isGenerating) {
+              // Confirmar cancelamento se estiver gerando
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Cancelar Exportação?'),
+                  content: const Text('O processo de geração será interrompido.'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Continuar Gerando'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        _cancelGeneration();
+                        Navigator.pop(context); // Fecha dialog
+                        Navigator.pop(context); // Volta para tela anterior
+                      },
+                      child: const Text('Cancelar'),
+                    ),
+                  ],
+                ),
+              );
+            } else {
+              Navigator.pop(context); // Volta para Preview ou Editor
+            }
+          },
+        ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
+          child: const FlowProgressIndicator(currentStep: 4),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -197,45 +238,41 @@ class _VideoGenerationScreenState extends State<VideoGenerationScreen> {
             if (_outputVideoPath != null && _progress.isCompleted)
               Column(
                 children: [
+                  // Botão principal de visualização
                   ElevatedButton.icon(
                     icon: const Icon(Icons.play_arrow),
-                    label: const Text('VISUALIZAR VÍDEO', style: TextStyle(fontSize: 16)),
+                    label: const Text('REPRODUZIR VÍDEO'),
+                    onPressed: () => _openVideo(_outputVideoPath!),
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
+                      backgroundColor: Colors.green,
                     ),
-                    onPressed: () => _openVideo(_outputVideoPath!),
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      OutlinedButton.icon(
-                        icon: const Icon(Icons.refresh),
-                        label: const Text('REINICIAR'),
-                        onPressed: _resetGeneration,
-                      ),
-                      const SizedBox(width: 8),
-                      OutlinedButton.icon(
-                        icon: const Icon(Icons.save),
-                        label: const Text('SALVAR'),
-                        onPressed: _saveVideoAgain,
-                      ),
-                    ],
                   ),
                   const SizedBox(height: 16),
+                  
+                  // Ações secundárias
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      OutlinedButton.icon(
-                        icon: const Icon(Icons.share),
-                        label: const Text('COMPARTILHAR'),
-                        onPressed: _isSharing ? null : _shareVideo,
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          icon: const Icon(Icons.share),
+                          label: const Text('Compartilhar'),
+                          onPressed: _shareVideo,
+                        ),
                       ),
-                      const SizedBox(width: 8),
-                      OutlinedButton.icon(
-                        icon: const Icon(Icons.import_export),
-                        label: const Text('EXPORTAR'),
-                        onPressed: _isExporting ? null : _showExportOptions,
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          icon: const Icon(Icons.edit),
+                          label: const Text('Novo Projeto'),
+                          onPressed: () {
+                            Navigator.pushNamedAndRemoveUntil(
+                              context, 
+                              Routes.home, 
+                              (route) => false,
+                            );
+                          },
+                        ),
                       ),
                     ],
                   ),
@@ -244,7 +281,8 @@ class _VideoGenerationScreenState extends State<VideoGenerationScreen> {
           ],
         ),
       ),
-    );
+    ),
+  );
   }
 
   // Gera o vídeo a partir do projeto atual

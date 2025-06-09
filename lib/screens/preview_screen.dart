@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import '../providers/project_provider.dart';
 import '../providers/audio_player_provider.dart';
 import '../models/audio_timeline_item.dart';
+import '../routes.dart';
+import '../widgets/progress_indicator_widget.dart';
 
 class PreviewScreen extends StatefulWidget {
   const PreviewScreen({Key? key}) : super(key: key);
@@ -180,7 +182,25 @@ class _PreviewScreenState extends State<PreviewScreen> with SingleTickerProvider
     return Scaffold(
       appBar: AppBar(
         title: const Text('Preview do Vídeo'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context); // Volta para Editor
+          },
+        ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
+          child: const FlowProgressIndicator(currentStep: 3),
+        ),
         actions: [
+          // Botão de editar
+          TextButton.icon(
+            icon: const Icon(Icons.edit),
+            label: const Text('Editar'),
+            onPressed: () {
+              Navigator.pop(context); // Volta para Editor
+            },
+          ),
           // Botão de tela cheia
           IconButton(
             icon: const Icon(Icons.fullscreen),
@@ -195,10 +215,10 @@ class _PreviewScreenState extends State<PreviewScreen> with SingleTickerProvider
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.of(context).pushNamed('/video-generation');
+          Navigator.pushNamed(context, Routes.videoGeneration);
         },
         icon: const Icon(Icons.movie_creation),
-        label: const Text('Gerar Vídeo'),
+        label: const Text('Exportar Vídeo'),
         backgroundColor: Colors.green,
       ),
       body: Padding(

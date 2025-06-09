@@ -5,6 +5,8 @@ import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 import '../providers/project_provider.dart';
 import '../routes.dart';
+import '../widgets/progress_indicator_widget.dart';
+import '../widgets/loading_overlay.dart';
 
 class AudioSelectionScreen extends StatefulWidget {
   const AudioSelectionScreen({Key? key}) : super(key: key);
@@ -144,14 +146,21 @@ class _AudioSelectionScreenState extends State<AudioSelectionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return LoadingOverlay(
+      isLoading: _isLoading,
+      message: 'Carregando arquivo de áudio...',
+      child: Scaffold(
       appBar: AppBar(
         title: const Text('Selecionar Áudio'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pushReplacementNamed(context, Routes.project);
+            Navigator.pushReplacementNamed(context, Routes.home);
           },
+        ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
+          child: const FlowProgressIndicator(currentStep: 0),
         ),
       ),
       body: Padding(
@@ -221,8 +230,8 @@ class _AudioSelectionScreenState extends State<AudioSelectionScreen> {
                       _audioDuration!,
                     );
                     
-                    // Navigate back to project screen
-                    Navigator.pushReplacementNamed(context, Routes.project);
+                    // Navigate to image selection screen
+                    Navigator.pushNamed(context, Routes.imageSelection);
                   }
                 },
                 style: ElevatedButton.styleFrom(
@@ -235,6 +244,7 @@ class _AudioSelectionScreenState extends State<AudioSelectionScreen> {
           ],
         ),
       ),
-    );
+    ),
+  );
   }
 }

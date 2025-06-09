@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'screens/home_screen.dart';
 import 'screens/project_screen.dart';
 import 'screens/audio_selection_screen.dart';
@@ -6,6 +7,8 @@ import 'screens/image_selection_screen.dart';
 import 'screens/editor_screen.dart';
 import 'screens/preview_screen.dart';
 import 'screens/video_generation_screen.dart';
+import 'providers/project_provider.dart';
+import 'utils/navigation_validator.dart';
 
 // Route names as constants
 class Routes {
@@ -69,7 +72,16 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case Routes.imageSelection:
       return PageRouteBuilder(
         settings: settings,
-        pageBuilder: (context, animation, secondaryAnimation) => const ImageSelectionScreen(),
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return Consumer<ProjectProvider>(
+            builder: (context, projectProvider, child) {
+              if (!NavigationValidator.canAccessImageSelection(projectProvider)) {
+                return const AudioSelectionScreen(); // Redireciona se inválido
+              }
+              return const ImageSelectionScreen();
+            },
+          );
+        },
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           const begin = Offset(1.0, 0.0);
           const end = Offset.zero;
@@ -84,7 +96,16 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case Routes.editor:
       return PageRouteBuilder(
         settings: settings,
-        pageBuilder: (context, animation, secondaryAnimation) => const EditorScreen(),
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return Consumer<ProjectProvider>(
+            builder: (context, projectProvider, child) {
+              if (!NavigationValidator.canAccessEditor(projectProvider)) {
+                return const AudioSelectionScreen(); // Redireciona se inválido
+              }
+              return const EditorScreen();
+            },
+          );
+        },
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           const begin = Offset(0.0, 1.0);
           const end = Offset.zero;
@@ -99,7 +120,16 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case Routes.preview:
       return PageRouteBuilder(
         settings: settings,
-        pageBuilder: (context, animation, secondaryAnimation) => const PreviewScreen(),
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return Consumer<ProjectProvider>(
+            builder: (context, projectProvider, child) {
+              if (!NavigationValidator.canAccessPreview(projectProvider)) {
+                return const EditorScreen(); // Redireciona se inválido
+              }
+              return const PreviewScreen();
+            },
+          );
+        },
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           const begin = Offset(1.0, 0.0);
           const end = Offset.zero;
