@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:share_plus/share_plus.dart';
 import '../providers/project_provider.dart';
 import '../services/video_generator_service.dart';
 import '../services/storage_service.dart';
@@ -382,15 +382,28 @@ class _VideoGenerationScreenState extends State<VideoGenerationScreen> {
     }
   }
   
-  // Abre o vídeo gerado no player padrão do dispositivo
+  // Abre o vídeo gerado no player padrão do dispositivo usando share_plus
   Future<void> _openVideo(String path) async {
-    final Uri uri = Uri.file(path);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    } else {
+    try {
+      // Usar share_plus para compartilhar o arquivo de vídeo
+      // Isso evita o erro FileUriExposedException
+      final result = await Share.shareXFiles(
+        [XFile(path)],
+        text: 'Vídeo gerado pelo Video Maker',
+        subject: 'Meu Vídeo',
+      );
+      
+      if (result.status != ShareResultStatus.success) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Não foi possível abrir o vídeo')),
+          );
+        }
+      }
+    } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Não foi possível abrir o vídeo')),
+          SnackBar(content: Text('Erro ao abrir o vídeo: $e')),
         );
       }
     }

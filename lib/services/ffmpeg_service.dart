@@ -143,10 +143,10 @@ class FFmpegService {
     command.add('-i');
     command.add(inputAudioPath);
 
-    // Configuração para a sequência de imagens
-    // Usando o filtro complex para concatenar imagens com durações específicas
+    // Configuração para a sequência de imagens com transições baseadas no timestamp
     List<String> filterParts = [];
-
+    List<String> segmentParts = [];
+    
     // Para cada imagem, criamos um filtro para escalar e ajustar
     for (int i = 0; i < imageSequence.length; i++) {
       final item = imageSequence[i];
@@ -162,29 +162,40 @@ class FFmpegService {
       command.add('-i');
       command.add(imagePath);
       
-      // Cria o filtro para esta imagem
+      // Cria o filtro para esta imagem - escala para 1280x720 mantendo proporção
       filterParts.add('[${i + 1}:v]scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2,setsar=1[v$i]');
-    }
-    
-    // Adiciona a concatenação das imagens
-    if (imageSequence.length > 1) {
-      // Cria uma string para concatenar todas as imagens
-      String concatStr = '';
-      for (int i = 0; i < imageSequence.length; i++) {
-        concatStr += '[v$i]';
+      
+      // Determina a duração desta imagem
+      double duration = 0;
+      
+      if (i < imageSequence.length - 1) {
+        // Para todas as imagens exceto a última, a duração é até a próxima imagem
+        duration = ((imageSequence[i+1]['timestamp'] as int) - (item['timestamp'] as int)) / 1000.0;
+      } else {
+        // Para a última imagem, dura até o final do áudio
+        // Usar uma duração grande o suficiente para cobrir o resto do áudio
+        duration = 86400; // 24 horas em segundos (valor grande para garantir que cubra o áudio)
       }
-      concatStr += 'concat=n=${imageSequence.length}:v=1:a=0[outv]';
-      filterParts.add(concatStr);
-    } else if (imageSequence.length == 1) {
-      // Se houver apenas uma imagem, renomeia o output
-      filterParts.add('[v0]copy[outv]');
+      
+      // Adiciona o segmento com tempo e duração
+      segmentParts.add('[v$i]trim=start=0:duration=$duration,setpts=PTS-STARTPTS[s$i]');
     }
     
-    // Junta todas as partes do filtro
-    String filterComplex = filterParts.join(';');
+    // Adiciona os filtros de escala
+    filterParts.addAll(segmentParts);
+    
+    // Concatena os segmentos
+    if (imageSequence.length > 0) {
+      String concatInputs = '';
+      for (int i = 0; i < imageSequence.length; i++) {
+        concatInputs += '[s$i]';
+      }
+      filterParts.add('${concatInputs}concat=n=${imageSequence.length}:v=1:a=0[outv]');
+    }
     
     // Adiciona o filtro complex ao comando se houver imagens
     if (filterParts.isNotEmpty) {
+      String filterComplex = filterParts.join(';');
       command.add('-filter_complex');
       command.add(filterComplex);
       
