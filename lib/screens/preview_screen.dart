@@ -60,26 +60,30 @@ class _PreviewScreenState extends State<PreviewScreen> with SingleTickerProvider
     
     // Ouvir mudanças no estado de reprodução
     audioPlayerProvider.audioPlayer.playerStateStream.listen((state) {
-      setState(() {
-        _isPlaying = state.playing;
-      });
+      if (mounted) {
+        setState(() {
+          _isPlaying = state.playing;
+        });
+      }
     });
     
     // Ouvir as mudanças na posição do áudio
     _positionSubscription = audioPlayerProvider.audioPlayer.positionStream.listen((position) {
-      final oldImage = _currentImage;
-      
-      setState(() {
-        _position = position;
-        _updateCurrentImage();
+      if (mounted) {
+        final oldImage = _currentImage;
         
-        // Verificar se houve mudança de imagem para mostrar indicador de transição
-        if (oldImage != null && _currentImage != null && oldImage != _currentImage) {
-          _showTransitionIndicator = true;
-          _transitionController.reset();
-          _transitionController.forward();
-        }
-      });
+        setState(() {
+          _position = position;
+          _updateCurrentImage();
+          
+          // Verificar se houve mudança de imagem para mostrar indicador de transição
+          if (oldImage != null && _currentImage != null && oldImage != _currentImage) {
+            _showTransitionIndicator = true;
+            _transitionController.reset();
+            _transitionController.forward();
+          }
+        });
+      }
     });
   }
   
@@ -92,6 +96,8 @@ class _PreviewScreenState extends State<PreviewScreen> with SingleTickerProvider
   
   // Atualiza a imagem atual com base na posição do áudio
   void _updateCurrentImage() {
+    if (!mounted) return;
+    
     final projectProvider = Provider.of<ProjectProvider>(context, listen: false);
     final timelineItems = projectProvider.project.timelineItems;
     

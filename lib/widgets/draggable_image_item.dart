@@ -84,9 +84,12 @@ class DraggableImageItem extends StatelessWidget {
                 children: [
                   const Icon(Icons.touch_app, size: 16),
                   const SizedBox(width: 4),
-                  const Text(
-                    'Arraste para a timeline',
-                    style: TextStyle(fontSize: 12),
+                  const Flexible(
+                    child: Text(
+                      'Arraste para a timeline',
+                      style: TextStyle(fontSize: 12),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ],
               ),

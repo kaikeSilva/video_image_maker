@@ -381,8 +381,9 @@ class VideoGeneratorService {
       // Gera o vídeo
       // Converter TimelineItems para o formato esperado pelo FFmpegService
       final ffmpegImageSequence = images.map((item) => {
-        'path': item.imagePath,
+        'imagePath': item.imagePath,  // Corrigido: usando 'imagePath' em vez de 'path'
         'timestamp': item.timestamp,
+        'duration': 0,  // Adicionando duração padrão
       }).toList();
       
       final success = await _ffmpegService.generateVideo(

@@ -145,39 +145,57 @@ class FFmpegService {
 
     // Configuração para a sequência de imagens
     // Usando o filtro complex para concatenar imagens com durações específicas
-    String filterComplex = '';
-    List<String> inputs = [];
-    List<String> overlays = [];
+    List<String> filterParts = [];
 
+    // Para cada imagem, criamos um filtro para escalar e ajustar
     for (int i = 0; i < imageSequence.length; i++) {
       final item = imageSequence[i];
       final imagePath = item['imagePath'] as String;
-      // Usamos o timestamp para calcular a duração entre imagens
+      
+      // Verifica se o caminho da imagem existe
+      if (imagePath.isEmpty) {
+        _logService.error('FFmpegService', 'Caminho de imagem inválido: $imagePath');
+        continue;
+      }
       
       // Adiciona input para cada imagem
       command.add('-i');
       command.add(imagePath);
       
-      // Prepara o filtro para esta imagem
-      inputs.add('[${i + 1}:v]scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2,setsar=1,setpts=PTS-STARTPTS+${i > 0 ? imageSequence[i-1]['duration'] : 0}/TB[v$i]');
-      
-      // Adiciona ao overlay
-      if (i == 0) {
-        overlays.add('[v0]');
-      } else {
-        overlays.add('[tmp$i][v$i]overlay=shortest=1:x=0:y=0[tmp${i+1}]');
-      }
-    }
-
-    // Finaliza o filtro complex
-    filterComplex = inputs.join(';');
-    if (imageSequence.length > 1) {
-      filterComplex += ';' + overlays.join(';');
+      // Cria o filtro para esta imagem
+      filterParts.add('[${i + 1}:v]scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2,setsar=1[v$i]');
     }
     
-    // Adiciona o filtro complex ao comando
-    command.add('-filter_complex');
-    command.add(filterComplex);
+    // Adiciona a concatenação das imagens
+    if (imageSequence.length > 1) {
+      // Cria uma string para concatenar todas as imagens
+      String concatStr = '';
+      for (int i = 0; i < imageSequence.length; i++) {
+        concatStr += '[v$i]';
+      }
+      concatStr += 'concat=n=${imageSequence.length}:v=1:a=0[outv]';
+      filterParts.add(concatStr);
+    } else if (imageSequence.length == 1) {
+      // Se houver apenas uma imagem, renomeia o output
+      filterParts.add('[v0]copy[outv]');
+    }
+    
+    // Junta todas as partes do filtro
+    String filterComplex = filterParts.join(';');
+    
+    // Adiciona o filtro complex ao comando se houver imagens
+    if (filterParts.isNotEmpty) {
+      command.add('-filter_complex');
+      command.add(filterComplex);
+      
+      // Mapa o output do filtro para o stream de vídeo
+      command.add('-map');
+      command.add('[outv]');
+      
+      // Mapa o áudio original
+      command.add('-map');
+      command.add('0:a');
+    }
 
     // Adiciona os parâmetros de codificação
     command.add('-c:v');
