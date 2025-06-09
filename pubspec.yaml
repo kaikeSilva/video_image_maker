@@ -43,7 +43,8 @@ dependencies:
   provider: ^6.1.2
   path_provider: ^2.1.2
   url_launcher: ^6.3.1
-  gallery_saver: ^2.3.2
+  # gallery_saver: ^2.3.2  # Removido devido a problemas de compatibilidade
+  gal: ^2.3.0  # Alternativa moderna ao gallery_saver
   # disk_space: ^0.2.1  # Removido para resolver problema de namespace
   intl: ^0.18.1
   uuid: ^4.3.3

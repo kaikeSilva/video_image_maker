@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:gallery_saver/gallery_saver.dart';
+// import 'package:gallery_saver/gallery_saver.dart';  // Removido devido a problemas de compatibilidade
+import 'package:gal/gal.dart';  // Alternativa moderna ao gallery_saver
 import 'package:path_provider/path_provider.dart';
 // import 'package:disk_space/disk_space.dart';  // Removido para resolver problema de namespace
 import 'package:intl/intl.dart';
@@ -54,10 +55,13 @@ class StorageService {
   Future<String?> saveVideoToGallery(String sourcePath) async {
     try {
       // Verifica permissões
-      final status = await Permission.storage.request();
-      if (!status.isGranted) {
-        debugPrint('Permissão de armazenamento negada');
-        return null;
+      final hasAccess = await Gal.hasAccess();
+      if (!hasAccess) {
+        final hasPermission = await Gal.requestAccess();
+        if (!hasPermission) {
+          debugPrint('Permissão de galeria negada');
+          return null;
+        }
       }
       
       // Verifica se o arquivo existe
@@ -76,16 +80,10 @@ class StorageService {
         return null;
       }
       
-      // Salva o vídeo na galeria
-      final bool? success = await GallerySaver.saveVideo(sourcePath);
-      
-      if (success == true) {
-        debugPrint('Vídeo salvo com sucesso na galeria');
-        return sourcePath;
-      } else {
-        debugPrint('Falha ao salvar vídeo na galeria');
-        return null;
-      }
+      // Salva o vídeo na galeria usando Gal
+      await Gal.putVideo(sourcePath);
+      debugPrint('Vídeo salvo com sucesso na galeria');
+      return sourcePath;
     } catch (e) {
       debugPrint('Erro ao salvar vídeo na galeria: $e');
       return null;
