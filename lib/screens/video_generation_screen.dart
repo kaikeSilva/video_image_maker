@@ -36,10 +36,13 @@ class _VideoGenerationScreenState extends State<VideoGenerationScreen> {
   Widget build(BuildContext context) {
     final projectProvider = Provider.of<ProjectProvider>(context);
     
-    return LoadingOverlay(
-      isLoading: _isGenerating,
-      message: 'Gerando vídeo... ${(_progress.progress * 100).toStringAsFixed(0)}%',
-      child: Scaffold(
+    // Só usamos o LoadingOverlay quando estamos em fases iniciais de preparação
+    // antes de termos progresso detalhado para mostrar na barra integrada.
+    // Isso evita que duas interfaces de progresso sejam exibidas ao mesmo tempo.
+    final bool useOverlay = _isGenerating && (_progress.progress <= 0.05);
+    
+    // Conteúdo principal da tela que mostra a barra de progresso interna
+    final Widget mainContent = Scaffold(
       appBar: AppBar(
         title: const Text('Exportar Vídeo'),
         leading: IconButton(
@@ -191,7 +194,8 @@ class _VideoGenerationScreenState extends State<VideoGenerationScreen> {
                       ),
                       const SizedBox(height: 8),
                       LinearProgressIndicator(
-                        value: _progress.progress,
+                        // Garantir que o progresso esteja entre 0 e 1
+                        value: _progress.progress.clamp(0.0, 1.0),
                         backgroundColor: Colors.grey[300],
                         valueColor: AlwaysStoppedAnimation<Color>(
                           _progress.hasError ? Colors.red : Colors.blue,
@@ -203,7 +207,8 @@ class _VideoGenerationScreenState extends State<VideoGenerationScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('${(_progress.progress * 100).toStringAsFixed(1)}% concluído'),
+                            // Limitar a porcentagem exibida a 100%
+                            Text('${(_progress.progress.clamp(0.0, 1.0) * 100).toStringAsFixed(1)}% concluído'),
                             Text(_getEstimatedTimeRemaining(_progress.progress)),
                           ],
                         ),
@@ -281,8 +286,20 @@ class _VideoGenerationScreenState extends State<VideoGenerationScreen> {
           ],
         ),
       ),
-    ),
-  );
+    );
+    
+    // Escolhe qual interface de progresso usar com base no estado da geração
+    if (useOverlay) {
+      // Usa o LoadingOverlay apenas na fase inicial (quando ainda não temos progresso detalhado)
+      return LoadingOverlay(
+        isLoading: true,
+        message: 'Preparando geração de vídeo... ${(_progress.progress.clamp(0.0, 1.0) * 100).toStringAsFixed(0)}%',
+        child: mainContent,
+      );
+    } else {
+      // Usa apenas a barra de progresso interna no resto do tempo
+      return mainContent;
+    }
   }
 
   // Gera o vídeo a partir do projeto atual

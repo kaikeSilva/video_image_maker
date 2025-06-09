@@ -74,19 +74,21 @@ class VideoQualityConfig {
 
 /// Classe para monitorar o progresso da geração de vídeo
 class VideoGenerationProgress {
-  final double progress; // 0.0 a 1.0
+  // Garante que progress esteja sempre entre 0.0 e 1.0
+  final double progress;
   final String currentStep;
   final bool isCompleted;
   final bool hasError;
   final String? errorMessage;
   
-  const VideoGenerationProgress({
-    required this.progress,
+  // Construtor principal com validação
+  VideoGenerationProgress({
+    required double progress,
     required this.currentStep,
     this.isCompleted = false,
     this.hasError = false,
     this.errorMessage,
-  });
+  }) : progress = progress.clamp(0.0, 1.0); // Garante que esteja entre 0 e 1
   
   // Construtor para progresso inicial
   VideoGenerationProgress.initial() : 
@@ -370,9 +372,22 @@ class VideoGeneratorService {
         
         final time = statistics.getTime();
         if (time > 0 && audioDurationMs > 0) {
-          final progress = time / audioDurationMs;
+          // Calcula o progresso com base no tempo de processamento vs duração do áudio
+          // e limita o resultado entre 0 e 1 para evitar porcentagens acima de 100%
+          final rawProgress = time / audioDurationMs;
+          final progress = rawProgress.clamp(0.0, 1.0);
+          
+          // Escala o progresso para o intervalo de 30% a 90% do progresso total
+          final scaledProgress = 0.3 + (progress * 0.6);
+          
+          // Registra valores para debug
+          _logService.info('VideoGeneratorService', 
+            'Progresso: time=$time, audioDurationMs=$audioDurationMs, ' +
+            'raw=${rawProgress.toStringAsFixed(3)}, scaled=${scaledProgress.toStringAsFixed(3)}'
+          );
+          
           progressCallback?.call(VideoGenerationProgress(
-            progress: 0.3 + (progress * 0.6), // 30% a 90%
+            progress: scaledProgress.clamp(0.0, 1.0), // Garante que sempre esteja entre 0 e 1
             currentStep: 'Gerando vídeo: ${(progress * 100).toStringAsFixed(0)}%',
           ));
         }
