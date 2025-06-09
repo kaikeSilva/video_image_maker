@@ -1,0 +1,17 @@
+
+1. Visão Geral
+1.1 Objetivo
+
+Voce e responsavel por Desenvolver um aplicativo mobile em Flutter que permita ao usuário:
+
+    Carregar um arquivo de áudio no formato MP3;
+
+    Inserir imagens em pontos específicos da timeline do áudio;
+
+    Gerar um vídeo (formato MP4) combinando o áudio e as imagens, exibindo cada imagem no tempo configurado pelo usuário.
+
+1.2 Público-alvo
+
+Usuários com interesse em criar vídeos simples a partir de áudios e imagens, como criadores de conteúdo, professores, profissionais de marketing, entre outros.
+
+faca apenas o que se segue
