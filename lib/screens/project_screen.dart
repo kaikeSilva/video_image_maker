@@ -113,13 +113,29 @@ class ProjectScreen extends StatelessWidget {
                           padding: const EdgeInsets.all(12.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text(
-                                'Preview do Vídeo',
-                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    'Preview do Vídeo',
+                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                                  ),
+                                  ElevatedButton.icon(
+                                    onPressed: () {
+                                      Navigator.pushNamed(context, Routes.preview);
+                                    },
+                                    icon: const Icon(Icons.fullscreen),
+                                    label: const Text('Modo Preview'),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.deepPurple,
+                                      foregroundColor: Colors.white,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              SizedBox(height: 12),
-                              VideoPreviewWidget(),
+                              const SizedBox(height: 12),
+                              const VideoPreviewWidget(),
                             ],
                           ),
                         ),

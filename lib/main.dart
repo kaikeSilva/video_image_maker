@@ -3,8 +3,14 @@ import 'package:provider/provider.dart';
 import 'providers/project_provider.dart';
 import 'providers/audio_player_provider.dart';
 import 'routes.dart';
+import 'utils/ffmpeg_initializer.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Inicializa o FFmpeg
+  await FFmpegInitializer().initializeFFmpeg();
+  
   runApp(const MyApp());
 }
 
