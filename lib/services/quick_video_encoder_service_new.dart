@@ -28,7 +28,6 @@ class QuickVideoEncoderService {
     required List<ImageSequenceItem> imageSequence,
     required String inputAudioPath,
     required Function(double) onProgress,
-    VideoQuality quality = VideoQuality.medium,
     int? timeoutSeconds,
   }) async {
     try {
@@ -67,19 +66,21 @@ class QuickVideoEncoderService {
       imageSequence.sort((a, b) => a.startTimeInSeconds.compareTo(b.startTimeInSeconds));
       _logService.info('QuickVideoEncoderService', 'Sequência de imagens ordenada: ${imageSequence.length} imagens');
 
-      // Parâmetros de áudio
+      // Parâmetros de vídeo e áudio
+      const int width = 1280;
+      const int height = 720;
       const int fps = 30;
+      const int videoBitrate = 2500000; // 2.5 Mbps
       const int audioChannels = 2;
       const int audioBitrate = 128000; // 128 kbps
       const int sampleRate = 44100;
 
-      _logService.info('QuickVideoEncoderService', 'Qualidade de vídeo selecionada: ${quality.displayName}');
-      _logService.info('QuickVideoEncoderService', 'Dimensões: ${quality.width}x${quality.height}, Bitrate: ${quality.videoBitrate / 1000000} Mbps');
-
-      // Configura e inicializa o encoder com a qualidade selecionada
+      // Configura e inicializa o encoder
       final encoderConfig = EncoderConfig(
-        quality: quality,
+        width: width,
+        height: height,
         fps: fps,
+        videoBitrate: videoBitrate,
         audioChannels: audioChannels,
         audioBitrate: audioBitrate,
         sampleRate: sampleRate,
@@ -111,8 +112,8 @@ class QuickVideoEncoderService {
         images: images,
         totalFrames: totalFrames,
         fps: fps,
-        width: quality.width,
-        height: quality.height,
+        width: width,
+        height: height,
         pcmAudioBytes: pcmAudioBytes,
         sampleRate: sampleRate,
         audioChannels: audioChannels,
