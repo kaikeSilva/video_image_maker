@@ -1,486 +1,797 @@
-# Guia de Tarefas para Agente - Background Video Generation
-
-## ESCOPO DO PROJETO
-
-### O QUE ESTÁ SENDO CONSTRUÍDO:
-Um sistema robusto de **geração de vídeo em background** que permite ao usuário:
-- Iniciar a criação de um vídeo (combinando áudio + imagens)
-- Minimizar o aplicativo e usar outros apps enquanto o vídeo é processado
-- Receber notificações em tempo real sobre o progresso da geração
-- Controlar o processo diretamente pelas notificações (cancelar, abrir resultado, compartilhar)
-- Ter garantia de que o processo continua mesmo se o app for fechado
-
-### PROBLEMA QUE RESOLVE:
-**ANTES:** Usuário precisava manter o app aberto durante toda a geração do vídeo (que pode demorar vários minutos), não podendo usar o dispositivo para outras tarefas.
-
-**DEPOIS:** Usuário inicia a geração, pode usar qualquer outro app, e é notificado quando o vídeo estiver pronto, com opções diretas para visualizar ou compartilhar.
-
-### FUNCIONALIDADES PRINCIPAIS:
-1. **Execução em Background Robusta:**
-   - Processamento continua mesmo com app minimizado ou fechado
-   - Usa foreground service para garantir execução
-   - Isolates dedicados para não travar a interface
-
-2. **Notificações Interativas (estilo Uber):**
-   - Progresso em tempo real (0% a 100%)
-   - Estados visuais diferentes (preparando, processando, finalizando, concluído)
-   - Botões de ação direta (cancelar, abrir vídeo, compartilhar)
-   - Ícones e cores apropriados para cada estado
-
-3. **Integração Transparente:**
-   - Mantém funcionalidade original do app intacta
-   - Adiciona opção "Gerar em Background" na tela existente
-   - Indicadores visuais discretos de progresso
-   - Zero impacto na experiência atual
-
-4. **Robustez e Recuperação:**
-   - Recupera tarefas ativas após restart do app
-   - Tratamento de erros com opções de retry
-   - Cleanup automático de recursos
-   - Persistência de estado em caso de falhas
-
-### EXPERIÊNCIA DO USUÁRIO ESPERADA:
-1. Usuário configura vídeo normalmente (áudio + imagens)
-2. Na tela de geração, escolhe "GERAR EM BACKGROUND" em vez do botão normal
-3. Recebe confirmação e pode imediatamente usar outros apps
-4. Vê notificação persistente com progresso atualizado em tempo real
-5. Quando concluído, recebe notificação com opções para abrir/compartilhar
-6. Todo o processo é transparente e não requer atenção constante
-
-### TECNOLOGIAS ENVOLVIDAS:
-- **Flutter Background Service:** Execução contínua
-- **Flutter Local Notifications:** Notificações interativas
-- **Isolates:** Processamento pesado sem travar UI
-- **Shared Preferences:** Persistência de estado
-- **Foreground Service Android:** Garantia de execução
-
-### RESULTADO FINAL ESPERADO:
-Sistema profissional de background processing similar ao que apps como Uber, WhatsApp e YouTube usam para uploads/downloads, onde o usuário inicia uma operação e pode esquecer dela, sendo notificado automaticamente quando concluída.
-
-## FASE 1: PREPARAÇÃO DO AMBIENTE
-
-### TAREFA 1: Atualizar Dependências do Projeto
-**Localização:** `pubspec.yaml`
-**Objetivo:** Adicionar bibliotecas necessárias para background e notificações
-**Ações:**
-1. Abrir arquivo `pubspec.yaml`
-2. Na seção `dependencies:`, adicionar as seguintes linhas:
-   - `flutter_local_notifications: ^17.0.0`
-   - `flutter_background_service: ^5.0.0`
-   - `workmanager: ^0.5.2`
-   - `shared_preferences: ^2.2.2`
-   - `flutter_isolate: ^2.0.4`
-3. Salvar arquivo
-4. Executar comando: `flutter pub get`
-**Verificação:** Comando deve executar sem erros e dependências devem ser baixadas
-
----
-
-### TAREFA 2: Configurar Permissões Android
-**Localização:** `android/app/src/main/AndroidManifest.xml`
-**Objetivo:** Adicionar permissões para background service e notificações
-**Ações:**
-1. Abrir arquivo AndroidManifest.xml
-2. Adicionar as seguintes permissões no topo (após `<manifest>` e antes de `<application>`):
-   - `FOREGROUND_SERVICE`
-   - `FOREGROUND_SERVICE_MEDIA_PROCESSING`
-   - `POST_NOTIFICATIONS`
-   - `VIBRATE`
-   - `WAKE_LOCK`
-   - `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`
-   - `RECEIVE_BOOT_COMPLETED`
-3. Dentro de `<application>`, adicionar declaração de serviço:
-   - Serviço `BackgroundService` do flutter_background_service
-   - Configurar como `foregroundServiceType="mediaProcessing"`
-   - Configurar como `exported="false"`
-4. Adicionar receiver para boot completed (opcional)
-5. Salvar arquivo
-**Verificação:** Arquivo deve ter sintaxe XML válida
-
----
-
-### TAREFA 3: Criar Estrutura de Pastas
-**Localização:** `lib/`
-**Objetivo:** Organizar código do sistema de background
-**Ações:**
-1. Criar pasta `lib/services/background/`
-2. Criar pasta `lib/models/background/`
-3. Criar pasta `lib/widgets/background/`
-4. Criar pasta `lib/utils/background/`
-**Verificação:** Pastas devem existir e estar vazias
-
----
-
-## FASE 2: MODELOS DE DADOS
-
-### TAREFA 4: Criar Modelo de Tarefa em Background
-**Localização:** `lib/models/background/background_task.dart`
-**Objetivo:** Definir estrutura de dados para tarefas de geração de vídeo
-**Funcionalidades necessárias:**
-1. Classe `BackgroundTask` com propriedades:
-   - `id` (String único)
-   - `type` (enum: videoGeneration, imageProcessing, etc.)
-   - `audioPath` (caminho do arquivo de áudio)
-   - `imagePaths` (lista de caminhos de imagens)
-   - `timestamps` (lista de timestamps em milissegundos)
-   - `videoConfig` (configurações do vídeo)
-   - `status` (enum: pending, processing, completed, failed, cancelled)
-   - `progress` (double 0.0 a 1.0)
-   - `currentStep` (string com etapa atual)
-   - `outputPath` (caminho do vídeo gerado)
-   - `error` (mensagem de erro, se houver)
-   - `createdAt`, `updatedAt`, `completedAt` (timestamps)
-2. Enum `BackgroundTaskType` com valores apropriados
-3. Enum `TaskStatus` com todos os status possíveis
-4. Métodos `toMap()`, `fromMap()`, `toJson()`, `fromJson()`
-5. Método `copyWith()` para criar cópias modificadas
-6. Propriedades calculadas: `isActive`, `isCompleted`, `isFailed`, etc.
-**Verificação:** Classe deve compilar e ser serializável
-
----
-
-### TAREFA 5: Criar Modelo de Estado de Progresso
-**Localização:** `lib/models/background/progress_state.dart`
-**Objetivo:** Definir estrutura para comunicação de progresso
-**Funcionalidades necessárias:**
-1. Classe `ProgressState` com propriedades:
-   - `taskId` (identificador da tarefa)
-   - `progress` (double 0.0 a 1.0)
-   - `status` (TaskStatus)
-   - `message` (string com mensagem atual)
-   - `currentImage` (índice da imagem sendo processada)
-   - `totalImages` (total de imagens)
-   - `outputPath` (resultado final)
-   - `error` (mensagem de erro)
-   - `timestamp` (quando foi criado)
-2. Métodos de serialização similar ao BackgroundTask
-3. Propriedades calculadas para formatação:
-   - `progressPercentage` (string "XX.X%")
-   - `formattedProgress` (texto amigável)
-   - `estimatedTimeRemaining` (estimativa)
-4. Classe `VideoGenerationConfig` para configurações
-**Verificação:** Classe deve compilar e ser usável para UI
-
----
-
-## FASE 3: SISTEMA DE NOTIFICAÇÕES
-
-### TAREFA 6: Implementar Gerenciador de Notificações
-**Localização:** `lib/services/background/notification_manager.dart`
-**Objetivo:** Criar sistema completo de notificações interativas
-**Funcionalidades necessárias:**
-1. Classe `NotificationManager` (singleton)
-2. Enum `NotificationStatus` (preparing, processing, finalizing, completed, error)
-3. Método `initialize()`:
-   - Solicitar permissões de notificação
-   - Criar canais de notificação Android
-   - Configurar callbacks
-4. Método `showProgressNotification()`:
-   - Mostrar notificação com barra de progresso
-   - Ícone baseado no status
-   - Botão "Cancelar"
-   - Atualização em tempo real
-5. Método `updateProgressNotification()`:
-   - Atualizar notificação existente
-   - Manter ID consistente
-6. Método `showCompletionNotification()`:
-   - Notificação de sucesso
-   - Botões "Abrir Vídeo" e "Compartilhar"
-   - Som e vibração
-7. Método `showErrorNotification()`:
-   - Notificação de erro
-   - Botões "Tentar Novamente" e "Ver Detalhes"
-8. Métodos auxiliares:
-   - `cancelNotification()`
-   - `_onNotificationTapped()` (callback)
-   - `_getIconForStatus()` (ícones por status)
-   - `_buildProgressText()` (texto formatado)
-9. Sistema de callbacks para ações das notificações
-**Verificação:** Notificações devem aparecer e ser interativas
-
----
-
-### TAREFA 7: Criar Ícones de Notificação (OPCIONAL)
-**Localização:** `android/app/src/main/res/drawable/`
-**Objetivo:** Adicionar ícones visuais para diferentes estados
-**Ações:**
-1. Criar arquivos XML com ícones simples:
-   - `ic_gear.xml` (engrenagem para "preparando")
-   - `ic_movie_camera.xml` (câmera para "processando")
-   - `ic_save.xml` (disquete para "salvando")
-   - `ic_check_circle.xml` (check para "sucesso")
-   - `ic_error.xml` (X para "erro")
-   - `ic_cancel.xml` (cancelar)
-   - `ic_play.xml` (play)
-   - `ic_share.xml` (compartilhar)
-2. Usar vector drawables básicos do Material Design
-**Nota:** Se não conseguir criar, usar ícones padrão do sistema
-**Verificação:** Ícones devem aparecer nas notificações
-
----
-
-## FASE 4: PROCESSAMENTO EM BACKGROUND
-
-### TAREFA 8: Implementar Isolate de Geração de Vídeo
-**Localização:** `lib/services/background/video_generation_isolate.dart`
-**Objetivo:** Criar processamento isolado que não trava a UI
-**Funcionalidades necessárias:**
-1. Classe `VideoGenerationIsolate` com método estático `spawn()`
-2. Função `_isolateEntryPoint()` como ponto de entrada
-3. Classe interna `_IsolateVideoGenerator` com:
-   - Gerenciamento de mensagens do main isolate
-   - Integração com `QuickVideoEncoderService` existente
-   - Envio de progresso via SendPort
-   - Tratamento de cancelamento
-4. Métodos de comunicação:
-   - `handleMessage()` (processar comandos)
-   - `_startGeneration()` (iniciar processamento)
-   - `_generateVideo()` (lógica principal)
-   - `_cancelGeneration()` (parar processo)
-   - `_sendProgress()` (enviar atualizações)
-   - `_sendCompleted()` (notificar conclusão)
-   - `_sendError()` (notificar erro)
-5. Sistema de comunicação bidirecional:
-   - ReceivePort/SendPort
-   - IsolateNameServer para registro
-   - Protocolo de mensagens estruturado
-6. Tratamento de erros robusto
-7. Cleanup de recursos
-**Verificação:** Isolate deve executar geração sem travar UI principal
-
----
-
-## FASE 5: COORDENAÇÃO CENTRAL
-
-### TAREFA 9: Implementar Gerenciador Principal de Background
-**Localização:** `lib/services/background/background_service_manager.dart`
-**Objetivo:** Coordenar todo o sistema de background
-**Funcionalidades necessárias:**
-1. Classe `BackgroundServiceManager` (singleton)
-2. Método `initialize()`:
-   - Inicializar NotificationManager
-   - Configurar Flutter Background Service
-   - Estabelecer comunicação com isolate
-3. Método `startVideoGeneration()`:
-   - Validar parâmetros de entrada
-   - Criar BackgroundTask
-   - Persistir tarefa em SharedPreferences
-   - Spawnar isolate
-   - Mostrar notificação inicial
-   - Retornar ID da tarefa
-4. Método `cancelVideoGeneration()`:
-   - Enviar sinal de cancelamento para isolate
-   - Limpar estado
-   - Remover notificação
-   - Atualizar UI
-5. Sistema de comunicação:
-   - `_setupIsolateCommunication()` (ReceivePort/SendPort)
-   - `_handleIsolateMessage()` (processar mensagens do isolate)
-   - Stream de progresso para UI
-6. Tratamento de diferentes tipos de mensagem:
-   - Progress updates
-   - Task completion
-   - Errors
-   - Isolate ready
-7. Persistência de estado:
-   - `_saveTask()`, `_updateTaskProgress()`, `_updateTaskStatus()`
-   - Recuperação após restart do app
-   - `getActiveTasks()`
-8. Cleanup e gerenciamento de recursos
-9. Integração com Flutter Background Service
-**Verificação:** Deve coordenar isolate, notificações e UI corretamente
-
----
-
-## FASE 6: INTEGRAÇÃO COM UI
-
-### TAREFA 10: Criar Serviço de Integração
-**Localização:** `lib/services/background/integration_service.dart`
-**Objetivo:** Fazer ponte entre sistema de background e UI existente
-**Funcionalidades necessárias:**
-1. Classe `BackgroundIntegrationService` (singleton)
-2. Método `initialize()`:
-   - Inicializar BackgroundServiceManager
-   - Configurar callbacks de notificação
-   - Escutar stream de progresso
-   - Recuperar tarefas ativas
-3. Método `startBackgroundVideoGeneration()`:
-   - Integrar com ProjectProvider existente
-   - Validar projeto (áudio + imagens)
-   - Extrair dados do projeto
-   - Chamar BackgroundServiceManager
-   - Mostrar feedback na UI
-4. Callbacks para ações de notificação:
-   - Cancelar geração
-   - Abrir vídeo gerado
-   - Compartilhar vídeo
-   - Tentar novamente
-   - Mostrar detalhes de erro
-5. Métodos auxiliares para UI:
-   - `_showError()`, `_showSuccess()`, `_showInfo()`
-   - Integração com SnackBar e Dialog
-6. Recuperação de tarefas após restart
-7. Gerenciamento de estado da tarefa atual
-**Verificação:** Deve integrar perfeitamente com código existente
-
----
-
-### TAREFA 11: Criar Widgets de Progresso
-**Localização:** `lib/widgets/background/progress_widgets.dart`
-**Objetivo:** Componentes visuais para mostrar progresso
-**Funcionalidades necessárias:**
-1. Widget `BackgroundProgressIndicator`:
-   - Mostrar progresso atual em banner discreto
-   - Botão para cancelar
-   - Atualização em tempo real
-   - Ocultar quando não há tarefas ativas
-2. Widget `ActiveTasksList`:
-   - Lista de todas as tarefas ativas
-   - Card para cada tarefa com:
-     - Status visual (ícone + cor)
-     - Barra de progresso
-     - Botões de ação (cancelar, abrir, compartilhar)
-     - Informações detalhadas
-3. Widget `BackgroundTasksScreen`:
-   - Tela dedicada para monitorar tarefas
-   - AppBar com ações (refresh)
-   - Lista de tarefas ativas
-4. Provider `BackgroundTaskProvider`:
-   - Gerenciar estado das tarefas para UI
-   - Notificar mudanças para widgets
-   - Métodos para iniciar/cancelar tarefas
-**Verificação:** Widgets devem renderizar e atualizar corretamente
-
----
-
-## FASE 7: MODIFICAÇÃO DA UI EXISTENTE
-
-### TAREFA 12: Atualizar Aplicação Principal
-**Localização:** `lib/main.dart`
-**Objetivo:** Inicializar sistema de background no app
-**Ações:**
-1. Importar `BackgroundIntegrationService`
-2. No método `main()`, antes de `runApp()`:
-   - Adicionar `await BackgroundVideoHelper.initializeBackgroundServices()`
-3. No `MultiProvider`, adicionar:
-   - `ChangeNotifierProvider(create: (context) => BackgroundTaskProvider())`
-4. Garantir que `WidgetsFlutterBinding.ensureInitialized()` existe
-**Verificação:** App deve iniciar sem erros com novos providers
-
----
-
-### TAREFA 13: Adicionar Opção de Background na Tela de Geração
-**Localização:** `lib/screens/video_generation_screen.dart`
-**Objetivo:** Dar ao usuário a opção de gerar em background
-**Ações:**
-1. Importar `BackgroundIntegrationService`
-2. Localizar onde está o botão "GERAR VÍDEO" existente
-3. Antes dele, adicionar novo botão:
-   - Texto: "GERAR EM BACKGROUND"
-   - Ícone: cloud_upload
-   - Cor: laranja
-   - Ação: chamar `BackgroundIntegrationService.startBackgroundVideoGeneration()`
-4. Adicionar espaçamento entre os botões
-5. Manter funcionalidade original intacta
-**Verificação:** Devem aparecer dois botões, ambos funcionais
-
----
-
-### TAREFA 14: Adicionar Indicador Global de Progresso
-**Localização:** `lib/screens/editor_screen.dart` (ou tela principal)
-**Objetivo:** Mostrar progresso em qualquer lugar do app
-**Ações:**
-1. Importar widgets de background
-2. Envolver o Scaffold principal com `BackgroundVideoHelper.wrapWithBackground()`
-3. Isso adiciona automaticamente:
-   - Banner de progresso quando há tarefa ativa
-   - Botão para cancelar
-   - Atualização em tempo real
-4. Verificar que não interfere com layout existente
-**Verificação:** Banner deve aparecer apenas quando há tarefa ativa
-
----
-
-## FASE 8: TESTES E VALIDAÇÃO
-
-### TAREFA 15: Teste de Compilação
-**Objetivo:** Garantir que todo código compila corretamente
-**Ações:**
-1. Executar `flutter analyze`
-2. Corrigir todos os erros e warnings
-3. Executar `flutter build apk --debug` (ou equivalente)
-4. Verificar que não há erros de import
-**Verificação:** Zero erros de compilação
-
----
-
-### TAREFA 16: Teste de Notificação Básica
-**Objetivo:** Verificar sistema de notificações
-**Ações:**
-1. Em qualquer tela, adicionar temporariamente um botão de teste
-2. No onPressed, chamar:
-   - `NotificationManager().initialize()`
-   - `showTestNotification()`
-3. Executar app
-4. Tocar no botão
-5. Verificar se notificação aparece
-6. Remover botão de teste
-**Verificação:** Notificação deve aparecer na barra de status
-
----
-
-### TAREFA 17: Teste de Fluxo Completo End-to-End
-**Objetivo:** Validar funcionamento completo do sistema
-**Ações:**
-1. Iniciar app
-2. Seguir fluxo normal:
-   - Selecionar áudio
-   - Adicionar imagens
-   - Ir para tela de geração
-3. Tocar em "GERAR EM BACKGROUND"
-4. Verificar que notificação aparece
-5. Minimizar app
-6. Abrir outros aplicativos
-7. Verificar que notificação atualiza progresso
-8. Aguardar conclusão
-9. Verificar notificação final
-10. Tocar em "Abrir Vídeo"
-**Verificação:** 
-- Processo completo deve funcionar
-- App não deve travar
-- Notificações devem ser interativas
-- Vídeo deve ser gerado corretamente
-
----
+# Guia Sequencial de Tarefas - Background Video Generation
 
 ## INSTRUÇÕES CRÍTICAS PARA EXECUÇÃO
 
-### ⚠️ ORDEM OBRIGATÓRIA:
-- Executar tarefas EXATAMENTE na ordem numerada
-- NUNCA pular uma tarefa
-- SEMPRE verificar se tarefa anterior funcionou antes de continuar
+### ⚠️ REGRAS OBRIGATÓRIAS:
+- **ORDEM SEQUENCIAL:** Execute as tarefas EXATAMENTE na ordem numerada (1→2→3→...)
+- **DEPENDÊNCIAS:** Cada tarefa depende da anterior estar 100% funcional
+- **VALIDAÇÃO:** Teste a funcionalidade antes de prosseguir para próxima tarefa
+- **PARADA OBRIGATÓRIA:** Se qualquer tarefa falhar, PARE e resolva antes de continuar
 
-### ⚠️ PONTOS DE PARADA OBRIGATÓRIOS:
-- **Após Tarefa 5:** Modelos devem compilar (`flutter analyze`)
-- **Após Tarefa 9:** Background service deve funcionar
-- **Após Tarefa 12:** App deve iniciar sem erros
-- **Após Tarefa 17:** Fluxo completo deve funcionar
+---
 
-### ⚠️ EM CASO DE ERRO:
-1. PARAR imediatamente
-2. IDENTIFICAR exatamente qual tarefa falhou
-3. REPORTAR erro específico com detalhes
-4. NÃO continuar até resolver o problema
+## TAREFA 1: CONFIGURAÇÃO INICIAL DE DEPENDÊNCIAS
 
-### ⚠️ VERIFICAÇÕES ESSENCIAIS:
-- Imports estão corretos
-- Sintaxe está válida
-- Permissões Android estão configuradas
-- Dependências foram instaladas
+### ESCOPO DA TAREFA:
+Configurar as dependências modernas e corretas no projeto Flutter, removendo dependências problemáticas e adicionando as recomendadas pelas melhores práticas 2024-2025.
 
-### ⚠️ RESULTADO ESPERADO:
-Sistema funcional de geração de vídeo em background com:
-- Notificações interativas
-- Progresso em tempo real
-- Controle via notificação
-- Execução robusta mesmo com app minimizado
+### FUNCIONALIDADES A IMPLEMENTAR:
+1. **Limpeza de dependências obsoletas:**
+   - Remover workmanager (incompatível com Flutter 3.29.0+)
+   - Remover shared_preferences (substituído por Hive)
+   - Remover flutter_isolate (desnecessário)
+
+2. **Adição de dependências modernas:**
+   - flutter_background_service versão mais recente
+   - flutter_local_notifications versão mais recente
+   - flutter_riverpod para gerenciamento de estado
+   - hive e hive_flutter para persistência moderna
+   - flutter_secure_storage para dados sensíveis
+   - path_provider e permission_handler
+   - build_runner e hive_generator para dev_dependencies
+
+3. **Execução de comandos:**
+   - flutter pub get deve executar sem erros
+   - flutter analyze deve retornar zero warnings relacionados a dependências
+
+### CRITÉRIO DE SUCESSO:
+- Arquivo pubspec.yaml atualizado corretamente
+- Comandos flutter pub get e flutter analyze executam sem erros
+- Projeto compila sem problemas de dependências
+
+---
+
+## TAREFA 2: CONFIGURAÇÃO DE PERMISSÕES ANDROID
+
+### ESCOPO DA TAREFA:
+Configurar todas as permissões necessárias no Android para suportar foreground services, notificações e processamento em background, seguindo as exigências do Android 14+.
+
+### FUNCIONALIDADES A IMPLEMENTAR:
+1. **Permissões obrigatórias:**
+   - FOREGROUND_SERVICE (execução contínua)
+   - FOREGROUND_SERVICE_MEDIA_PROCESSING (tipo específico)
+   - POST_NOTIFICATIONS (notificações no Android 13+)
+   - VIBRATE (feedback tátil)
+   - WAKE_LOCK (manter processamento ativo)
+   - REQUEST_IGNORE_BATTERY_OPTIMIZATIONS (otimização de bateria)
+
+2. **Declaração de serviço:**
+   - Configurar BackgroundService do flutter_background_service
+   - Definir foregroundServiceType como "mediaProcessing"
+   - Configurar como exported="false" por segurança
+
+3. **Configurações adicionais:**
+   - Receiver para BOOT_COMPLETED (opcional)
+   - Configurações de ícone de notificação
+
+### CRITÉRIO DE SUCESSO:
+- AndroidManifest.xml válido e sem erros de sintaxe
+- App instala corretamente no dispositivo Android
+- Permissões são solicitadas corretamente em runtime
+
+---
+
+## TAREFA 3: ESTRUTURA DE PASTAS E ORGANIZAÇÃO
+
+### ESCOPO DA TAREFA:
+Criar a estrutura organizacional completa do projeto seguindo padrões modernos de arquitetura Flutter com Riverpod e Clean Architecture.
+
+### FUNCIONALIDADES A IMPLEMENTAR:
+1. **Estrutura de providers:**
+   - Pasta lib/providers/ com subpastas organizacionais
+   - Separação por domínio (background_tasks, notifications, storage)
+
+2. **Estrutura de services:**
+   - Pasta lib/services/ com subdivisões claras
+   - background/ para lógica de processamento
+   - storage/ para persistência de dados
+   - notifications/ para sistema de notificações
+
+3. **Estrutura de models:**
+   - Pasta lib/models/ com modelos de dados
+   - Preparação para anotações Hive
+   - Separação entre models de UI e domain
+
+4. **Estrutura de widgets:**
+   - Pasta lib/widgets/ específica para componentes de background
+   - Componentes reutilizáveis e modulares
+
+### CRITÉRIO DE SUCESSO:
+- Todas as pastas criadas e organizadas corretamente
+- Estrutura segue padrões de Clean Architecture
+- Fácil navegação e localização de arquivos
+
+---
+
+## TAREFA 4: MODELOS DE DADOS CORE
+
+### ESCOPO DA TAREFA:
+Implementar os modelos de dados fundamentais usando Hive para persistência moderna, definindo as estruturas que representam tarefas de background e estados de progresso.
+
+### FUNCIONALIDADES A IMPLEMENTAR:
+1. **Modelo BackgroundTask:**
+   - Propriedades essenciais: id, type, status, progress, timestamps
+   - Propriedades específicas de vídeo: audioPath, imagePaths, outputPath
+   - Propriedades de controle: createdAt, updatedAt, completedAt
+   - Propriedades de erro: errorMessage, retryCount
+   - Anotações Hive para persistência automática
+
+2. **Enums de suporte:**
+   - TaskType (videoGeneration, imageProcessing, etc.)
+   - TaskStatus (pending, processing, completed, failed, cancelled)
+   - ProcessingStep (preparing, encoding, finalizing, etc.)
+
+3. **Métodos de conveniência:**
+   - Getters computados (isActive, isCompleted, canRetry)
+   - Métodos copyWith para imutabilidade
+   - Validação de dados (isValid, validate)
+   - Comparação e ordenação (equality, compareTo)
+
+4. **Modelo ProgressState:**
+   - Estado instantâneo de progresso
+   - Informações contextuais (currentStep, estimatedTime)
+   - Dados para UI (progressPercentage, formattedMessage)
+
+### CRITÉRIO DE SUCESSO:
+- Modelos compilam sem erros
+- Anotações Hive funcionam corretamente
+- Métodos de conveniência funcionam como esperado
+- Validação de dados funciona adequadamente
+
+---
+
+## TAREFA 5: SISTEMA DE ARMAZENAMENTO HIVE
+
+### ESCOPO DA TAREFA:
+Implementar o sistema de persistência usando Hive, criando um service layer que gerencia todas as operações de storage de forma type-safe e performática.
+
+### FUNCIONALIDADES A IMPLEMENTAR:
+1. **TaskStorageService:**
+   - Inicialização de Hive boxes
+   - Registro de adapters automático
+   - Configuração de encryption (se necessário)
+
+2. **Operações CRUD para tarefas:**
+   - saveTask() - persistir nova tarefa
+   - updateTask() - atualizar tarefa existente
+   - getTask() - recuperar tarefa por ID
+   - getAllTasks() - listar todas as tarefas
+   - deleteTask() - remover tarefa
+   - getActiveTasks() - tarefas em andamento
+
+3. **Operações avançadas:**
+   - getTasksByStatus() - filtrar por status
+   - getTasksByDateRange() - filtrar por período
+   - cleanupCompletedTasks() - limpeza automática
+   - exportTasks() - backup de dados
+   - importTasks() - restauração de dados
+
+4. **Gerenciamento de cache:**
+   - Cache em memória para tarefas ativas
+   - Invalidação inteligente de cache
+   - Sincronização entre cache e storage
+
+### CRITÉRIO DE SUCESSO:
+- Hive inicializa corretamente
+- Todas as operações CRUD funcionam
+- Performance adequada para 100+ tarefas
+- Dados persistem entre reinicializações do app
+
+---
+
+## TAREFA 6: PROVIDERS RIVERPOD PARA GERENCIAMENTO DE ESTADO
+
+### ESCOPO DA TAREFA:
+Implementar a camada de gerenciamento de estado usando Riverpod, criando providers que conectam o storage com a UI de forma reativa e type-safe.
+
+### FUNCIONALIDADES A IMPLEMENTAR:
+1. **BackgroundTasksProvider:**
+   - Provider principal para lista de tarefas
+   - Métodos para iniciar nova tarefa de vídeo
+   - Métodos para atualizar progresso em tempo real
+   - Métodos para cancelar/pausar/resumir tarefas
+   - Filtros e ordenação (ativas, concluídas, falhas)
+
+2. **ActiveTasksProvider:**
+   - Provider derivado para tarefas em andamento
+   - Atualização automática via watch
+   - Otimizado para performance na UI
+
+3. **TaskProgressProvider:**
+   - Provider específico para progresso de uma tarefa
+   - Updates em tempo real do isolate
+   - Estado derivado para componentes de UI
+
+4. **NotificationProvider:**
+   - Gerenciamento de estado das notificações
+   - Configurações de usuário
+   - História de notificações
+
+5. **Integração com TaskStorageService:**
+   - Carregamento inicial de tarefas
+   - Persistência automática de mudanças
+   - Invalidação de cache quando necessário
+
+### CRITÉRIO DE SUCESSO:
+- Providers compilam e funcionam corretamente
+- Estado reativo funciona na UI
+- Performance adequada com muitas tarefas
+- Sincronização correta com storage
+
+---
+
+## TAREFA 7: SISTEMA DE NOTIFICAÇÕES MODERNO
+
+### ESCOPO DA TAREFA:
+Implementar sistema completo de notificações seguindo as melhores práticas de UX, com suporte a notificações interativas, canais organizados e compliance com Android 13+.
+
+### FUNCIONALIDADES A IMPLEMENTAR:
+1. **NotificationService base:**
+   - Inicialização e configuração de canais
+   - Solicitação de permissões (Android 13+)
+   - Configuração de callbacks para ações
+
+2. **Canais de notificação organizados:**
+   - PROGRESS_CHANNEL para atualizações de progresso
+   - COMPLETION_CHANNEL para tarefas concluídas
+   - ERROR_CHANNEL para falhas e erros
+   - Configurações específicas por canal (som, vibração, importância)
+
+3. **Notificações de progresso:**
+   - Barra de progresso visual
+   - Texto contextual (processando frame X de Y)
+   - Botão "Cancelar" funcional
+   - Atualização em tempo real sem criar novas notificações
+
+4. **Notificações de conclusão:**
+   - Feedback de sucesso visual
+   - Botões "Abrir Vídeo" e "Compartilhar"
+   - Preview do vídeo (se possível)
+   - Som e vibração de sucesso
+
+5. **Notificações de erro:**
+   - Informação clara do erro
+   - Botões "Tentar Novamente" e "Ver Detalhes"
+   - Categorização de tipos de erro
+   - Ações apropriadas por tipo de erro
+
+6. **Sistema de callbacks:**
+   - Roteamento de ações para providers
+   - Deep linking para telas específicas
+   - Handling de ações em background
+
+### CRITÉRIO DE SUCESSO:
+- Permissões solicitadas corretamente
+- Notificações aparecem nos canais corretos
+- Botões de ação funcionam como esperado
+- Updates de progresso são fluidos
+
+---
+
+## TAREFA 8: ISOLATE DE PROCESSAMENTO DE VÍDEO
+
+### ESCOPO DA TAREFA:
+Implementar o isolate dedicado para processamento de vídeo, integrando com o QuickVideoEncoderService existente e proporcionando comunicação em tempo real com a UI principal.
+
+### FUNCIONALIDADES A IMPLEMENTAR:
+1. **VideoGenerationIsolate base:**
+   - Entry point corretamente anotado (@pragma('vm:entry-point'))
+   - Configuração de comunicação bidirecional
+   - Registro no IsolateNameServer
+   - Handling de comandos da UI principal
+
+2. **Integração com QuickVideoEncoderService:**
+   - Wrapper que adapta o serviço existente
+   - Callbacks para progresso granular
+   - Handling de cancelamento mid-process
+   - Preservação de todas as funcionalidades existentes
+
+3. **Sistema de comunicação:**
+   - Protocolo de mensagens estruturado
+   - Tipos de mensagem: START, CANCEL, PROGRESS, COMPLETED, ERROR
+   - Serialização/deserialização confiável
+   - Timeout e retry para mensagens críticas
+
+4. **Processamento otimizado:**
+   - Streaming architecture (máximo 10 frames em memória)
+   - Yield points para não bloquear o isolate
+   - Progress reporting granular (por frame processado)
+   - Cleanup automático de recursos temporários
+
+5. **Handling de erros robusto:**
+   - Try-catch em todos os pontos críticos
+   - Categorização de erros (recoverable vs fatal)
+   - Cleanup em caso de falha
+   - Reporting detalhado para debugging
+
+### CRITÉRIO DE SUCESSO:
+- Isolate spawna e se comunica corretamente
+- Processamento de vídeo funciona como antes
+- Progress updates chegam em tempo real
+- Cancelamento funciona imediatamente
+- Erros são reportados adequadamente
+
+---
+
+## TAREFA 9: GERENCIADOR PRINCIPAL DE BACKGROUND SERVICE
+
+### ESCOPO DA TAREFA:
+Implementar o coordenador central que usa flutter_background_service para garantir execução contínua, conectando todos os componentes (isolate, notificações, storage, providers).
+
+### FUNCIONALIDADES A IMPLEMENTAR:
+1. **BackgroundServiceManager:**
+   - Configuração do flutter_background_service
+   - Inicialização como foreground service
+   - Gerenciamento de ciclo de vida do serviço
+
+2. **Coordenação de componentes:**
+   - Spawning e comunicação com VideoGenerationIsolate
+   - Integração com NotificationService
+   - Sincronização com TaskStorageService
+   - Updates para providers via streams
+
+3. **Gerenciamento de tarefas:**
+   - Queue de tarefas pendentes
+   - Execução sequencial (uma tarefa por vez)
+   - Recovery de tarefas após crash/restart
+   - Prioritização baseada em timestamp
+
+4. **Lifecycle management:**
+   - Início automático de tarefas pendentes
+   - Parada graceful do serviço
+   - Cleanup de recursos órfãos
+   - Persistence de estado crítico
+
+5. **Comunicação com UI:**
+   - Stream de eventos para providers
+   - Controle remoto (start/stop/cancel)
+   - Status reporting em tempo real
+   - Deep linking support
+
+### CRITÉRIO DE SUCESSO:
+- Foreground service inicia corretamente
+- Tarefas executam mesmo com app fechado
+- Recovery funciona após restart
+- Comunicação UI ↔ Service é confiável
+
+---
+
+## TAREFA 10: INTEGRAÇÃO COM FLUTTER BACKGROUND SERVICE
+
+### ESCOPO DA TAREFA:
+Configurar e integrar o flutter_background_service para garantir execução robusta em background, com foreground service e recovery automático.
+
+### FUNCIONALIDADES A IMPLEMENTAR:
+1. **Configuração inicial:**
+   - FlutterBackgroundService.initialize()
+   - Configuração de auto-start
+   - Permission handling automático
+   - Service notification setup
+
+2. **Service entry point:**
+   - @pragma('vm:entry-point') para onStart
+   - Inicialização de componentes no isolate de service
+   - Conexão com BackgroundServiceManager
+   - Setup de communication channels
+
+3. **Foreground service configuration:**
+   - Notificação persistente do serviço
+   - Ícone e texto apropriados
+   - Botões de controle básicos
+   - Compliance com Android 14+ requirements
+
+4. **Auto-recovery mechanism:**
+   - Detection de tarefas ativas ao iniciar
+   - Restart automático de processamento
+   - State synchronization
+   - Error recovery strategies
+
+5. **Platform-specific optimizations:**
+   - Android: Full foreground service capability
+   - iOS: Background processing limits adaptation
+   - Battery optimization handling
+   - Performance monitoring
+
+### CRITÉRIO DE SUCESSO:
+- Service inicia e mantém execução
+- Foreground notification aparece corretamente
+- Recovery funciona após kill do processo
+- Funciona corretamente em ambas plataformas
+
+---
+
+## TAREFA 11: WIDGETS DE INTERFACE PARA BACKGROUND
+
+### ESCOPO DA TAREFA:
+Criar componentes de UI que mostram progresso das tarefas em background de forma não-intrusiva, permitindo controle e monitoramento sem atrapalhar o fluxo normal do app.
+
+### FUNCIONALIDADES A IMPLEMENTAR:
+1. **BackgroundProgressBanner:**
+   - Banner discreto no topo da tela
+   - Mostra progresso da tarefa ativa
+   - Botão para cancelar task
+   - Animação suave de entrada/saída
+   - Tap para ver detalhes
+
+2. **TaskProgressCard:**
+   - Card individual para cada tarefa
+   - Status visual (ícone colorido + progress bar)
+   - Informações contextuais (tempo restante, etapa atual)
+   - Botões de ação (cancelar, pausar, ver detalhes)
+   - Estado loading/error/success
+
+3. **ActiveTasksList:**
+   - Lista scrollável de tarefas ativas
+   - Refreshable com pull-to-refresh
+   - Empty state quando não há tarefas
+   - Filtros por status
+   - Ordenação por prioridade/data
+
+4. **TaskDetailDialog:**
+   - Modal com detalhes completos da tarefa
+   - Log de progresso step-by-step
+   - Informações técnicas (paths, configurações)
+   - Ações avançadas (retry, cancel, share)
+   - Error details se houver falha
+
+5. **Consumer widgets integration:**
+   - Uso correto de Consumer/watch para reatividade
+   - Otimização de rebuilds desnecessários
+   - Loading states apropriados
+   - Error boundaries
+
+### CRITÉRIO DE SUCESSO:
+- Widgets renderizam corretamente
+- Updates em tempo real funcionam
+- Ações dos botões funcionam
+- Performance adequada com muitas tarefas
+- UX não-intrusiva
+
+---
+
+## TAREFA 12: MODIFICAÇÃO DA TELA DE GERAÇÃO DE VÍDEO
+
+### ESCOPO DA TAREFA:
+Integrar a nova funcionalidade de background na tela existente de geração de vídeo, adicionando o botão de "GERAR EM BACKGROUND" sem quebrar a funcionalidade atual.
+
+### FUNCIONALIDADES A IMPLEMENTAR:
+1. **Adição do novo botão:**
+   - Botão "GERAR EM BACKGROUND" ao lado do existente
+   - Styling consistente com design do app
+   - Ícone apropriado (cloud_upload)
+   - Estado disabled quando não há dados válidos
+
+2. **Integração com providers:**
+   - Consumer widget para acessar BackgroundTasksProvider
+   - Validação de dados antes de iniciar
+   - Feedback visual ao usuário (loading, success, error)
+   - SnackBar com link para monitoramento
+
+3. **Preservação da funcionalidade existente:**
+   - Botão "GERAR VÍDEO" mantém comportamento original
+   - Validações existentes preservadas
+   - Estados de loading/error mantidos
+   - Zero breaking changes
+
+4. **UX improvements:**
+   - Indicação clara da diferença entre as opções
+   - Tooltips explicativos se necessário
+   - Confirmation dialog para ações importantes
+   - Graceful error handling
+
+5. **Estado da UI:**
+   - Disable botões durante processamento
+   - Loading states apropriados
+   - Success/error feedback
+   - Navigation após iniciar background task
+
+### CRITÉRIO DE SUCESSO:
+- Botão aparece e funciona corretamente
+- Funcionalidade original não é afetada
+- Background task inicia sem problemas
+- Feedback adequado ao usuário
+
+---
+
+## TAREFA 13: INTEGRAÇÃO COM APLICAÇÃO PRINCIPAL
+
+### ESCOPO DA TAREFA:
+Modificar o main.dart e estrutura principal do app para inicializar todos os serviços de background e providers, garantindo que tudo funcione harmoniosamente.
+
+### FUNCIONALIDADES A IMPLEMENTAR:
+1. **Inicialização no main():**
+   - WidgetsFlutterBinding.ensureInitialized()
+   - Hive.initFlutter() e registro de adapters
+   - BackgroundServiceManager.initialize()
+   - NotificationService.initialize()
+   - Error handling para falhas de inicialização
+
+2. **Provider tree setup:**
+   - Adição de todos os providers do background system
+   - Ordem correta de inicialização
+   - Dependency injection apropriada
+   - Override de providers para testing (futuro)
+
+3. **App wrapper modifications:**
+   - Consumer widgets para estado global
+   - Navigation observers para deep linking
+   - Error boundary para crashes
+   - Performance monitoring hooks
+
+4. **Lifecycle integration:**
+   - AppLifecycleState monitoring
+   - Background/foreground transitions
+   - Memory warnings handling
+   - Battery optimization detection
+
+5. **Recovery mechanism:**
+   - Cold start recovery de tarefas ativas
+   - State synchronization
+   - UI consistency após recovery
+   - Error reporting para failures
+
+### CRITÉRIO DE SUCESSO:
+- App inicia sem erros
+- Todos os serviços funcionam
+- Recovery funciona após restart
+- Performance não é impactada
+
+---
+
+## TAREFA 14: INDICADOR GLOBAL DE PROGRESSO
+
+### ESCOPO DA TAREFA:
+Implementar sistema global que mostra progresso de tarefas em background em qualquer tela do app, permitindo monitoramento e controle sem sair do contexto atual.
+
+### FUNCIONALIDADES A IMPLEMENTAR:
+1. **GlobalProgressOverlay:**
+   - Overlay que aparece em qualquer tela
+   - Posicionamento não-intrusivo (bottom banner)
+   - Animações suaves de entrada/saída
+   - Z-index apropriado para não interferir com modals
+
+2. **Smart visibility logic:**
+   - Aparece apenas quando há tarefas ativas
+   - Hide automático quando tarefas concluem
+   - Priorização de multiple tasks
+   - User preference para show/hide
+
+3. **Contextual information:**
+   - Progress bar com percentage
+   - Current step description
+   - Estimated time remaining
+   - Task type identification
+
+4. **Quick actions:**
+   - Tap para expandir detalhes
+   - Swipe para dismiss temporariamente
+   - Quick cancel button
+   - Navigate to full task manager
+
+5. **Integration wrapper:**
+   - HOC que wrappa screens automaticamente
+   - Zero code changes em screens existentes
+   - Configurable per-screen basis
+   - Performance optimized
+
+### CRITÉRIO DE SUCESSO:
+- Overlay aparece em todas as telas
+- Não interfere com UI existente
+- Actions funcionam corretamente
+- Performance mantida
+
+---
+
+## TAREFA 15: SISTEMA DE CALLBACKS DE NOTIFICAÇÃO
+
+### ESCOPO DA TAREFA:
+Implementar o sistema que processa ações dos usuários nas notificações (cancelar, abrir vídeo, compartilhar), garantindo que funcionem mesmo quando o app está fechado.
+
+### FUNCIONALIDADES A IMPLEMENTAR:
+1. **NotificationCallbackHandler:**
+   - Handler central para todas as ações de notificação
+   - Route dispatcher baseado no tipo de ação
+   - State synchronization entre service e UI
+   - Deep linking para telas específicas
+
+2. **Action implementations:**
+   - CANCEL_TASK: cancelar processamento em andamento
+   - OPEN_VIDEO: abrir player com vídeo gerado
+   - SHARE_VIDEO: compartilhar vídeo via system share
+   - RETRY_TASK: retentar tarefa que falhou
+   - VIEW_DETAILS: navegar para tela de detalhes
+
+3. **App state handling:**
+   - Cold start via notification action
+   - Warm start quando app está em background
+   - Hot start quando app está ativo
+   - Context preservation entre estados
+
+4. **Cross-platform consistency:**
+   - Android: Full notification actions support
+   - iOS: Limited but functional actions
+   - Fallback strategies para recursos indisponíveis
+   - Platform-specific optimizations
+
+5. **Error handling:**
+   - Invalid action handling
+   - Network/storage errors
+   - Permission issues
+   - User feedback para falhas
+
+### CRITÉRIO DE SUCESSO:
+- Ações de notificação funcionam corretamente
+- App abre na tela certa quando necessário
+- Funciona com app fechado/aberto
+- Error handling apropriado
+
+---
+
+## TAREFA 16: SISTEMA DE RECOVERY E CLEANUP
+
+### ESCOPO DA TAREFA:
+Implementar mecanismos robustos de recuperação após crashes, restarts e cleanup automático de recursos órfãos, garantindo que o sistema seja confiável em produção.
+
+### FUNCIONALIDADES A IMPLEMENTAR:
+1. **Auto-recovery system:**
+   - Detection de tarefas órfãs no startup
+   - Restart automático de tarefas em progresso
+   - State reconstruction baseado em storage
+   - Progress estimation para tarefas interrompidas
+
+2. **Cleanup mechanisms:**
+   - Limpeza de arquivos temporários
+   - Remoção de tarefas antigas/completadas
+   - Cache invalidation apropriada
+   - Memory leak prevention
+
+3. **Health monitoring:**
+   - Detection de isolates mortos
+   - Service health checks
+   - Storage integrity validation
+   - Performance metrics collection
+
+4. **Error recovery strategies:**
+   - Retry com exponential backoff
+   - Circuit breaker para falhas persistentes
+   - Graceful degradation
+   - User notification para failures irrecuperáveis
+
+5. **Maintenance routines:**
+   - Scheduled cleanup tasks
+   - Storage compaction
+   - Log rotation
+   - Performance optimization
+
+### CRITÉRIO DE SUCESSO:
+- Recovery funciona após crashes
+- Cleanup previne acúmulo de lixo
+- Sistema se mantém saudável ao longo do tempo
+- Errors são tratados gracefully
+
+---
+
+## TAREFA 17: TESTES BÁSICOS E VALIDAÇÃO
+
+### ESCOPO DA TAREFA:
+Implementar testes básicos que validam as funcionalidades críticas do sistema e criar scripts de validação para garantir que tudo funciona antes do deploy.
+
+### FUNCIONALIDADES A IMPLEMENTAR:
+1. **Unit tests essenciais:**
+   - Models (BackgroundTask, ProgressState)
+   - Storage service (CRUD operations)
+   - Providers (state management)
+   - Notification service (sem UI)
+
+2. **Integration tests:**
+   - End-to-end flow de geração de vídeo
+   - Notification callbacks
+   - Recovery após restart
+   - Provider <-> Storage synchronization
+
+3. **Widget tests:**
+   - Background progress widgets
+   - Task cards e listas
+   - Button interactions
+   - State updates na UI
+
+4. **Validation scripts:**
+   - Health check script
+   - Performance baseline
+   - Memory leak detection
+   - Platform compatibility check
+
+5. **Testing utilities:**
+   - Mock providers para testing
+   - Test data generators
+   - Helper functions para setup/teardown
+   - Performance benchmarking tools
+
+### CRITÉRIO DE SUCESSO:
+- Todos os testes passam
+- Coverage adequado das funcionalidades críticas
+- Scripts de validação executam sem erros
+- Performance está dentro de limites aceitáveis
+
+---
+
+## TAREFA 18: VALIDAÇÃO FINAL E DOCUMENTAÇÃO
+
+### ESCOPO DA TAREFA:
+Realizar teste completo end-to-end de todo o sistema e criar documentação básica para manutenção futura.
+
+### FUNCIONALIDADES A IMPLEMENTAR:
+1. **Teste end-to-end completo:**
+   - Fluxo completo: seleção de arquivos → geração → notificação → resultado
+   - Teste com app minimizado durante processo
+   - Teste de cancelamento mid-process
+   - Teste de recovery após kill do app
+   - Teste de múltiplas tarefas simultaneamente
+
+2. **Validação de performance:**
+   - Tempo de processamento não piorou
+   - Uso de memória dentro de limites
+   - Battery drain aceitável
+   - UI responsiveness mantida
+
+3. **Documentação básica:**
+   - README com overview do sistema
+   - Fluxo de dados e arquitetura
+   - Troubleshooting guide
+   - Configuration options
+
+4. **Deployment checklist:**
+   - Permissões configuradas corretamente
+   - Build settings otimizados
+   - Crash reporting configurado
+   - Analytics events configurados
+
+### CRITÉRIO DE SUCESSO:
+- Sistema funciona perfeitamente end-to-end
+- Performance é aceitável
+- Documentação permite manutenção futura
+- Ready para deployment
+
+---
+
+## CRITÉRIOS GERAIS DE SUCESSO PARA TODAS AS TAREFAS
+
+### ✅ FUNCIONALIDADE:
+- Código compila sem erros ou warnings
+- Funcionalidades implementadas funcionam como especificado
+- Integração com sistemas existentes não quebra nada
+
+### ✅ QUALIDADE:
+- Código segue padrões de clean code
+- Error handling apropriado em todos os pontos críticos
+- Performance não degrada significativamente
+
+### ✅ ARQUITETURA:
+- Separation of concerns respeitada
+- Dependency injection apropriada
+- Testabilidade considerada no design
+
+### ✅ UX:
+- Interface não-intrusiva
+- Feedback apropriado ao usuário
+- Handling graceful de edge cases
+
+---
+
+## INSTRUÇÕES FINAIS PARA AGENTES
+
+### 🔄 PROCESSO DE EXECUÇÃO:
+1. Leia completamente o escopo da tarefa antes de começar
+2. Implemente todas as funcionalidades listadas
+3. Teste a funcionalidade antes de marcar como concluída
+4. Valide que critérios de sucesso foram atingidos
+5. Só então prossiga para próxima tarefa
+
+### ⚠️ EM CASO DE PROBLEMAS:
+1. PARE imediatamente se algo não funcionar
+2. Identifique exatamente qual funcionalidade falhou
+3. Relate o problema específico com detalhes
+4. NÃO continue para próxima tarefa até resolver
+
+### 🎯 OBJETIVO FINAL:
+Sistema robusto e profissional de geração de vídeo em background que funciona perfeitamente mesmo com o app fechado, proporcionando experiência similar a apps como Uber, WhatsApp e YouTube.
