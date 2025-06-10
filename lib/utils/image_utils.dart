@@ -66,14 +66,24 @@ class ImageUtils {
       paint.color = Colors.black;
       canvas.drawRect(Rect.fromLTWH(0, 0, width.toDouble(), height.toDouble()), paint);
       
-      // Estratégia de preenchimento: preencher o frame completamente, cortando as bordas se necessário
-      // Isso garante que a imagem ocupe o máximo possível do espaço disponível
+      // Verifica se estamos no formato desktop (16:9) ou mobile (9:16)
+      bool isDesktopFormat = width > height;
+      
+      // Determina a estratégia de escala com base no formato
       double scaleX = width / image.width;
       double scaleY = height / image.height;
       
-      // Usamos a maior escala para garantir que a imagem preencha todo o frame
-      // Isso pode cortar partes da imagem, mas evita espaços vazios
-      double scale = scaleX > scaleY ? scaleX : scaleY;
+      // Estratégia de escala: 
+      // - Para formato desktop (16:9): preservar a altura e ajustar a largura
+      // - Para formato mobile (9:16): preservar a largura e ajustar a altura
+      double scale;
+      if (isDesktopFormat) {
+        // No formato desktop, usamos a menor escala para garantir que a imagem caiba na largura
+        scale = scaleX < scaleY ? scaleX : scaleY;
+      } else {
+        // No formato mobile, usamos a maior escala para garantir que a imagem preencha o frame
+        scale = scaleX > scaleY ? scaleX : scaleY;
+      }
       
       // Calcula o tamanho da imagem escalada
       double scaledWidth = image.width * scale;
@@ -83,14 +93,17 @@ class ImageUtils {
       double offsetX = (width - scaledWidth) / 2;
       double offsetY = (height - scaledHeight) / 2;
       
-      // Desenha a imagem centralizada e escalada para preencher o frame
+      _logService.info('ImageUtils', 'Gerando frame: formato=${isDesktopFormat ? "desktop" : "mobile"}, ' +
+          'dimensões=$width x $height, escala=$scale, ' +
+          'imagem escalada=${scaledWidth.toInt()} x ${scaledHeight.toInt()}');
+      
+      // Desenha a imagem centralizada e escalada
       canvas.drawImageRect(
         image,
         Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble()),
         Rect.fromLTWH(offsetX, offsetY, scaledWidth, scaledHeight),
         paint,
       );
-      
       
       // Converte o canvas para uma imagem
       final ui.Picture picture = recorder.endRecording();

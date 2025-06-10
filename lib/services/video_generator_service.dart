@@ -408,10 +408,16 @@ class VideoGeneratorService {
       }
       
       // Gera o vídeo usando o QuickVideoEncoderService
+      // Passando explicitamente o formato e a qualidade selecionados pelo usuário
+      _logService.info('VideoGeneratorService', 'Chamando encoder com formato: ${videoFormat.displayName}');
+      _logService.info('VideoGeneratorService', 'Chamando encoder com qualidade: ${encoderQuality.displayName}');
+      
       final generatedVideoPath = await _videoEncoderService.generateVideo(
         imageSequence: videoImageSequence,
         inputAudioPath: audioPath,
         onProgress: onProgressUpdate,
+        format: videoFormat,
+        quality: encoderQuality,
         timeoutSeconds: 600, // 10 minutos de timeout
       );
       

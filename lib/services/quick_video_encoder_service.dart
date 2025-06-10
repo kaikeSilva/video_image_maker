@@ -77,6 +77,17 @@ class QuickVideoEncoderService {
       _logService.info('QuickVideoEncoderService', 'Qualidade de vídeo selecionada: ${quality.displayName}');
       _logService.info('QuickVideoEncoderService', 'Formato de vídeo: ${format.displayName}');
       _logService.info('QuickVideoEncoderService', 'Dimensões: ${quality.getWidth(format)}x${quality.getHeight(format)}, Bitrate: ${quality.videoBitrate / 1000000} Mbps');
+      
+      // Verificação adicional para garantir que o formato está sendo aplicado corretamente
+      final bool isDesktopFormat = format == VideoFormat.desktop;
+      final int videoWidth = quality.getWidth(format);
+      final int videoHeight = quality.getHeight(format);
+      final bool dimensionsCorrect = isDesktopFormat ? (videoWidth > videoHeight) : (videoHeight > videoWidth);
+      
+      _logService.info('QuickVideoEncoderService', 'Verificação de formato: ' +
+          'isDesktopFormat=$isDesktopFormat, ' +
+          'dimensões=${videoWidth}x${videoHeight}, ' +
+          'proporção correta=${dimensionsCorrect ? "SIM" : "NÃO"}');
 
       // Configura e inicializa o encoder com a qualidade e formato selecionados
       final encoderConfig = EncoderConfig(

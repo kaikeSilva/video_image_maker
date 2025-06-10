@@ -75,8 +75,18 @@ extension VideoQualityExtension on VideoQuality {
     if (format == VideoFormat.mobile) {
       return baseWidth;
     } else {
-      // Para desktop, invertemos a proporção (16:9)
-      return baseHeight;
+      // Para desktop (16:9), usamos a altura como base e calculamos a largura
+      // Para alta qualidade: 1920x1080, média: 1280x720, baixa: 960x540, muito baixa: 640x360
+      switch (this) {
+        case VideoQuality.high:
+          return 1920;
+        case VideoQuality.medium:
+          return 1280;
+        case VideoQuality.low:
+          return 960;
+        case VideoQuality.veryLow:
+          return 640;
+      }
     }
   }
   
@@ -85,8 +95,18 @@ extension VideoQualityExtension on VideoQuality {
     if (format == VideoFormat.mobile) {
       return baseHeight;
     } else {
-      // Para desktop, invertemos a proporção (16:9)
-      return baseWidth;
+      // Para desktop (16:9), definimos alturas fixas para cada qualidade
+      // Para alta qualidade: 1920x1080, média: 1280x720, baixa: 960x540, muito baixa: 640x360
+      switch (this) {
+        case VideoQuality.high:
+          return 1080;
+        case VideoQuality.medium:
+          return 720;
+        case VideoQuality.low:
+          return 540;
+        case VideoQuality.veryLow:
+          return 360;
+      }
     }
   }
   
@@ -164,8 +184,12 @@ class EncoderConfig {
     this.audioBitrate = 128000, // 128 kbps
     this.sampleRate = 44100,
     this.profileLevel = ProfileLevel.baseline31,
-  }) : width = quality.getWidth(format),
-       height = quality.getHeight(format),
+  }) : width = format == VideoFormat.desktop 
+            ? (quality == VideoQuality.high ? 1920 : quality == VideoQuality.medium ? 1280 : quality == VideoQuality.low ? 960 : 640)
+            : quality.baseWidth,
+       height = format == VideoFormat.desktop 
+            ? (quality == VideoQuality.high ? 1080 : quality == VideoQuality.medium ? 720 : quality == VideoQuality.low ? 540 : 360)
+            : quality.baseHeight,
        videoBitrate = quality.videoBitrate;
        
   /// Construtor alternativo que permite especificar valores personalizados
@@ -184,6 +208,12 @@ class EncoderConfig {
 
   /// Inicializa o codificador com estas configurações
   Future<void> setupEncoder() async {
+    // Log detalhado para verificar se as dimensões estão corretas
+    print("[EncoderConfig] Configurando encoder - FORMAT: ${format == VideoFormat.desktop ? 'DESKTOP' : 'MOBILE'}");
+    print("[EncoderConfig] Dimensões finais: ${width}x${height} (width x height)");
+    print("[EncoderConfig] Proporção esperada: ${format == VideoFormat.desktop ? '16:9 (Horizontal)' : '9:16 (Vertical)'}");
+    print("[EncoderConfig] Proporção real: ${width/height} (${width > height ? 'Horizontal' : 'Vertical'})");
+    
     await FlutterQuickVideoEncoder.setup(
       width: width,
       height: height,
