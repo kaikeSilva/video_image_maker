@@ -2,9 +2,12 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart'; // Usado para gerar nomes de arquivos únicos
+import 'package:just_audio/just_audio.dart'; // Para obter duração do áudio
 // import 'package:disk_space/disk_space.dart';  // Removido para resolver problema de namespace
 import '../models/timeline_item.dart';
-import 'ffmpeg_service.dart';
+import '../models/image_sequence_item.dart';
+// import 'ffmpeg_service.dart';  // Substituído por quick_video_encoder_service.dart
+import 'quick_video_encoder_service.dart';
 import 'log_service.dart';
 import 'storage_service.dart';
 import 'package:flutter/material.dart';
@@ -118,9 +121,9 @@ class VideoGenerationProgress {
 /// Serviço principal para geração de vídeo
 class VideoGeneratorService {
   // Serviços
-  late final FFmpegService _ffmpegService;
-  late final LogService _logService;
-  late final StorageService _storageService;
+  final QuickVideoEncoderService _videoEncoderService = QuickVideoEncoderService();
+  final LogService _logService = LogService();
+  final StorageService _storageService = StorageService();
   bool _isCancelled = false;
   // Armazena a duração do áudio atual para cálculos de progresso
   Duration _audioDuration = const Duration();
@@ -129,9 +132,6 @@ class VideoGeneratorService {
   static final VideoGeneratorService _instance = VideoGeneratorService._internal();
   factory VideoGeneratorService() => _instance;
   VideoGeneratorService._internal() {
-    _ffmpegService = FFmpegService();
-    _logService = LogService();
-    _storageService = StorageService();
     _initialize();
   }
   
@@ -139,18 +139,18 @@ class VideoGeneratorService {
   Future<void> _initialize() async {
     try {
       await _logService.initialize();
-      _logService.info('VideoGeneratorService', 'Inicializando serviço de geração de vídeo');
-      await _ffmpegService.initialize();
-      _logService.info('VideoGeneratorService', 'Serviço de geração de vídeo inicializado com sucesso');
+      _logService.info('VideoGeneratorService', 'Serviço de geração de vídeo inicializado');
     } catch (e, stackTrace) {
-      _logService.exception('VideoGeneratorService', 'Erro ao inicializar serviço de geração de vídeo', stackTrace);
+      debugPrint('Erro ao inicializar serviço de geração de vídeo: $e');
+      _logService.exception('VideoGeneratorService', e, stackTrace);
     }
   }
   
   /// Cancela o processo atual de geração de vídeo
-  Future<bool> cancelGeneration() async {
+  Future<void> cancelGeneration() async {
     _isCancelled = true;
-    return await _ffmpegService.cancelExecution();
+    // Não há mais necessidade de cancelar o FFmpeg
+    _logService.info('VideoGeneratorService', 'Geração de vídeo cancelada pelo usuário');
   }
   
   /// Verifica se há espaço suficiente para gerar o vídeo
@@ -278,7 +278,8 @@ class VideoGeneratorService {
       ));
       
       // Verifica se o FFmpeg está disponível
-      if (!await _ffmpegService.checkAvailability()) {
+      // Não é mais necessário verificar a disponibilidade do FFmpeg
+      if (false) { // Condição sempre falsa para manter a estrutura do código
         final error = 'FFmpeg não está disponível para gerar o vídeo';
         _logService.error('VideoGeneratorService', error);
         progressCallback?.call(VideoGenerationProgress.error(error));
@@ -333,7 +334,7 @@ class VideoGeneratorService {
       // Determina o caminho de saída do vídeo se não foi fornecido
       String finalOutputPath = outputPath ?? await _getDefaultOutputPath();
       
-      // Notifica configuração do FFmpeg
+      // Notifica configuração do encoder de vídeo
       progressCallback?.call(VideoGenerationProgress(
         progress: 0.2,
         currentStep: 'Configurando parâmetros de codificação',
@@ -365,48 +366,49 @@ class VideoGeneratorService {
         currentStep: 'Obtendo duração do áudio',
       ));
       
-      // Configura callback para monitorar o progresso
-      _ffmpegService.setProgressCallback((statistics) {
-        // Verifica se foi cancelado
-        if (_isCancelled) return;
-        
-        final time = statistics.getTime();
-        if (time > 0 && audioDurationMs > 0) {
-          // Calcula o progresso com base no tempo de processamento vs duração do áudio
-          // e limita o resultado entre 0 e 1 para evitar porcentagens acima de 100%
-          final rawProgress = time / audioDurationMs;
-          final progress = rawProgress.clamp(0.0, 1.0);
-          
-          // Escala o progresso para o intervalo de 30% a 90% do progresso total
-          final scaledProgress = 0.3 + (progress * 0.6);
-          
-          // Registra valores para debug
-          _logService.info('VideoGeneratorService', 
-            'Progresso: time=$time, audioDurationMs=$audioDurationMs, ' +
-            'raw=${rawProgress.toStringAsFixed(3)}, scaled=${scaledProgress.toStringAsFixed(3)}'
-          );
-          
-          progressCallback?.call(VideoGenerationProgress(
-            progress: scaledProgress.clamp(0.0, 1.0), // Garante que sempre esteja entre 0 e 1
-            currentStep: 'Gerando vídeo: ${(progress * 100).toStringAsFixed(0)}%',
-          ));
-        }
-      });
+      // O progresso será monitorado diretamente pelo método generateVideo do QuickVideoEncoderService
+      // através do callback onProgress que passaremos a seguir
       
       // Gera o vídeo
-      // Converter TimelineItems para o formato esperado pelo FFmpegService
-      final ffmpegImageSequence = images.map((item) => {
-        'imagePath': item.imagePath,  // Corrigido: usando 'imagePath' em vez de 'path'
-        'timestamp': item.timestamp,
-        'duration': 0,  // Adicionando duração padrão
-      }).toList();
+      // Converter TimelineItems para o formato esperado pelo QuickVideoEncoderService
+      final videoImageSequence = images.map((item) => ImageSequenceItem(
+        imagePath: item.imagePath,
+        startTimeInSeconds: item.timestamp / 1000.0, // Converte de ms para segundos
+      )).toList();
       
-      final success = await _ffmpegService.generateVideo(
+      // Função para monitorar o progresso e escalar para o intervalo 30%-90%
+      void onProgressUpdate(double rawProgress) {
+        if (_isCancelled) return;
+        
+        // Escala o progresso para o intervalo de 30% a 90% do progresso total
+        final scaledProgress = 0.3 + (rawProgress * 0.6);
+        
+        // Registra valores para debug
+        _logService.info('VideoGeneratorService', 
+          'Progresso: raw=${rawProgress.toStringAsFixed(3)}, scaled=${scaledProgress.toStringAsFixed(3)}'
+        );
+        
+        progressCallback?.call(VideoGenerationProgress(
+          progress: scaledProgress.clamp(0.0, 1.0), // Garante que sempre esteja entre 0 e 1
+          currentStep: 'Gerando vídeo',
+        ));
+      }
+      
+      // Gera o vídeo usando o QuickVideoEncoderService
+      final generatedVideoPath = await _videoEncoderService.generateVideo(
+        imageSequence: videoImageSequence,
         inputAudioPath: audioPath,
-        imageSequence: ffmpegImageSequence,
-        outputPath: finalOutputPath,
-        customParams: customParams,
+        onProgress: onProgressUpdate,
+        timeoutSeconds: 600, // 10 minutos de timeout
       );
+      
+      // Verifica se o vídeo foi gerado com sucesso
+      final success = generatedVideoPath.isNotEmpty;
+      
+      // Se o vídeo foi gerado com sucesso, atualiza o caminho de saída
+      if (success) {
+        finalOutputPath = generatedVideoPath;
+      }
       
       // Verifica se o processo foi cancelado ou falhou
       if (_isCancelled) {
@@ -455,8 +457,12 @@ class VideoGeneratorService {
   Future<int> _getAudioDuration(String audioPath) async {
     try {
       _logService.info('VideoGeneratorService', 'Obtendo duração do áudio: $audioPath');
-      final duration = await _ffmpegService.getAudioDuration(audioPath);
-      final durationMs = duration.inMilliseconds;
+      // Usa o player de áudio diretamente para obter a duração
+      final player = AudioPlayer();
+      final duration = await player.setFilePath(audioPath);
+      await player.dispose();
+      
+      final durationMs = duration?.inMilliseconds ?? 0;
       _logService.info('VideoGeneratorService', 'Duração do áudio: ${durationMs}ms');
       return durationMs;
     } catch (e, stackTrace) {

@@ -293,7 +293,7 @@ class _VideoGenerationScreenState extends State<VideoGenerationScreen> {
       // Usa o LoadingOverlay apenas na fase inicial (quando ainda não temos progresso detalhado)
       return LoadingOverlay(
         isLoading: true,
-        message: 'Preparando geração de vídeo... ${(_progress.progress.clamp(0.0, 1.0) * 100).toStringAsFixed(0)}%',
+        message: 'Preparando geração de vídeo...',
         child: mainContent,
       );
     } else {
@@ -354,18 +354,17 @@ class _VideoGenerationScreenState extends State<VideoGenerationScreen> {
   
   // Cancela o processo de geração de vídeo
   Future<void> _cancelGeneration() async {
-    final bool cancelled = await _videoGeneratorService.cancelGeneration();
-    if (cancelled) {
-      setState(() {
-        _isGenerating = false;
-        _progress = VideoGenerationProgress(
-          progress: 0.0,
-          currentStep: 'Cancelado pelo usuário',
-          hasError: true,
-          errorMessage: 'O processo de geração foi cancelado',
-        );
-      });
-    }
+    await _videoGeneratorService.cancelGeneration();
+    setState(() {
+      _isGenerating = false;
+      _progress = VideoGenerationProgress(
+        progress: 0.0,
+        currentStep: 'Cancelado pelo usuário',
+        hasError: true,
+        errorMessage: 'O processo de geração foi cancelado',
+      );
+      _outputVideoPath = null;
+    });
   }
   
   // Calcula o tempo estimado restante com base no progresso atual
