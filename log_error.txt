@@ -1,101 +1,129 @@
 Launching lib/main.dart on moto g53 5G in debug mode...
-[useAar - Post-Processing] Fallback: Failed to resolve 'implementation': Resolving dependency configuration 'implementation' is not allowed as it is defined as 'canBeResolved=false'.
 .
 .
 .
-
-I/flutter (25206): [FQVE] <appendVideoFrame> result: null
-I/flutter (25206): [21:36:16] DEBUG/QuickVideoEncoderService: Frame de vídeo 988 adicionado: 3686400 bytes
-I/flutter (25206): [21:36:16] DEBUG/QuickVideoEncoderService: Erro ao processar áudio para o frame 988: 'package:flutter_quick_video_encoder/flutter_quick_video_encoder.dart': Failed assertion: line 93 pos 12: 'rawPcm.length == (sampleRate * audioChannels * 2) / fps': invalid data length
-I/flutter (25206): [21:36:16] INFO/VideoGeneratorService: Progresso: raw=0.996, scaled=0.898
-I/flutter (25206): [FQVE] '<appendVideoFrame>' rawRgba: 3686400 bytes
-I/flutter (25206): [FQVE] <appendVideoFrame> result: null
-I/flutter (25206): [21:36:16] DEBUG/QuickVideoEncoderService: Frame de vídeo 989 adicionado: 3686400 bytes
-I/flutter (25206): [21:36:16] DEBUG/QuickVideoEncoderService: Erro ao processar áudio para o frame 989: 'package:flutter_quick_video_encoder/flutter_quick_video_encoder.dart': Failed assertion: line 93 pos 12: 'rawPcm.length == (sampleRate * audioChannels * 2) / fps': invalid data length
-I/flutter (25206): [21:36:16] INFO/VideoGeneratorService: Progresso: raw=0.997, scaled=0.898
-I/flutter (25206): [FQVE] '<appendVideoFrame>' rawRgba: 3686400 bytes
-I/MediaCodec(25206): [0xb400006fe1528000] dequeue 10 output frames in last 1059 ms, latest timeUs 32933333, flags 0
-I/flutter (25206): [FQVE] <appendVideoFrame> result: null
-I/flutter (25206): [21:36:16] DEBUG/QuickVideoEncoderService: Frame de vídeo 990 adicionado: 3686400 bytes
-I/flutter (25206): [21:36:16] DEBUG/QuickVideoEncoderService: Erro ao processar áudio para o frame 990: 'package:flutter_quick_video_encoder/flutter_quick_video_encoder.dart': Failed assertion: line 93 pos 12: 'rawPcm.length == (sampleRate * audioChannels * 2) / fps': invalid data length
-I/flutter (25206): [21:36:16] INFO/VideoGeneratorService: Progresso: raw=0.998, scaled=0.899
-I/flutter (25206): [21:36:16] DEBUG/QuickVideoEncoderService: Progresso da geração de vídeo: 99.8%
-I/flutter (25206): [FQVE] '<appendVideoFrame>' rawRgba: 3686400 bytes
-I/flutter (25206): [FQVE] <appendVideoFrame> result: null
-I/flutter (25206): [21:36:16] DEBUG/QuickVideoEncoderService: Frame de vídeo 991 adicionado: 3686400 bytes
-I/flutter (25206): [21:36:16] DEBUG/QuickVideoEncoderService: Erro ao processar áudio para o frame 991: 'package:flutter_quick_video_encoder/flutter_quick_video_encoder.dart': Failed assertion: line 93 pos 12: 'rawPcm.length == (sampleRate * audioChannels * 2) / fps': invalid data length
-I/flutter (25206): [21:36:16] INFO/VideoGeneratorService: Progresso: raw=0.999, scaled=0.899
-I/flutter (25206): [21:36:16] INFO/QuickVideoEncoderService: Finalizando a codificação do vídeo...
-I/flutter (25206): [FQVE] '<finish>' args: null
-I/MediaCodec(25206): [0xb400006fe1528000] dequeue 4 output frames in last 264 ms, eos
-I/MediaCodec(25206): (0xb400006fe1528000) stop
-D/CCodecBufferChannel(25206): [c2.qti.avc.encoder#554] MediaCodec discarded an unknown buffer
-D/CCodecBufferChannel(25206): [c2.qti.avc.encoder#554] MediaCodec discarded an unknown buffer
-I/hw-BpHwBinder(25206): onLastStrongRef automatically unlinking death recipients
-I/[FQVE-Android](25206): calling mMediaMuxer.addTrack()
-E/Utils   (25206): csd0 too small
-E/ExtendedUtils(25206): csd0 too small
-I/[FQVE-Android](25206): calling mMediaMuxer.start()
-D/MediaCodec(25206): flushMediametrics
-D/MediaCodec(25206): flushMediametrics
-W/MediaCodec(25206): no metrics handle found
-D/MPEG4Writer(25206): fpathconf _PC_FILESIZEBITS:64
-D/MPEG4Writer(25206): File size limit set to 4503599627370495 bytes implicitly
-D/MPEG4Writer(25206): MP4WtrCtrlHlpLooper Started
-I/MPEG4Writer(25206): limits: 4503599627370495/0 bytes/us, bit rate: -1 bps and the estimated moov size 3318 bytes
-I/MPEG4Writer(25206): Time taken by video Track Source to start : 0ms
-I/MPEG4Writer(25206): Time taken by audio Track Source to start : 0ms
-I/MediaCodec(25206): (0xb400006fa4da3000) stop
-D/CCodecBufferChannel(25206): [c2.android.aac.encoder#629] MediaCodec discarded an unknown buffer
-D/CCodecBufferChannel(25206): [c2.android.aac.encoder#629] MediaCodec discarded an unknown buffer
-D/CCodecBufferChannel(25206): [c2.android.aac.encoder#629] MediaCodec discarded an unknown buffer
-I/hw-BpHwBinder(25206): onLastStrongRef automatically unlinking death recipients
-D/BufferPoolAccessor2.0(25206): bufferpool2 0xb400006fe1870e28 : 0(0 size) total buffers - 0(0 size) used buffers - 0/5 (recycle/alloc) - 0/0 (fetch/transfer)
-D/BufferPoolAccessor2.0(25206): Destruction - bufferpool2 0xb400006fe1870e28 cached: 0/0M, 0/0% in use; allocs: 5, 0% recycled; transfers: 0, 0% unfetched
-D/MediaCodec(25206): flushMediametrics
-D/MPEG4Writer(25206): reset()
-D/MPEG4Writer(25206): Audio track stopping. Stop source
-D/MPEG4Writer(25206): Audio track source stopping
-D/MPEG4Writer(25206): Audio track source stopped
-V/MediaWriter(25206): Track event err/info msg:101, trackId:2, type:1000,val:-1011
-I/MPEG4Writer(25206): Received total/0-length (0/0) buffers and encoded 0 frames. - Audio
-I/MPEG4Writer(25206): Audio track drift time: 0 us
-D/MediaCodec(25206): flushMediametrics
-W/MediaCodec(25206): no metrics handle found
-D/MPEG4Writer(25206): Audio track stopped. Status:0. Stop source
-V/MediaWriter(25206): Track event err/info msg:101, trackId:1, type:1000,val:-1011
-I/MPEG4Writer(25206): Received total/0-length (0/0) buffers and encoded 0 frames. - Video
-D/MPEG4Writer(25206): Video track stopping. Stop source
-D/MPEG4Writer(25206): Video track source stopping
-D/MPEG4Writer(25206): Video track source stopped
-D/MPEG4Writer(25206): Video track stopped. Status:0. Stop source
-D/MPEG4Writer(25206): Duration from tracks range is [0, 0] us
-D/MPEG4Writer(25206): 0 chunks are written in the last batch
-D/MPEG4Writer(25206): WriterThread stopped. Status:0
-I/MPEG4Writer(25206): Adjust the moov start time from -1 us -> -1 us
-I/MPEG4Writer(25206): MOOV atom was written to the file
-D/MPEG4Writer(25206): release()
-D/MPEG4Writer(25206): ftruncate mPreAllocateFileEndOffset:0 mOffset:898 mMdatEndOffset:3358 diff:-3358
-I/MPEG4Writer(25206): posix_fadvise OK
-D/MPEG4Writer(25206): final fsync() takes 0 ms, file size 3358
-D/MPEG4Writer(25206): MP4WtrCtrlHlpLooper stopped
-D/MPEG4Writer(25206): Top 5 write durations(microseconds): #1:3 #2:6 #3:13 #4:20 #5:43
-D/MPEG4Writer(25206): reset()
-D/MPEG4Writer(25206): Video track stopping. Stop source
-E/MPEG4Writer(25206): Stop() called but track is not started or stopped
-D/MPEG4Writer(25206): Audio track stopping. Stop source
-E/MPEG4Writer(25206): Stop() called but track is not started or stopped
-I/flutter (25206): [FQVE] <finish> result: null
-I/flutter (25206): [21:36:16] INFO/QuickVideoEncoderService: Tamanho do arquivo de vídeo gerado: 3358 bytes
-I/flutter (25206): [21:36:16] ERROR/QuickVideoEncoderService: Arquivo de vídeo gerado é muito pequeno: 3358 bytes
-I/flutter (25206): [21:36:16] ERROR/QuickVideoEncoderService: Erro ao finalizar a codificação do vídeo: Exception: O arquivo de vídeo gerado parece estar corrompido (tamanho muito pequeno)
-I/flutter (25206): [21:36:16] ERROR/QuickVideoEncoderService: Erro ao gerar vídeo: Exception: O arquivo de vídeo gerado parece estar corrompido (tamanho muito pequeno)
-I/flutter (25206): [21:36:16] ERROR/QuickVideoEncoderService: Exceção: Exception: O arquivo de vídeo gerado parece estar corrompido (tamanho muito pequeno)
-I/flutter (25206): #0      QuickVideoEncoderService.generateVideo (package:video_maker/services/quick_video_encoder_service.dart:188:13)
-I/flutter (25206): <asynchronous suspension>
-I/flutter (25206): #1      VideoGeneratorService.generateVideo (package:video_maker/services/video_generator_service.dart:398:34)
-I/flutter (25206): <asynchronous suspension>
-I/flutter (25206): #2      _VideoGenerationScreenState._generateVideo (package:video_maker/screens/video_generation_screen.dart:321:22)
-I/flutter (25206): <asynchronous suspension>
-I/flutter (25206): 
-D/BufferPoolAccessor2.0(25206): evictor expired: 1, evicted: 0
+I/flutter (27316): [21:41:28] DEBUG/QuickVideoEncoderService: Frame de áudio 151 adicionado: 5880 bytes
+I/flutter (27316): [21:41:28] INFO/VideoGeneratorService: Progresso: raw=0.956, scaled=0.873
+I/flutter (27316): [FQVE] '<appendVideoFrame>' rawRgba: 3686400 bytes
+I/flutter (27316): [FQVE] <appendVideoFrame> result: null
+I/flutter (27316): [21:41:28] DEBUG/QuickVideoEncoderService: Frame de vídeo 152 adicionado: 3686400 bytes
+I/flutter (27316): [FQVE] '<appendAudioFrame>' rawPcm: 5880 bytes
+I/flutter (27316): [FQVE] <appendAudioFrame> result: null
+I/flutter (27316): [21:41:28] DEBUG/QuickVideoEncoderService: Frame de áudio 152 adicionado: 5880 bytes
+I/flutter (27316): [21:41:28] INFO/VideoGeneratorService: Progresso: raw=0.962, scaled=0.877
+I/flutter (27316): [FQVE] '<appendVideoFrame>' rawRgba: 3686400 bytes
+I/flutter (27316): [FQVE] <appendVideoFrame> result: null
+I/flutter (27316): [21:41:28] DEBUG/QuickVideoEncoderService: Frame de vídeo 153 adicionado: 3686400 bytes
+I/flutter (27316): [FQVE] '<appendAudioFrame>' rawPcm: 5880 bytes
+I/flutter (27316): [FQVE] <appendAudioFrame> result: null
+I/flutter (27316): [21:41:28] DEBUG/QuickVideoEncoderService: Frame de áudio 153 adicionado: 5880 bytes
+I/flutter (27316): [21:41:28] INFO/VideoGeneratorService: Progresso: raw=0.968, scaled=0.881
+I/flutter (27316): [FQVE] '<appendVideoFrame>' rawRgba: 3686400 bytes
+I/flutter (27316): [FQVE] <appendVideoFrame> result: null
+I/flutter (27316): [21:41:28] DEBUG/QuickVideoEncoderService: Frame de vídeo 154 adicionado: 3686400 bytes
+I/flutter (27316): [FQVE] '<appendAudioFrame>' rawPcm: 5880 bytes
+I/flutter (27316): [FQVE] <appendAudioFrame> result: null
+I/flutter (27316): [21:41:28] DEBUG/QuickVideoEncoderService: Frame de áudio 154 adicionado: 5880 bytes
+I/flutter (27316): [21:41:28] INFO/VideoGeneratorService: Progresso: raw=0.975, scaled=0.885
+I/flutter (27316): [FQVE] '<appendVideoFrame>' rawRgba: 3686400 bytes
+I/MediaCodec(27316): [0xb400006fa7369800] dequeue 10 output frames in last 1157 ms, latest timeUs 5100000, flags 0
+I/flutter (27316): [FQVE] <appendVideoFrame> result: null
+I/flutter (27316): [21:41:28] DEBUG/QuickVideoEncoderService: Frame de vídeo 155 adicionado: 3686400 bytes
+I/flutter (27316): [FQVE] '<appendAudioFrame>' rawPcm: 5880 bytes
+I/flutter (27316): [FQVE] <appendAudioFrame> result: null
+I/flutter (27316): [21:41:28] DEBUG/QuickVideoEncoderService: Frame de áudio 155 adicionado: 5880 bytes
+I/flutter (27316): [21:41:28] INFO/VideoGeneratorService: Progresso: raw=0.981, scaled=0.889
+I/flutter (27316): [FQVE] '<appendVideoFrame>' rawRgba: 3686400 bytes
+I/flutter (27316): [FQVE] <appendVideoFrame> result: null
+I/flutter (27316): [21:41:28] DEBUG/QuickVideoEncoderService: Frame de vídeo 156 adicionado: 3686400 bytes
+I/flutter (27316): [FQVE] '<appendAudioFrame>' rawPcm: 5880 bytes
+I/flutter (27316): [FQVE] <appendAudioFrame> result: null
+I/flutter (27316): [21:41:28] DEBUG/QuickVideoEncoderService: Frame de áudio 156 adicionado: 5880 bytes
+I/flutter (27316): [21:41:28] INFO/VideoGeneratorService: Progresso: raw=0.987, scaled=0.892
+I/flutter (27316): [FQVE] '<appendVideoFrame>' rawRgba: 3686400 bytes
+I/flutter (27316): [FQVE] <appendVideoFrame> result: null
+I/flutter (27316): [21:41:28] DEBUG/QuickVideoEncoderService: Frame de vídeo 157 adicionado: 3686400 bytes
+I/flutter (27316): [FQVE] '<appendAudioFrame>' rawPcm: 5880 bytes
+I/flutter (27316): [FQVE] <appendAudioFrame> result: null
+I/flutter (27316): [21:41:28] DEBUG/QuickVideoEncoderService: Frame de áudio 157 adicionado: 5880 bytes
+I/flutter (27316): [21:41:28] INFO/VideoGeneratorService: Progresso: raw=0.994, scaled=0.896
+I/flutter (27316): [21:41:28] INFO/QuickVideoEncoderService: Finalizando a codificação do vídeo...
+I/flutter (27316): [FQVE] '<finish>' args: null
+I/MediaCodec(27316): [0xb400006fa7369800] dequeue 5 output frames in last 322 ms, eos
+I/MediaCodec(27316): (0xb400006fa7369800) stop
+D/CCodecBufferChannel(27316): [c2.qti.avc.encoder#80] MediaCodec discarded an unknown buffer
+D/CCodecBufferChannel(27316): [c2.qti.avc.encoder#80] MediaCodec discarded an unknown buffer
+I/hw-BpHwBinder(27316): onLastStrongRef automatically unlinking death recipients
+D/MediaCodec(27316): flushMediametrics
+I/MediaCodec(27316): (0xb400006f91ff0800) stop
+D/MediaCodec(27316): flushMediametrics
+W/MediaCodec(27316): no metrics handle found
+D/CCodecBufferChannel(27316): [c2.android.aac.encoder#203] MediaCodec discarded an unknown buffer
+D/CCodecBufferChannel(27316): [c2.android.aac.encoder#203] MediaCodec discarded an unknown buffer
+D/CCodecBufferChannel(27316): [c2.android.aac.encoder#203] MediaCodec discarded an unknown buffer
+D/MPEG4Writer(27316): reset()
+D/MPEG4Writer(27316): Audio track stopping. Stop source
+D/MPEG4Writer(27316): Audio track source stopping
+D/MPEG4Writer(27316): Audio track source stopped
+V/MediaWriter(27316): Track event err/info msg:101, trackId:1, type:1000,val:-1011
+I/MPEG4Writer(27316): Received total/0-length (226/0) buffers and encoded 226 frames. - Audio
+I/hw-BpHwBinder(27316): onLastStrongRef automatically unlinking death recipients
+D/MediaCodec(27316): flushMediametrics
+I/MPEG4Writer(27316): Audio track drift time: 0 us
+V/MediaWriter(27316): Track event err/info msg:101, trackId:2, type:1000,val:-1011
+D/MPEG4Writer(27316): Audio track stopped. Status:0. Stop source
+D/MPEG4Writer(27316): Video track stopping. Stop source
+D/MPEG4Writer(27316): Video track source stopping
+I/MPEG4Writer(27316): Received total/0-length (158/0) buffers and encoded 158 frames. - Video
+D/MPEG4Writer(27316): Video track source stopped
+D/MediaCodec(27316): flushMediametrics
+W/MediaCodec(27316): no metrics handle found
+D/MPEG4Writer(27316): Video track stopped. Status:0. Stop source
+D/MPEG4Writer(27316): Duration from tracks range is [5247707, 5266666] us
+D/MPEG4Writer(27316): 0 chunks are written in the last batch
+D/MPEG4Writer(27316): WriterThread stopped. Status:0
+I/MPEG4Writer(27316): Adjust the moov start time from 0 us -> 0 us
+I/MPEG4Writer(27316): MOOV atom was written to the file
+D/MPEG4Writer(27316): release()
+D/MPEG4Writer(27316): ftruncate mPreAllocateFileEndOffset:987158 mOffset:3044 mMdatEndOffset:983120 diff:4038
+I/MPEG4Writer(27316): posix_fadvise OK
+D/MPEG4Writer(27316): final fsync() takes 9 ms, file size 983120
+D/MPEG4Writer(27316): MP4WtrCtrlHlpLooper stopped
+D/MPEG4Writer(27316): Top 5 write durations(microseconds): #1:70 #2:71 #3:264 #4:269 #5:293
+D/MPEG4Writer(27316): reset()
+D/MPEG4Writer(27316): Audio track stopping. Stop source
+E/MPEG4Writer(27316): Stop() called but track is not started or stopped
+D/MPEG4Writer(27316): Video track stopping. Stop source
+E/MPEG4Writer(27316): Stop() called but track is not started or stopped
+I/flutter (27316): [FQVE] <finish> result: null
+I/flutter (27316): [21:41:29] INFO/QuickVideoEncoderService: Tamanho do arquivo de vídeo gerado: 983120 bytes
+I/flutter (27316): [21:41:29] INFO/QuickVideoEncoderService: Vídeo gerado com sucesso: /data/user/0/com.example.video_maker/cache/video_output/video_1749516070350.mp4
+I/flutter (27316): [21:41:29] INFO/VideoGeneratorService: Salvando vídeo localmente: /data/user/0/com.example.video_maker/cache/video_output/video_1749516070350.mp4
+I/flutter (27316): Verificação de espaço: 0.94 MB necessários
+I/flutter (27316): Vídeo salvo com sucesso na galeria
+I/flutter (27316): [21:41:29] INFO/VideoGeneratorService: Vídeo salvo na galeria: /data/user/0/com.example.video_maker/cache/video_output/video_1749516070350.mp4
+I/flutter (27316): Permissão de armazenamento negada
+I/flutter (27316): [21:41:29] WARNING/VideoGeneratorService: Não foi possível salvar o vídeo na pasta de downloads
+I/flutter (27316): Aviso: Falha ao salvar vídeo localmente, mas o arquivo foi gerado com sucesso
+D/CompatibilityChangeReporter(27316): Compat change id reported: 160794467; UID 10495; state: ENABLED
+D/BufferPoolAccessor2.0(27316): bufferpool2 0xb400006fe133f228 : 0(0 size) total buffers - 0(0 size) used buffers - 316/321 (recycle/alloc) - 5/632 (fetch/transfer)
+D/BufferPoolAccessor2.0(27316): evictor expired: 1, evicted: 1
+D/Surface (27316): Surface::disconnect
+D/BufferQueueProducer(27316): [SurfaceView[com.example.video_maker/com.example.video_maker.MainActivity]#11(BLAST Consumer)11](id:6ab40000000b,api:1,p:27316,c:27316) disconnect: api -1
+D/Surface (27316): Surface::disconnect
+D/BufferQueueProducer(27316): [VRI[MainActivity]#10(BLAST Consumer)10](id:6ab40000000a,api:1,p:27316,c:27316) disconnect: api 1
+D/BufferPoolAccessor2.0(27316): bufferpool2 0xb400006fe184bc28 : 2(16384 size) total buffers - 2(16384 size) used buffers - 196/205 (recycle/alloc) - 14/402 (fetch/transfer)
+D/BufferPoolAccessor2.0(27316): bufferpool2 0xb400006fe142f028 : 0(0 size) total buffers - 0(0 size) used buffers - 28/37 (recycle/alloc) - 13/72 (fetch/transfer)
+D/BufferPoolAccessor2.0(27316): bufferpool2 0xb400006fe97cf028 : 0(0 size) total buffers - 0(0 size) used buffers - 8/13 (recycle/alloc) - 4/8 (fetch/transfer)
+D/BufferPoolAccessor2.0(27316): Destruction - bufferpool2 0xb400006fe97cf028 cached: 0/0M, 0/0% in use; allocs: 13, 62% recycled; transfers: 8, 50% unfetched
+D/BufferPoolAccessor2.0(27316): bufferpool2 0xb400006fe1322628 : 0(0 size) total buffers - 0(0 size) used buffers - 8/13 (recycle/alloc) - 4/8 (fetch/transfer)
+D/BufferPoolAccessor2.0(27316): Destruction - bufferpool2 0xb400006fe1322628 cached: 0/0M, 0/0% in use; allocs: 13, 62% recycled; transfers: 8, 50% unfetched
+D/BufferPoolAccessor2.0(27316): bufferpool2 0xb400006fe133f628 : 0(0 size) total buffers - 0(0 size) used buffers - 8/13 (recycle/alloc) - 4/8 (fetch/transfer)
+D/BufferPoolAccessor2.0(27316): Destruction - bufferpool2 0xb400006fe133f628 cached: 0/0M, 0/0% in use; allocs: 13, 62% recycled; transfers: 8, 50% unfetched
+D/BufferPoolAccessor2.0(27316): bufferpool2 0xb400006fe133f228 : 0(0 size) total buffers - 0(0 size) used buffers - 316/321 (recycle/alloc) - 5/632 (fetch/transfer)
+D/BufferPoolAccessor2.0(27316): Destruction - bufferpool2 0xb400006fe133f228 cached: 0/0M, 0/0% in use; allocs: 321, 98% recycled; transfers: 632, 99% unfetched
+D/BufferPoolAccessor2.0(27316): bufferpool2 0xb400006fe142f028 : 0(0 size) total buffers - 0(0 size) used buffers - 28/37 (recycle/alloc) - 13/72 (fetch/transfer)
+D/BufferPoolAccessor2.0(27316): bufferpool2 0xb400006fe184bc28 : 2(16384 size) total buffers - 2(16384 size) used buffers - 196/205 (recycle/alloc) - 14/402 (fetch/transfer)
+D/BufferPoolAccessor2.0(27316): evictor expired: 3, evicted: 2
+D/BufferPoolAccessor2.0(27316): evictor expired: 3, evicted: 0
+D/AudioManager(27316): dispatching onAudioFocusChange(-2) to android.media.AudioManager@b6f7edcom.ryanheise.audio_session.AndroidAudioManager$Singleton$$ExternalSyntheticLambda0@bbff622

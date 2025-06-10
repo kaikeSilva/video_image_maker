@@ -116,69 +116,45 @@ class QuickVideoEncoderService {
       // Preparamos o processamento de frames
       _logService.info('QuickVideoEncoderService', 'Iniciando processamento de frames...');
       for (int i = 0; i < totalFrames; i++) {
-        // Calcula o tempo atual em segundos
-        final double currentTimeInSeconds = i / fps;
-        
-        // Encontra a imagem correspondente ao tempo atual
-        final ImageSequenceItem currentImage = _findImageForTime(imageSequence, currentTimeInSeconds);
-        
-        // Encontra o índice da imagem na lista de imagens carregadas
-        final int imageIndex = imageSequence.indexOf(currentImage);
-        
-        // Gera o frame de vídeo a partir da imagem
-        final Uint8List? frameData = await _generateVideoFrame(images[imageIndex], width, height);
-        
-        if (frameData != null) {
-          try {
+        try {
+          final progress = i / totalFrames;
+          
+          // Calcula o tempo atual em segundos
+          final double currentTimeInSeconds = i / fps;
+          
+          // Encontra a imagem correspondente ao tempo atual
+          final ImageSequenceItem currentImage = _findImageForTime(imageSequence, currentTimeInSeconds);
+          
+          // Encontra o índice da imagem na lista de imagens carregadas
+          final int imageIndex = imageSequence.indexOf(currentImage);
+          
+          // Gera o frame de vídeo a partir da imagem
+          final Uint8List? frameData = await _generateVideoFrame(images[imageIndex], width, height);
+          
+          if (frameData != null) {
             // Adiciona o frame de vídeo ao encoder
             await FlutterQuickVideoEncoder.appendVideoFrame(frameData);
-            _logService.debug('QuickVideoEncoderService', 'Frame de vídeo $i adicionado: ${frameData.length} bytes');
-            
-            // Adiciona um chunk de áudio PCM para este frame de vídeo
-            // De acordo com a documentação, o flutter_quick_video_encoder espera dados PCM brutos
-            try {
-              // O tamanho exato do frame de áudio PCM deve ser (sampleRate * audioChannels * 2) / fps
-              // Esta é a fórmula exigida pelo flutter_quick_video_encoder
-              final int requiredFrameSize = ((sampleRate * audioChannels * 2) / fps).round();
-              
-              // Cria um buffer de áudio do tamanho exato exigido pelo encoder
-              final Uint8List audioFrame = Uint8List(requiredFrameSize);
-              
-              // Preenche o buffer com dados reais do áudio PCM, se disponíveis
-              if (pcmAudioBytes.isNotEmpty) {
-                // Calcula a posição no áudio PCM com base no progresso do vídeo
-                final double audioProgress = i / totalFrames.toDouble();
-                final int startPos = (audioProgress * pcmAudioBytes.length).round();
-                
-                // Copia os bytes disponíveis do áudio PCM para o frame
-                final int bytesToCopy = min(requiredFrameSize, pcmAudioBytes.length - startPos);
-                if (bytesToCopy > 0 && startPos < pcmAudioBytes.length) {
-                  audioFrame.setRange(0, bytesToCopy, pcmAudioBytes, startPos);
-                }
-              }
-              
-              // Adiciona o frame de áudio PCM ao encoder com o tamanho exato exigido
-              await FlutterQuickVideoEncoder.appendAudioFrame(audioFrame);
-              _logService.debug('QuickVideoEncoderService', 'Frame de áudio $i adicionado: ${audioFrame.length} bytes');
-            } catch (e) {
-              // Ignora erros de áudio para não interromper o processamento de vídeo
-              _logService.debug('QuickVideoEncoderService', 'Erro ao processar áudio para o frame $i: $e');
+            if (i % 10 == 0) { // Reduzir quantidade de logs
+              _logService.debug('QuickVideoEncoderService', 'Frame de vídeo $i adicionado: ${frameData.length} bytes');
             }
-          } catch (e) {
-            _logService.error('QuickVideoEncoderService', 'Erro ao adicionar frame: $e');
-            // Continua o loop mesmo com erro para tentar processar os outros frames
+            
+            // Processa o áudio para este frame
+            await _processAudioForFrame(i, totalFrames, pcmAudioBytes, sampleRate, audioChannels, fps.toDouble());
+            
+            // Notifica o progresso
+            onProgress(progress);
+            
+            // Log a cada 10% de progresso
+            if (i % (totalFrames ~/ 10) == 0) {
+              _logService.debug('QuickVideoEncoderService', 'Progresso da geração de vídeo: ${(progress * 100).toStringAsFixed(1)}%');
+            }
+          } else {
+            _logService.warning('QuickVideoEncoderService', 'Frame de vídeo nulo gerado para o tempo $currentTimeInSeconds');
           }
-        } else {
-          _logService.warning('QuickVideoEncoderService', 'Frame de vídeo nulo gerado para o tempo $currentTimeInSeconds');
-        }
-        
-        // Atualiza o progresso
-        final double progress = i / totalFrames;
-        onProgress(progress);
-        
-        // Log a cada 10% de progresso
-        if (i % (totalFrames ~/ 10) == 0) {
-          _logService.debug('QuickVideoEncoderService', 'Progresso da geração de vídeo: ${(progress * 100).toStringAsFixed(1)}%');
+        } catch (e, stackTrace) {
+          _logService.error('QuickVideoEncoderService', 'Erro ao processar frame $i: $e');
+          _logService.exception('QuickVideoEncoderService', e, stackTrace);
+          // Continua para o próximo frame mesmo em caso de erro
         }
       }
       
@@ -381,6 +357,59 @@ class QuickVideoEncoderService {
       _logService.error('QuickVideoEncoderService', 'Erro ao carregar arquivo PCM: $e');
       _logService.exception('QuickVideoEncoderService', e, stackTrace);
       rethrow;
+    }
+  }
+  
+  /// Processa o áudio para um frame específico
+  Future<void> _processAudioForFrame(int frameIndex, int totalFrames, Uint8List pcmAudioBytes, int sampleRate, int audioChannels, double fps) async {
+    try {
+      // Calcula o tamanho exato do frame de áudio PCM para este frame
+      // O tamanho deve ser (sampleRate * audioChannels * 2) / fps
+      // onde 2 é o número de bytes por amostra (16 bits = 2 bytes)
+      final int requiredFrameSize = ((sampleRate * audioChannels * 2) / fps).round();
+      
+      // Cria um buffer de áudio do tamanho exato necessário
+      final Uint8List audioFrame = Uint8List(requiredFrameSize);
+      
+      // Calcula a posição inicial no buffer de áudio PCM para este frame
+      // Usamos uma abordagem mais precisa para calcular a posição de tempo
+      final double frameDuration = 1.0 / fps; // duração de um frame em segundos
+      final double frameTimeSeconds = frameIndex * frameDuration; // tempo exato deste frame em segundos
+      final int framePosition = (frameTimeSeconds * sampleRate * audioChannels * 2).round();
+      
+      // Garantir que a posição seja múltipla de (audioChannels * 2) para evitar desalinhamento de amostras
+      final int alignedPosition = framePosition - (framePosition % (audioChannels * 2));
+      
+      // Copia os bytes do áudio PCM para o frame de áudio
+      // Certifica-se de não ultrapassar o tamanho do buffer de áudio PCM
+      if (alignedPosition < pcmAudioBytes.length) {
+        final int bytesToCopy = min(requiredFrameSize, pcmAudioBytes.length - alignedPosition);
+        if (bytesToCopy > 0) {
+          audioFrame.setRange(0, bytesToCopy, pcmAudioBytes, alignedPosition);
+          
+          // Se não tivermos bytes suficientes, preenchemos o resto com silêncio (zeros)
+          if (bytesToCopy < requiredFrameSize) {
+            audioFrame.fillRange(bytesToCopy, requiredFrameSize, 0);
+          }
+        } else {
+          // Se não houver bytes para copiar, preencher com silêncio
+          audioFrame.fillRange(0, requiredFrameSize, 0);
+        }
+      } else {
+        // Se a posição estiver além do tamanho do áudio, preencher com silêncio
+        audioFrame.fillRange(0, requiredFrameSize, 0);
+      }
+      
+      // Adiciona o frame de áudio ao encoder
+      await FlutterQuickVideoEncoder.appendAudioFrame(audioFrame);
+      
+      if (frameIndex % 10 == 0) { // Reduzir a quantidade de logs
+        _logService.debug('QuickVideoEncoderService', 'Frame de áudio $frameIndex adicionado: ${audioFrame.length} bytes');
+      }
+    } catch (e, stackTrace) {
+      _logService.error('QuickVideoEncoderService', 'Erro ao processar áudio para o frame $frameIndex: $e');
+      _logService.exception('QuickVideoEncoderService', e, stackTrace);
+      // Não lança a exceção para permitir que o processo continue mesmo com erros de áudio
     }
   }
 }
