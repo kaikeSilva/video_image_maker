@@ -150,7 +150,10 @@ class VideoGeneratorService {
   /// Cancela o processo atual de geração de vídeo
   Future<void> cancelGeneration() async {
     _isCancelled = true;
-    // Não há mais necessidade de cancelar o FFmpeg
+    
+    // Propaga o cancelamento para o serviço de codificação
+    _videoEncoderService.cancelGeneration();
+    
     _logService.info('VideoGeneratorService', 'Geração de vídeo cancelada pelo usuário');
   }
   
