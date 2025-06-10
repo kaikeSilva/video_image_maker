@@ -1,129 +1,882 @@
 Launching lib/main.dart on moto g53 5G in debug mode...
-.
-.
-.
-I/flutter (27316): [21:41:28] DEBUG/QuickVideoEncoderService: Frame de áudio 151 adicionado: 5880 bytes
-I/flutter (27316): [21:41:28] INFO/VideoGeneratorService: Progresso: raw=0.956, scaled=0.873
-I/flutter (27316): [FQVE] '<appendVideoFrame>' rawRgba: 3686400 bytes
-I/flutter (27316): [FQVE] <appendVideoFrame> result: null
-I/flutter (27316): [21:41:28] DEBUG/QuickVideoEncoderService: Frame de vídeo 152 adicionado: 3686400 bytes
-I/flutter (27316): [FQVE] '<appendAudioFrame>' rawPcm: 5880 bytes
-I/flutter (27316): [FQVE] <appendAudioFrame> result: null
-I/flutter (27316): [21:41:28] DEBUG/QuickVideoEncoderService: Frame de áudio 152 adicionado: 5880 bytes
-I/flutter (27316): [21:41:28] INFO/VideoGeneratorService: Progresso: raw=0.962, scaled=0.877
-I/flutter (27316): [FQVE] '<appendVideoFrame>' rawRgba: 3686400 bytes
-I/flutter (27316): [FQVE] <appendVideoFrame> result: null
-I/flutter (27316): [21:41:28] DEBUG/QuickVideoEncoderService: Frame de vídeo 153 adicionado: 3686400 bytes
-I/flutter (27316): [FQVE] '<appendAudioFrame>' rawPcm: 5880 bytes
-I/flutter (27316): [FQVE] <appendAudioFrame> result: null
-I/flutter (27316): [21:41:28] DEBUG/QuickVideoEncoderService: Frame de áudio 153 adicionado: 5880 bytes
-I/flutter (27316): [21:41:28] INFO/VideoGeneratorService: Progresso: raw=0.968, scaled=0.881
-I/flutter (27316): [FQVE] '<appendVideoFrame>' rawRgba: 3686400 bytes
-I/flutter (27316): [FQVE] <appendVideoFrame> result: null
-I/flutter (27316): [21:41:28] DEBUG/QuickVideoEncoderService: Frame de vídeo 154 adicionado: 3686400 bytes
-I/flutter (27316): [FQVE] '<appendAudioFrame>' rawPcm: 5880 bytes
-I/flutter (27316): [FQVE] <appendAudioFrame> result: null
-I/flutter (27316): [21:41:28] DEBUG/QuickVideoEncoderService: Frame de áudio 154 adicionado: 5880 bytes
-I/flutter (27316): [21:41:28] INFO/VideoGeneratorService: Progresso: raw=0.975, scaled=0.885
-I/flutter (27316): [FQVE] '<appendVideoFrame>' rawRgba: 3686400 bytes
-I/MediaCodec(27316): [0xb400006fa7369800] dequeue 10 output frames in last 1157 ms, latest timeUs 5100000, flags 0
-I/flutter (27316): [FQVE] <appendVideoFrame> result: null
-I/flutter (27316): [21:41:28] DEBUG/QuickVideoEncoderService: Frame de vídeo 155 adicionado: 3686400 bytes
-I/flutter (27316): [FQVE] '<appendAudioFrame>' rawPcm: 5880 bytes
-I/flutter (27316): [FQVE] <appendAudioFrame> result: null
-I/flutter (27316): [21:41:28] DEBUG/QuickVideoEncoderService: Frame de áudio 155 adicionado: 5880 bytes
-I/flutter (27316): [21:41:28] INFO/VideoGeneratorService: Progresso: raw=0.981, scaled=0.889
-I/flutter (27316): [FQVE] '<appendVideoFrame>' rawRgba: 3686400 bytes
-I/flutter (27316): [FQVE] <appendVideoFrame> result: null
-I/flutter (27316): [21:41:28] DEBUG/QuickVideoEncoderService: Frame de vídeo 156 adicionado: 3686400 bytes
-I/flutter (27316): [FQVE] '<appendAudioFrame>' rawPcm: 5880 bytes
-I/flutter (27316): [FQVE] <appendAudioFrame> result: null
-I/flutter (27316): [21:41:28] DEBUG/QuickVideoEncoderService: Frame de áudio 156 adicionado: 5880 bytes
-I/flutter (27316): [21:41:28] INFO/VideoGeneratorService: Progresso: raw=0.987, scaled=0.892
-I/flutter (27316): [FQVE] '<appendVideoFrame>' rawRgba: 3686400 bytes
-I/flutter (27316): [FQVE] <appendVideoFrame> result: null
-I/flutter (27316): [21:41:28] DEBUG/QuickVideoEncoderService: Frame de vídeo 157 adicionado: 3686400 bytes
-I/flutter (27316): [FQVE] '<appendAudioFrame>' rawPcm: 5880 bytes
-I/flutter (27316): [FQVE] <appendAudioFrame> result: null
-I/flutter (27316): [21:41:28] DEBUG/QuickVideoEncoderService: Frame de áudio 157 adicionado: 5880 bytes
-I/flutter (27316): [21:41:28] INFO/VideoGeneratorService: Progresso: raw=0.994, scaled=0.896
-I/flutter (27316): [21:41:28] INFO/QuickVideoEncoderService: Finalizando a codificação do vídeo...
-I/flutter (27316): [FQVE] '<finish>' args: null
-I/MediaCodec(27316): [0xb400006fa7369800] dequeue 5 output frames in last 322 ms, eos
-I/MediaCodec(27316): (0xb400006fa7369800) stop
-D/CCodecBufferChannel(27316): [c2.qti.avc.encoder#80] MediaCodec discarded an unknown buffer
-D/CCodecBufferChannel(27316): [c2.qti.avc.encoder#80] MediaCodec discarded an unknown buffer
-I/hw-BpHwBinder(27316): onLastStrongRef automatically unlinking death recipients
-D/MediaCodec(27316): flushMediametrics
-I/MediaCodec(27316): (0xb400006f91ff0800) stop
-D/MediaCodec(27316): flushMediametrics
-W/MediaCodec(27316): no metrics handle found
-D/CCodecBufferChannel(27316): [c2.android.aac.encoder#203] MediaCodec discarded an unknown buffer
-D/CCodecBufferChannel(27316): [c2.android.aac.encoder#203] MediaCodec discarded an unknown buffer
-D/CCodecBufferChannel(27316): [c2.android.aac.encoder#203] MediaCodec discarded an unknown buffer
-D/MPEG4Writer(27316): reset()
-D/MPEG4Writer(27316): Audio track stopping. Stop source
-D/MPEG4Writer(27316): Audio track source stopping
-D/MPEG4Writer(27316): Audio track source stopped
-V/MediaWriter(27316): Track event err/info msg:101, trackId:1, type:1000,val:-1011
-I/MPEG4Writer(27316): Received total/0-length (226/0) buffers and encoded 226 frames. - Audio
-I/hw-BpHwBinder(27316): onLastStrongRef automatically unlinking death recipients
-D/MediaCodec(27316): flushMediametrics
-I/MPEG4Writer(27316): Audio track drift time: 0 us
-V/MediaWriter(27316): Track event err/info msg:101, trackId:2, type:1000,val:-1011
-D/MPEG4Writer(27316): Audio track stopped. Status:0. Stop source
-D/MPEG4Writer(27316): Video track stopping. Stop source
-D/MPEG4Writer(27316): Video track source stopping
-I/MPEG4Writer(27316): Received total/0-length (158/0) buffers and encoded 158 frames. - Video
-D/MPEG4Writer(27316): Video track source stopped
-D/MediaCodec(27316): flushMediametrics
-W/MediaCodec(27316): no metrics handle found
-D/MPEG4Writer(27316): Video track stopped. Status:0. Stop source
-D/MPEG4Writer(27316): Duration from tracks range is [5247707, 5266666] us
-D/MPEG4Writer(27316): 0 chunks are written in the last batch
-D/MPEG4Writer(27316): WriterThread stopped. Status:0
-I/MPEG4Writer(27316): Adjust the moov start time from 0 us -> 0 us
-I/MPEG4Writer(27316): MOOV atom was written to the file
-D/MPEG4Writer(27316): release()
-D/MPEG4Writer(27316): ftruncate mPreAllocateFileEndOffset:987158 mOffset:3044 mMdatEndOffset:983120 diff:4038
-I/MPEG4Writer(27316): posix_fadvise OK
-D/MPEG4Writer(27316): final fsync() takes 9 ms, file size 983120
-D/MPEG4Writer(27316): MP4WtrCtrlHlpLooper stopped
-D/MPEG4Writer(27316): Top 5 write durations(microseconds): #1:70 #2:71 #3:264 #4:269 #5:293
-D/MPEG4Writer(27316): reset()
-D/MPEG4Writer(27316): Audio track stopping. Stop source
-E/MPEG4Writer(27316): Stop() called but track is not started or stopped
-D/MPEG4Writer(27316): Video track stopping. Stop source
-E/MPEG4Writer(27316): Stop() called but track is not started or stopped
-I/flutter (27316): [FQVE] <finish> result: null
-I/flutter (27316): [21:41:29] INFO/QuickVideoEncoderService: Tamanho do arquivo de vídeo gerado: 983120 bytes
-I/flutter (27316): [21:41:29] INFO/QuickVideoEncoderService: Vídeo gerado com sucesso: /data/user/0/com.example.video_maker/cache/video_output/video_1749516070350.mp4
-I/flutter (27316): [21:41:29] INFO/VideoGeneratorService: Salvando vídeo localmente: /data/user/0/com.example.video_maker/cache/video_output/video_1749516070350.mp4
-I/flutter (27316): Verificação de espaço: 0.94 MB necessários
-I/flutter (27316): Vídeo salvo com sucesso na galeria
-I/flutter (27316): [21:41:29] INFO/VideoGeneratorService: Vídeo salvo na galeria: /data/user/0/com.example.video_maker/cache/video_output/video_1749516070350.mp4
-I/flutter (27316): Permissão de armazenamento negada
-I/flutter (27316): [21:41:29] WARNING/VideoGeneratorService: Não foi possível salvar o vídeo na pasta de downloads
-I/flutter (27316): Aviso: Falha ao salvar vídeo localmente, mas o arquivo foi gerado com sucesso
-D/CompatibilityChangeReporter(27316): Compat change id reported: 160794467; UID 10495; state: ENABLED
-D/BufferPoolAccessor2.0(27316): bufferpool2 0xb400006fe133f228 : 0(0 size) total buffers - 0(0 size) used buffers - 316/321 (recycle/alloc) - 5/632 (fetch/transfer)
-D/BufferPoolAccessor2.0(27316): evictor expired: 1, evicted: 1
-D/Surface (27316): Surface::disconnect
-D/BufferQueueProducer(27316): [SurfaceView[com.example.video_maker/com.example.video_maker.MainActivity]#11(BLAST Consumer)11](id:6ab40000000b,api:1,p:27316,c:27316) disconnect: api -1
-D/Surface (27316): Surface::disconnect
-D/BufferQueueProducer(27316): [VRI[MainActivity]#10(BLAST Consumer)10](id:6ab40000000a,api:1,p:27316,c:27316) disconnect: api 1
-D/BufferPoolAccessor2.0(27316): bufferpool2 0xb400006fe184bc28 : 2(16384 size) total buffers - 2(16384 size) used buffers - 196/205 (recycle/alloc) - 14/402 (fetch/transfer)
-D/BufferPoolAccessor2.0(27316): bufferpool2 0xb400006fe142f028 : 0(0 size) total buffers - 0(0 size) used buffers - 28/37 (recycle/alloc) - 13/72 (fetch/transfer)
-D/BufferPoolAccessor2.0(27316): bufferpool2 0xb400006fe97cf028 : 0(0 size) total buffers - 0(0 size) used buffers - 8/13 (recycle/alloc) - 4/8 (fetch/transfer)
-D/BufferPoolAccessor2.0(27316): Destruction - bufferpool2 0xb400006fe97cf028 cached: 0/0M, 0/0% in use; allocs: 13, 62% recycled; transfers: 8, 50% unfetched
-D/BufferPoolAccessor2.0(27316): bufferpool2 0xb400006fe1322628 : 0(0 size) total buffers - 0(0 size) used buffers - 8/13 (recycle/alloc) - 4/8 (fetch/transfer)
-D/BufferPoolAccessor2.0(27316): Destruction - bufferpool2 0xb400006fe1322628 cached: 0/0M, 0/0% in use; allocs: 13, 62% recycled; transfers: 8, 50% unfetched
-D/BufferPoolAccessor2.0(27316): bufferpool2 0xb400006fe133f628 : 0(0 size) total buffers - 0(0 size) used buffers - 8/13 (recycle/alloc) - 4/8 (fetch/transfer)
-D/BufferPoolAccessor2.0(27316): Destruction - bufferpool2 0xb400006fe133f628 cached: 0/0M, 0/0% in use; allocs: 13, 62% recycled; transfers: 8, 50% unfetched
-D/BufferPoolAccessor2.0(27316): bufferpool2 0xb400006fe133f228 : 0(0 size) total buffers - 0(0 size) used buffers - 316/321 (recycle/alloc) - 5/632 (fetch/transfer)
-D/BufferPoolAccessor2.0(27316): Destruction - bufferpool2 0xb400006fe133f228 cached: 0/0M, 0/0% in use; allocs: 321, 98% recycled; transfers: 632, 99% unfetched
-D/BufferPoolAccessor2.0(27316): bufferpool2 0xb400006fe142f028 : 0(0 size) total buffers - 0(0 size) used buffers - 28/37 (recycle/alloc) - 13/72 (fetch/transfer)
-D/BufferPoolAccessor2.0(27316): bufferpool2 0xb400006fe184bc28 : 2(16384 size) total buffers - 2(16384 size) used buffers - 196/205 (recycle/alloc) - 14/402 (fetch/transfer)
-D/BufferPoolAccessor2.0(27316): evictor expired: 3, evicted: 2
-D/BufferPoolAccessor2.0(27316): evictor expired: 3, evicted: 0
-D/AudioManager(27316): dispatching onAudioFocusChange(-2) to android.media.AudioManager@b6f7edcom.ryanheise.audio_session.AndroidAudioManager$Singleton$$ExternalSyntheticLambda0@bbff622
+[useAar - Post-Processing] Fallback: Failed to resolve 'implementation': Resolving dependency configuration 'implementation' is not allowed as it is defined as 'canBeResolved=false'.
+Instead, a resolvable ('canBeResolved=true') dependency configuration that extends 'implementation' should be resolved.
+✓ Built build/app/outputs/flutter-apk/app-debug.apk
+I/flutter ( 8921): [IMPORTANT:flutter/shell/platform/android/android_context_vk_impeller.cc(60)] Using the Impeller rendering backend (Vulkan).
+Connecting to VM Service at ws://127.0.0.1:34145/NmnQS2kz04Y=/ws
+Connected to the VM Service.
+I/Choreographer( 8921): Skipped 80 frames!  The application may be doing too much work on its main thread.
+D/ProfileInstaller( 8921): Installing profile for com.example.video_maker
+W/WindowOnBackDispatcher( 8921): OnBackInvokedCallback is not enabled for the application.
+W/WindowOnBackDispatcher( 8921): Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+D/Surface ( 8921): Surface::disconnect
+D/BufferQueueProducer( 8921): [SurfaceView[com.example.video_maker/com.example.video_maker.MainActivity]#1(BLAST Consumer)1](id:22d900000001,api:1,p:8921,c:8921) disconnect: api -1
+D/Surface ( 8921): Surface::disconnect
+D/BufferQueueProducer( 8921): [VRI[MainActivity]#0(BLAST Consumer)0](id:22d900000000,api:1,p:8921,c:8921) disconnect: api 1
+D/CompatibilityChangeReporter( 8921): Compat change id reported: 78294732; UID 10495; state: ENABLED
+D/ffmpeg-kit-flutter( 8921): selectDocument completed with requestCode: 36233, resultCode: -1, data: Intent { dat=content://com.android.providers.media.documents/... flg=0x43 }.
+I/ffmpeg-kit-flutter( 8921): FFmpegKitFlutterPlugin ignored unsupported activity result for requestCode: 36233.
+E/OpenGLRenderer( 8921): Unable to match the desired swap behavior.
+E/qdgralloc( 8921): GetGpuPixelFormat: No map for format: 0x38
+E/AdrenoUtils( 8921): <validate_memory_layout_input_parmas:1970>: Unknown Format 0
+E/AdrenoUtils( 8921): <adreno_init_memory_layout:4720>: Memory Layout input parameter validation failed!
+W/qdgralloc( 8921): GetGpuResourceSizeAndDimensions Graphics metadata init failed
+E/Gralloc4( 8921): isSupported(1, 1, 56, 1, ...) failed with 7
+E/GraphicBufferAllocator( 8921): Failed to allocate (4 x 4) layerCount 1 format 56 usage b00: 7
+E/AHardwareBuffer( 8921): GraphicBuffer(w=4, h=4, lc=1) failed (Unknown error -7), handle=0x0
+E/qdgralloc( 8921): GetGpuPixelFormat: No map for format: 0x3b
+E/AdrenoUtils( 8921): <validate_memory_layout_input_parmas:1970>: Unknown Format 0
+E/AdrenoUtils( 8921): <adreno_init_memory_layout:4720>: Memory Layout input parameter validation failed!
+W/qdgralloc( 8921): GetGpuResourceSizeAndDimensions Graphics metadata init failed
+E/Gralloc4( 8921): isSupported(1, 1, 59, 1, ...) failed with 7
+E/GraphicBufferAllocator( 8921): Failed to allocate (4 x 4) layerCount 1 format 59 usage b00: 7
+E/AHardwareBuffer( 8921): GraphicBuffer(w=4, h=4, lc=1) failed (Unknown error -7), handle=0x0
+E/qdgralloc( 8921): GetGpuPixelFormat: No map for format: 0x38
+E/AdrenoUtils( 8921): <validate_memory_layout_input_parmas:1970>: Unknown Format 0
+E/AdrenoUtils( 8921): <adreno_init_memory_layout:4720>: Memory Layout input parameter validation failed!
+W/qdgralloc( 8921): GetGpuResourceSizeAndDimensions Graphics metadata init failed
+E/Gralloc4( 8921): isSupported(1, 1, 56, 1, ...) failed with 7
+E/GraphicBufferAllocator( 8921): Failed to allocate (4 x 4) layerCount 1 format 56 usage b00: 7
+E/AHardwareBuffer( 8921): GraphicBuffer(w=4, h=4, lc=1) failed (Unknown error -7), handle=0x0
+E/qdgralloc( 8921): GetGpuPixelFormat: No map for format: 0x3b
+E/AdrenoUtils( 8921): <validate_memory_layout_input_parmas:1970>: Unknown Format 0
+E/AdrenoUtils( 8921): <adreno_init_memory_layout:4720>: Memory Layout input parameter validation failed!
+W/qdgralloc( 8921): GetGpuResourceSizeAndDimensions Graphics metadata init failed
+E/Gralloc4( 8921): isSupported(1, 1, 59, 1, ...) failed with 7
+E/GraphicBufferAllocator( 8921): Failed to allocate (4 x 4) layerCount 1 format 59 usage b00: 7
+E/AHardwareBuffer( 8921): GraphicBuffer(w=4, h=4, lc=1) failed (Unknown error -7), handle=0x0
+D/Surface ( 8921): Surface::disconnect
+D/BufferQueueProducer( 8921): [SurfaceView[com.example.video_maker/com.example.video_maker.MainActivity]#1(BLAST Consumer)1](id:22d900000001,api:0,p:-1,c:8921) disconnect: api 1
+I/ExoPlayerImpl( 8921): Init c7bc11d [AndroidXMedia3/1.4.1] [penang, moto g53 5G, motorola, 34]
+W/ple.video_maker( 8921): Accessing hidden method Landroid/media/AudioTrack;->getLatency()I (unsupported, reflection, allowed)
+W/VideoCapabilities( 8921): Unsupported mime image/vnd.android.heic
+W/VideoCapabilities( 8921): Unsupported mime image/vnd.android.heic
+I/DMCodecAdapterFactory( 8921): Creating an asynchronous MediaCodec adapter for track type audio
+I/MediaCodec( 8921): (0xb400006f981e3800) init name(c2.android.mp3.decoder)
+D/CCodec  ( 8921): allocate(c2.android.mp3.decoder)
+I/Codec2Client( 8921): Available Codec2 services: "default" "default9" "software"
+I/CCodec  ( 8921): setting up 'default' as default (vendor) store
+I/CCodec  ( 8921): Created component [c2.android.mp3.decoder]
+D/CCodecConfig( 8921): read media type: audio/mpeg
+D/ReflectedParamUpdater( 8921): extent() != 1 for single value type: algo.buffers.max-count.values
+D/ReflectedParamUpdater( 8921): extent() != 1 for single value type: output.subscribed-indices.values
+D/ReflectedParamUpdater( 8921): extent() != 1 for single value type: input.buffers.allocator-ids.values
+D/ReflectedParamUpdater( 8921): extent() != 1 for single value type: output.buffers.allocator-ids.values
+D/ReflectedParamUpdater( 8921): extent() != 1 for single value type: algo.buffers.allocator-ids.values
+D/ReflectedParamUpdater( 8921): extent() != 1 for single value type: output.buffers.pool-ids.values
+D/ReflectedParamUpdater( 8921): extent() != 1 for single value type: algo.buffers.pool-ids.values
+I/CCodecConfig( 8921): query failed after returning 7 values (BAD_INDEX)
+D/CCodecConfig( 8921): c2 config diff is Dict {
+D/CCodecConfig( 8921):   c2::u32 coded.bitrate.value = 64000
+D/CCodecConfig( 8921):   c2::u32 input.buffers.max-size.value = 8192
+D/CCodecConfig( 8921):   c2::u32 input.delay.value = 0
+D/CCodecConfig( 8921):   string input.media-type.value = "audio/mpeg"
+D/CCodecConfig( 8921):   string output.media-type.value = "audio/raw"
+D/CCodecConfig( 8921):   c2::u32 raw.channel-count.value = 2
+D/CCodecConfig( 8921):   c2::u32 raw.sample-rate.value = 44100
+D/CCodecConfig( 8921): }
+I/MediaCodec( 8921): (0xb400006f981e3800) Component Allocated (c2.android.mp3.decoder)
+I/MediaCodec( 8921): MediaCodec will operate in async mode
+I/MediaCodec( 8921): (0xb400006f981e3800) configure surface(0x0) crypto(0x0) flags(0)
+D/MediaCodec( 8921): (0xb400006f981e3800) configure format: AMessage(what = 0x00000000) = {
+D/MediaCodec( 8921):       float operating-rate = 48000.000000
+D/MediaCodec( 8921):       string log-session-id = "Ifb7B-67SHYMMdV2"
+D/MediaCodec( 8921):       int32_t sample-rate = 48000
+D/MediaCodec( 8921):       string mime = "audio/mpeg"
+D/MediaCodec( 8921):       int32_t channel-count = 2
+D/MediaCodec( 8921):       int32_t priority = 0
+D/MediaCodec( 8921):       int32_t max-output-channel-count = 99
+D/MediaCodec( 8921):       int32_t max-input-size = 4096
+D/MediaCodec( 8921):     }
+D/MediaCodec( 8921): flushMediametrics
+D/CCodec  ( 8921): [c2.android.mp3.decoder] buffers are bound to CCodec for this session
+D/CCodecConfig( 8921): no c2 equivalents for log-session-id
+D/CCodecConfig( 8921): no c2 equivalents for flags
+D/CCodecConfig( 8921): config failed => CORRUPTED
+D/CCodecConfig( 8921): c2 config diff is   c2::u32 raw.sample-rate.value = 48000
+W/Codec2Client( 8921): query -- param skipped: index = 1107298332.
+D/CCodec  ( 8921): client requested max input size 4096, which is smaller than what component recommended (8192); overriding with component recommendation.
+W/CCodec  ( 8921): This behavior is subject to change. It is recommended that app developers double check whether the requested max input size is in reasonable range.
+D/CCodec  ( 8921): encoding statistics level = 0
+D/CCodec  ( 8921): setup formats input: AMessage(what = 0x00000000) = {
+D/CCodec  ( 8921):   int32_t bitrate = 64000
+D/CCodec  ( 8921):   int32_t channel-count = 2
+D/CCodec  ( 8921):   int32_t max-input-size = 8192
+D/CCodec  ( 8921):   string mime = "audio/mpeg"
+D/CCodec  ( 8921):   int32_t sample-rate = 48000
+D/CCodec  ( 8921): }
+D/CCodec  ( 8921): setup formats output: AMessage(what = 0x00000000) = {
+D/CCodec  ( 8921):   int32_t channel-count = 2
+D/CCodec  ( 8921):   string mime = "audio/raw"
+D/CCodec  ( 8921):   int32_t sample-rate = 48000
+D/CCodec  ( 8921):   int32_t android._config-pcm-encoding = 2
+D/CCodec  ( 8921): }
+I/CCodecConfig( 8921): query failed after returning 7 values (BAD_INDEX)
+I/MediaCodec( 8921): (0xb400006f981e3800) start
+D/MediaCodec( 8921): keep callback message for reclaim
+W/Codec2Client( 8921): query -- param skipped: index = 1342179345.
+W/Codec2Client( 8921): query -- param skipped: index = 2415921170.
+D/C2Store ( 8921): Using ION
+D/CCodecBufferChannel( 8921): [c2.android.mp3.decoder#709] Created input block pool with allocatorID 16 => poolID 17 - OK (0)
+I/CCodecBufferChannel( 8921): [c2.android.mp3.decoder#709] Created output block pool with allocatorID 16 => poolID 6139 - OK
+D/CCodecBufferChannel( 8921): [c2.android.mp3.decoder#709] Configured output block pool ids 6139 => OK
+D/CCodecBufferChannel( 8921): [c2.android.mp3.decoder#709] start: updating output delay 0
+I/MediaCodec( 8921): (0xb400006f981e3800) kWhatStartCompleted
+D/AudioTrack( 8921): The audio hal latency is 109
+D/AudioTrack( 8921): setVolume: mRelativePercentage:1.000000, left:1.000000, right:1.000000
+D/Surface ( 8921): Surface::disconnect
+D/BufferQueueProducer( 8921): [SurfaceView[com.example.video_maker/com.example.video_maker.MainActivity]#3(BLAST Consumer)3](id:22d900000003,api:1,p:8921,c:8921) disconnect: api -1
+D/Surface ( 8921): Surface::disconnect
+D/BufferQueueProducer( 8921): [VRI[MainActivity]#2(BLAST Consumer)2](id:22d900000002,api:1,p:8921,c:8921) disconnect: api 1
+D/ffmpeg-kit-flutter( 8921): selectDocument completed with requestCode: 36233, resultCode: -1, data: Intent { dat=content://com.android.providers.media.documents/... flg=0x43 }.
+I/ffmpeg-kit-flutter( 8921): FFmpegKitFlutterPlugin ignored unsupported activity result for requestCode: 36233.
+E/OpenGLRenderer( 8921): Unable to match the desired swap behavior.
+E/qdgralloc( 8921): GetGpuPixelFormat: No map for format: 0x38
+E/AdrenoUtils( 8921): <validate_memory_layout_input_parmas:1970>: Unknown Format 0
+E/AdrenoUtils( 8921): <adreno_init_memory_layout:4720>: Memory Layout input parameter validation failed!
+W/qdgralloc( 8921): GetGpuResourceSizeAndDimensions Graphics metadata init failed
+E/Gralloc4( 8921): isSupported(1, 1, 56, 1, ...) failed with 7
+E/GraphicBufferAllocator( 8921): Failed to allocate (4 x 4) layerCount 1 format 56 usage b00: 7
+E/AHardwareBuffer( 8921): GraphicBuffer(w=4, h=4, lc=1) failed (Unknown error -7), handle=0x0
+E/qdgralloc( 8921): GetGpuPixelFormat: No map for format: 0x3b
+E/AdrenoUtils( 8921): <validate_memory_layout_input_parmas:1970>: Unknown Format 0
+E/AdrenoUtils( 8921): <adreno_init_memory_layout:4720>: Memory Layout input parameter validation failed!
+W/qdgralloc( 8921): GetGpuResourceSizeAndDimensions Graphics metadata init failed
+E/Gralloc4( 8921): isSupported(1, 1, 59, 1, ...) failed with 7
+E/GraphicBufferAllocator( 8921): Failed to allocate (4 x 4) layerCount 1 format 59 usage b00: 7
+E/AHardwareBuffer( 8921): GraphicBuffer(w=4, h=4, lc=1) failed (Unknown error -7), handle=0x0
+E/qdgralloc( 8921): GetGpuPixelFormat: No map for format: 0x38
+E/AdrenoUtils( 8921): <validate_memory_layout_input_parmas:1970>: Unknown Format 0
+E/AdrenoUtils( 8921): <adreno_init_memory_layout:4720>: Memory Layout input parameter validation failed!
+W/qdgralloc( 8921): GetGpuResourceSizeAndDimensions Graphics metadata init failed
+E/Gralloc4( 8921): isSupported(1, 1, 56, 1, ...) failed with 7
+E/GraphicBufferAllocator( 8921): Failed to allocate (4 x 4) layerCount 1 format 56 usage b00: 7
+E/AHardwareBuffer( 8921): GraphicBuffer(w=4, h=4, lc=1) failed (Unknown error -7), handle=0x0
+E/qdgralloc( 8921): GetGpuPixelFormat: No map for format: 0x3b
+E/AdrenoUtils( 8921): <validate_memory_layout_input_parmas:1970>: Unknown Format 0
+E/AdrenoUtils( 8921): <adreno_init_memory_layout:4720>: Memory Layout input parameter validation failed!
+W/qdgralloc( 8921): GetGpuResourceSizeAndDimensions Graphics metadata init failed
+E/Gralloc4( 8921): isSupported(1, 1, 59, 1, ...) failed with 7
+E/GraphicBufferAllocator( 8921): Failed to allocate (4 x 4) layerCount 1 format 59 usage b00: 7
+E/AHardwareBuffer( 8921): GraphicBuffer(w=4, h=4, lc=1) failed (Unknown error -7), handle=0x0
+D/Surface ( 8921): Surface::disconnect
+D/BufferQueueProducer( 8921): [SurfaceView[com.example.video_maker/com.example.video_maker.MainActivity]#3(BLAST Consumer)3](id:22d900000003,api:0,p:-1,c:8921) disconnect: api 1
+I/Choreographer( 8921): Skipped 44 frames!  The application may be doing too much work on its main thread.
+I/ExoPlayerImpl( 8921): Init e9efdbb [AndroidXMedia3/1.4.1] [penang, moto g53 5G, motorola, 34]
+I/DMCodecAdapterFactory( 8921): Creating an asynchronous MediaCodec adapter for track type audio
+I/MediaCodec( 8921): (0xb400006fe180e000) init name(c2.android.mp3.decoder)
+D/CCodec  ( 8921): allocate(c2.android.mp3.decoder)
+I/CCodec  ( 8921): setting up 'default' as default (vendor) store
+I/CCodec  ( 8921): Created component [c2.android.mp3.decoder]
+D/CCodecConfig( 8921): read media type: audio/mpeg
+D/ReflectedParamUpdater( 8921): extent() != 1 for single value type: algo.buffers.max-count.values
+D/ReflectedParamUpdater( 8921): extent() != 1 for single value type: output.subscribed-indices.values
+D/ReflectedParamUpdater( 8921): extent() != 1 for single value type: input.buffers.allocator-ids.values
+D/ReflectedParamUpdater( 8921): extent() != 1 for single value type: output.buffers.allocator-ids.values
+D/ReflectedParamUpdater( 8921): extent() != 1 for single value type: algo.buffers.allocator-ids.values
+D/ReflectedParamUpdater( 8921): extent() != 1 for single value type: output.buffers.pool-ids.values
+D/ReflectedParamUpdater( 8921): extent() != 1 for single value type: algo.buffers.pool-ids.values
+I/CCodecConfig( 8921): query failed after returning 7 values (BAD_INDEX)
+D/CCodecConfig( 8921): c2 config diff is Dict {
+D/CCodecConfig( 8921):   c2::u32 coded.bitrate.value = 64000
+D/CCodecConfig( 8921):   c2::u32 input.buffers.max-size.value = 8192
+D/CCodecConfig( 8921):   c2::u32 input.delay.value = 0
+D/CCodecConfig( 8921):   string input.media-type.value = "audio/mpeg"
+D/CCodecConfig( 8921):   string output.media-type.value = "audio/raw"
+D/CCodecConfig( 8921):   c2::u32 raw.channel-count.value = 2
+D/CCodecConfig( 8921):   c2::u32 raw.sample-rate.value = 44100
+D/CCodecConfig( 8921): }
+I/MediaCodec( 8921): (0xb400006fe180e000) Component Allocated (c2.android.mp3.decoder)
+I/MediaCodec( 8921): MediaCodec will operate in async mode
+I/MediaCodec( 8921): (0xb400006fe180e000) configure surface(0x0) crypto(0x0) flags(0)
+D/MediaCodec( 8921): (0xb400006fe180e000) configure format: AMessage(what = 0x00000000) = {
+D/MediaCodec( 8921):       float operating-rate = 48000.000000
+D/MediaCodec( 8921):       string log-session-id = "NZZwr0wuZsw_P6Nr"
+D/MediaCodec( 8921):       int32_t sample-rate = 48000
+D/MediaCodec( 8921):       string mime = "audio/mpeg"
+D/MediaCodec( 8921):       int32_t channel-count = 2
+D/MediaCodec( 8921):       int32_t priority = 0
+D/MediaCodec( 8921):       int32_t max-output-channel-count = 99
+D/MediaCodec( 8921):       int32_t max-input-size = 4096
+D/MediaCodec( 8921):     }
+D/MediaCodec( 8921): flushMediametrics
+D/CCodec  ( 8921): [c2.android.mp3.decoder] buffers are bound to CCodec for this session
+D/CCodecConfig( 8921): no c2 equivalents for log-session-id
+D/CCodecConfig( 8921): no c2 equivalents for flags
+D/CCodecConfig( 8921): config failed => CORRUPTED
+D/CCodecConfig( 8921): c2 config diff is   c2::u32 raw.sample-rate.value = 48000
+W/Codec2Client( 8921): query -- param skipped: index = 1107298332.
+D/CCodec  ( 8921): client requested max input size 4096, which is smaller than what component recommended (8192); overriding with component recommendation.
+W/CCodec  ( 8921): This behavior is subject to change. It is recommended that app developers double check whether the requested max input size is in reasonable range.
+D/CCodec  ( 8921): encoding statistics level = 0
+D/CCodec  ( 8921): setup formats input: AMessage(what = 0x00000000) = {
+D/CCodec  ( 8921):   int32_t bitrate = 64000
+D/CCodec  ( 8921):   int32_t channel-count = 2
+D/CCodec  ( 8921):   int32_t max-input-size = 8192
+D/CCodec  ( 8921):   string mime = "audio/mpeg"
+D/CCodec  ( 8921):   int32_t sample-rate = 48000
+D/CCodec  ( 8921): }
+D/CCodec  ( 8921): setup formats output: AMessage(what = 0x00000000) = {
+D/CCodec  ( 8921):   int32_t channel-count = 2
+D/CCodec  ( 8921):   string mime = "audio/raw"
+D/CCodec  ( 8921):   int32_t sample-rate = 48000
+D/CCodec  ( 8921):   int32_t android._config-pcm-encoding = 2
+D/CCodec  ( 8921): }
+I/CCodecConfig( 8921): query failed after returning 7 values (BAD_INDEX)
+I/MediaCodec( 8921): (0xb400006fe180e000) start
+D/MediaCodec( 8921): keep callback message for reclaim
+W/Codec2Client( 8921): query -- param skipped: index = 1342179345.
+W/Codec2Client( 8921): query -- param skipped: index = 2415921170.
+D/CCodecBufferChannel( 8921): [c2.android.mp3.decoder#746] Created input block pool with allocatorID 16 => poolID 18 - OK (0)
+I/CCodecBufferChannel( 8921): [c2.android.mp3.decoder#746] Created output block pool with allocatorID 16 => poolID 6141 - OK
+D/CCodecBufferChannel( 8921): [c2.android.mp3.decoder#746] Configured output block pool ids 6141 => OK
+D/CCodecBufferChannel( 8921): [c2.android.mp3.decoder#746] start: updating output delay 0
+I/MediaCodec( 8921): (0xb400006fe180e000) kWhatStartCompleted
+I/MediaCodec( 8921): (0xb400006fe180e000) flush
+I/MediaCodec( 8921): (0xb400006fe180e000) start
+D/MediaCodec( 8921): keep callback message for reclaim
+I/CCodecConfig( 8921): query failed after returning 7 values (BAD_INDEX)
+W/Codec2Client( 8921): query -- param skipped: index = 1342179345.
+W/Codec2Client( 8921): query -- param skipped: index = 2415921170.
+D/CCodecBufferChannel( 8921): [c2.android.mp3.decoder#746] start: updating output delay 0
+D/CCodecBufferChannel( 8921): [c2.android.mp3.decoder#746] MediaCodec discarded an unknown buffer
+D/CCodecBufferChannel( 8921): [c2.android.mp3.decoder#746] MediaCodec discarded an unknown buffer
+D/CCodecBufferChannel( 8921): [c2.android.mp3.decoder#746] MediaCodec discarded an unknown buffer
+D/CCodecBufferChannel( 8921): [c2.android.mp3.decoder#746] MediaCodec discarded an unknown buffer
+I/hw-BpHwBinder( 8921): onLastStrongRef automatically unlinking death recipients
+D/MediaCodec( 8921): flushMediametrics
+D/MediaCodec( 8921): flushMediametrics
+W/MediaCodec( 8921): no metrics handle found
+I/DMCodecAdapterFactory( 8921): Creating an asynchronous MediaCodec adapter for track type audio
+I/MediaCodec( 8921): (0xb400006fe180e000) init name(c2.android.mp3.decoder)
+D/CCodec  ( 8921): allocate(c2.android.mp3.decoder)
+I/CCodec  ( 8921): setting up 'default' as default (vendor) store
+I/CCodec  ( 8921): Created component [c2.android.mp3.decoder]
+D/CCodecConfig( 8921): read media type: audio/mpeg
+D/ReflectedParamUpdater( 8921): extent() != 1 for single value type: algo.buffers.max-count.values
+D/ReflectedParamUpdater( 8921): extent() != 1 for single value type: output.subscribed-indices.values
+D/ReflectedParamUpdater( 8921): extent() != 1 for single value type: input.buffers.allocator-ids.values
+D/ReflectedParamUpdater( 8921): extent() != 1 for single value type: output.buffers.allocator-ids.values
+D/ReflectedParamUpdater( 8921): extent() != 1 for single value type: algo.buffers.allocator-ids.values
+D/ReflectedParamUpdater( 8921): extent() != 1 for single value type: output.buffers.pool-ids.values
+D/ReflectedParamUpdater( 8921): extent() != 1 for single value type: algo.buffers.pool-ids.values
+I/CCodecConfig( 8921): query failed after returning 7 values (BAD_INDEX)
+D/CCodecConfig( 8921): c2 config diff is Dict {
+D/CCodecConfig( 8921):   c2::u32 coded.bitrate.value = 64000
+D/CCodecConfig( 8921):   c2::u32 input.buffers.max-size.value = 8192
+D/CCodecConfig( 8921):   c2::u32 input.delay.value = 0
+D/CCodecConfig( 8921):   string input.media-type.value = "audio/mpeg"
+D/CCodecConfig( 8921):   string output.media-type.value = "audio/raw"
+D/CCodecConfig( 8921):   c2::u32 raw.channel-count.value = 2
+D/CCodecConfig( 8921):   c2::u32 raw.sample-rate.value = 44100
+D/CCodecConfig( 8921): }
+I/MediaCodec( 8921): (0xb400006fe180e000) Component Allocated (c2.android.mp3.decoder)
+I/MediaCodec( 8921): MediaCodec will operate in async mode
+I/MediaCodec( 8921): (0xb400006fe180e000) configure surface(0x0) crypto(0x0) flags(0)
+D/MediaCodec( 8921): (0xb400006fe180e000) configure format: AMessage(what = 0x00000000) = {
+D/MediaCodec( 8921):       float operating-rate = 48000.000000
+D/MediaCodec( 8921):       string log-session-id = "NZZwr0wuZsw_P6Nr"
+D/MediaCodec( 8921):       int32_t sample-rate = 48000
+D/MediaCodec( 8921):       string mime = "audio/mpeg"
+D/MediaCodec( 8921):       int32_t channel-count = 2
+D/MediaCodec( 8921):       int32_t priority = 0
+D/MediaCodec( 8921):       int32_t max-output-channel-count = 99
+D/MediaCodec( 8921):       int32_t max-input-size = 4096
+D/MediaCodec( 8921):     }
+D/MediaCodec( 8921): flushMediametrics
+D/CCodec  ( 8921): [c2.android.mp3.decoder] buffers are bound to CCodec for this session
+D/CCodecConfig( 8921): no c2 equivalents for log-session-id
+D/CCodecConfig( 8921): no c2 equivalents for flags
+D/CCodecConfig( 8921): config failed => CORRUPTED
+D/CCodecConfig( 8921): c2 config diff is   c2::u32 raw.sample-rate.value = 48000
+W/Codec2Client( 8921): query -- param skipped: index = 1107298332.
+D/CCodec  ( 8921): client requested max input size 4096, which is smaller than what component recommended (8192); overriding with component recommendation.
+W/CCodec  ( 8921): This behavior is subject to change. It is recommended that app developers double check whether the requested max input size is in reasonable range.
+D/CCodec  ( 8921): encoding statistics level = 0
+D/CCodec  ( 8921): setup formats input: AMessage(what = 0x00000000) = {
+D/CCodec  ( 8921):   int32_t bitrate = 64000
+D/CCodec  ( 8921):   int32_t channel-count = 2
+D/CCodec  ( 8921):   int32_t max-input-size = 8192
+D/CCodec  ( 8921):   string mime = "audio/mpeg"
+D/CCodec  ( 8921):   int32_t sample-rate = 48000
+D/CCodec  ( 8921): }
+D/CCodec  ( 8921): setup formats output: AMessage(what = 0x00000000) = {
+D/CCodec  ( 8921):   int32_t channel-count = 2
+D/CCodec  ( 8921):   string mime = "audio/raw"
+D/CCodec  ( 8921):   int32_t sample-rate = 48000
+D/CCodec  ( 8921):   int32_t android._config-pcm-encoding = 2
+D/CCodec  ( 8921): }
+I/CCodecConfig( 8921): query failed after returning 7 values (BAD_INDEX)
+I/MediaCodec( 8921): (0xb400006fe180e000) start
+D/MediaCodec( 8921): keep callback message for reclaim
+W/Codec2Client( 8921): query -- param skipped: index = 1342179345.
+W/Codec2Client( 8921): query -- param skipped: index = 2415921170.
+D/CCodecBufferChannel( 8921): [c2.android.mp3.decoder#882] Created input block pool with allocatorID 16 => poolID 19 - OK (0)
+I/CCodecBufferChannel( 8921): [c2.android.mp3.decoder#882] Created output block pool with allocatorID 16 => poolID 6143 - OK
+D/CCodecBufferChannel( 8921): [c2.android.mp3.decoder#882] Configured output block pool ids 6143 => OK
+D/CCodecBufferChannel( 8921): [c2.android.mp3.decoder#882] start: updating output delay 0
+I/MediaCodec( 8921): (0xb400006fe180e000) kWhatStartCompleted
+D/AudioTrack( 8921): The audio hal latency is 109
+D/AudioTrack( 8921): setVolume: mRelativePercentage:1.000000, left:1.000000, right:1.000000
+
+════════ Exception caught by rendering library ═════════════════════════════════
+The following assertion was thrown during performLayout():
+RenderFlex children have non-zero flex but incoming height constraints are unbounded.
+When a column is in a parent that does not provide a finite height constraint, for example if it is in a vertical scrollable, it will try to shrink-wrap its children along the vertical axis. Setting a flex on a child (e.g. using Expanded) indicates that the child is to expand to fill the remaining space in the vertical direction.
+These two directives are mutually exclusive. If a parent is to shrink-wrap its child, the child cannot simultaneously expand to fit its parent.
+Consider setting mainAxisSize to MainAxisSize.min and using FlexFit.loose fits for the flexible children (using Flexible rather than Expanded). This will allow the flexible children to size themselves to less than the infinite remaining space they would otherwise be forced to take, and then will cause the RenderFlex to shrink-wrap the children rather than expanding to fit the maximum constraints provided by the parent.
+If this message did not help you determine the problem, consider using debugDumpRenderTree():
+  https://flutter.dev/to/debug-render-layer
+  https://api.flutter.dev/flutter/rendering/debugDumpRenderTree.html
+The affected RenderFlex is: RenderFlex#7f8e8 relayoutBoundary=up13 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+    parentData: <none> (can use size)
+    constraints: BoxConstraints(0.0<=w<=379.4, 716.3<=h<=Infinity)
+    size: MISSING
+    direction: vertical
+    mainAxisAlignment: start
+    mainAxisSize: min
+    crossAxisAlignment: stretch
+    verticalDirection: down
+    spacing: 0.0
+    child 1: RenderSemanticsAnnotations#5a988 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+        parentData: offset=Offset(0.0, 0.0); flex=null; fit=null
+        constraints: MISSING
+        semantic boundary
+        size: MISSING
+        child: RenderPadding#f78c4 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+            parentData: <none>
+            constraints: MISSING
+            size: MISSING
+            padding: EdgeInsets.all(4.0)
+            textDirection: ltr
+            child: RenderPhysicalShape#fc7e8 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+                parentData: offset=Offset(0.0, 0.0)
+                constraints: MISSING
+                size: MISSING
+                elevation: 1.0
+                color: Color(alpha: 1.0000, red: 0.9725, green: 0.9451, blue: 0.9804, colorSpace: ColorSpace.sRGB)
+                shadowColor: Color(alpha: 1.0000, red: 0.9725, green: 0.9451, blue: 0.9804, colorSpace: ColorSpace.sRGB)
+                clipper: ShapeBorderClipper
+                child: RenderCustomPaint#820ab NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+                    parentData: <none>
+                    constraints: MISSING
+                    size: MISSING
+                    painter: null
+                    foregroundPainter: _ShapeBorderPainter#e41c4()
+    child 2: RenderConstrainedBox#359ce NEEDS-LAYOUT NEEDS-PAINT
+        parentData: offset=Offset(0.0, 0.0); flex=null; fit=null
+        constraints: MISSING
+        size: MISSING
+        additionalConstraints: BoxConstraints(0.0<=w<=Infinity, h=16.0)
+    child 3: RenderSemanticsAnnotations#78a1a NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+        parentData: offset=Offset(0.0, 0.0); flex=null; fit=null
+        constraints: MISSING
+        semantic boundary
+        size: MISSING
+        child: RenderPadding#8c90b NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+            parentData: <none>
+            constraints: MISSING
+            size: MISSING
+            padding: EdgeInsets.all(4.0)
+            textDirection: ltr
+            child: RenderPhysicalShape#70b81 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+                parentData: offset=Offset(0.0, 0.0)
+                constraints: MISSING
+                size: MISSING
+                elevation: 1.0
+                color: Color(alpha: 1.0000, red: 0.9725, green: 0.9451, blue: 0.9804, colorSpace: ColorSpace.sRGB)
+                shadowColor: Color(alpha: 1.0000, red: 0.9725, green: 0.9451, blue: 0.9804, colorSpace: ColorSpace.sRGB)
+                clipper: ShapeBorderClipper
+                child: RenderCustomPaint#c63e4 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+                    parentData: <none>
+                    constraints: MISSING
+                    size: MISSING
+                    painter: null
+                    foregroundPainter: _ShapeBorderPainter#41e7e()
+    child 4: RenderConstrainedBox#cf4e4 NEEDS-LAYOUT NEEDS-PAINT
+        parentData: offset=Offset(0.0, 0.0); flex=null; fit=null
+        constraints: MISSING
+        size: MISSING
+        additionalConstraints: BoxConstraints(0.0<=w<=Infinity, h=16.0)
+    child 5: RenderConstrainedBox#4dcfd NEEDS-LAYOUT NEEDS-PAINT
+        parentData: offset=Offset(0.0, 0.0); flex=1; fit=FlexFit.tight
+        constraints: MISSING
+        size: MISSING
+        additionalConstraints: BoxConstraints(w=0.0, h=0.0)
+    child 6: RenderSemanticsAnnotations#cf31e NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+        parentData: offset=Offset(0.0, 0.0); flex=null; fit=null
+        constraints: MISSING
+        semantic boundary
+        size: MISSING
+        child: _RenderInputPadding#15380 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+            parentData: <none>
+            constraints: MISSING
+            size: MISSING
+            child: RenderConstrainedBox#ee6b3 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+                parentData: offset=Offset(0.0, 0.0)
+                constraints: MISSING
+                size: MISSING
+                additionalConstraints: BoxConstraints(64.0<=w<=Infinity, 40.0<=h<=Infinity)
+                child: RenderPhysicalShape#5498e NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+                    parentData: <none>
+                    constraints: MISSING
+                    size: MISSING
+                    elevation: 1.0
+                    color: Color(alpha: 1.0000, red: 0.9725, green: 0.9451, blue: 0.9804, colorSpace: ColorSpace.sRGB)
+                    shadowColor: Color(alpha: 1.0000, red: 0.9725, green: 0.9451, blue: 0.9804, colorSpace: ColorSpace.sRGB)
+                    clipper: ShapeBorderClipper
+The creator information is set to: Column ← ConstrainedBox ← _SingleChildViewport ← IgnorePointer-[GlobalKey#5ff01] ← Semantics ← Listener ← _GestureSemantics ← RawGestureDetector-[LabeledGlobalKey<RawGestureDetectorState>#6b80f] ← Listener ← _ScrollableScope ← _ScrollSemantics-[GlobalKey#c9393] ← NotificationListener<ScrollMetricsNotification> ← ⋯
+The nearest ancestor providing an unbounded width constraint is: _RenderSingleChildViewport#8446b relayoutBoundary=up11 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+    needs compositing
+    parentData: <none> (can use size)
+    constraints: BoxConstraints(0.0<=w<=379.4, 0.0<=h<=684.3)
+    size: MISSING
+    offset: Offset(0.0, -0.0)
+    child: RenderConstrainedBox#a00c0 relayoutBoundary=up12 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+        parentData: <none> (can use size)
+        constraints: BoxConstraints(0.0<=w<=379.4, 0.0<=h<=Infinity)
+        size: MISSING
+        additionalConstraints: BoxConstraints(0.0<=w<=Infinity, 716.3<=h<=Infinity)
+        child: RenderFlex#7f8e8 relayoutBoundary=up13 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+            parentData: <none> (can use size)
+            constraints: BoxConstraints(0.0<=w<=379.4, 716.3<=h<=Infinity)
+            size: MISSING
+            direction: vertical
+            mainAxisAlignment: start
+            mainAxisSize: min
+            crossAxisAlignment: stretch
+            verticalDirection: down
+            spacing: 0.0
+            child 1: RenderSemanticsAnnotations#5a988 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+                parentData: offset=Offset(0.0, 0.0); flex=null; fit=null
+                constraints: MISSING
+                semantic boundary
+                size: MISSING
+                child: RenderPadding#f78c4 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+                    parentData: <none>
+                    constraints: MISSING
+                    size: MISSING
+                    padding: EdgeInsets.all(4.0)
+                    textDirection: ltr
+            child 2: RenderConstrainedBox#359ce NEEDS-LAYOUT NEEDS-PAINT
+                parentData: offset=Offset(0.0, 0.0); flex=null; fit=null
+                constraints: MISSING
+                size: MISSING
+                additionalConstraints: BoxConstraints(0.0<=w<=Infinity, h=16.0)
+            child 3: RenderSemanticsAnnotations#78a1a NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+                parentData: offset=Offset(0.0, 0.0); flex=null; fit=null
+                constraints: MISSING
+                semantic boundary
+                size: MISSING
+                child: RenderPadding#8c90b NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+                    parentData: <none>
+                    constraints: MISSING
+                    size: MISSING
+                    padding: EdgeInsets.all(4.0)
+                    textDirection: ltr
+            child 4: RenderConstrainedBox#cf4e4 NEEDS-LAYOUT NEEDS-PAINT
+                parentData: offset=Offset(0.0, 0.0); flex=null; fit=null
+                constraints: MISSING
+                size: MISSING
+                additionalConstraints: BoxConstraints(0.0<=w<=Infinity, h=16.0)
+            child 5: RenderConstrainedBox#4dcfd NEEDS-LAYOUT NEEDS-PAINT
+                parentData: offset=Offset(0.0, 0.0); flex=1; fit=FlexFit.tight
+                constraints: MISSING
+                size: MISSING
+                additionalConstraints: BoxConstraints(w=0.0, h=0.0)
+            child 6: RenderSemanticsAnnotations#cf31e NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+                parentData: offset=Offset(0.0, 0.0); flex=null; fit=null
+                constraints: MISSING
+                semantic boundary
+                size: MISSING
+                child: _RenderInputPadding#15380 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+                    parentData: <none>
+                    constraints: MISSING
+                    size: MISSING
+See also: https://flutter.dev/unbounded-constraints
+If none of the above helps enough to fix this problem, please don't hesitate to file a bug:
+  https://github.com/flutter/flutter/issues/new?template=2_bug.yml
+
+The relevant error-causing widget was:
+    Column Column:file:///home/kaike/projetos%20pessoais/video_maker/video_maker/lib/screens/video_generation_screen.dart:100:22
+
+When the exception was thrown, this was the stack:
+#0      RenderFlex.performLayout.<anonymous closure> (package:flutter/src/rendering/flex.dart:1250:9)
+#1      RenderFlex.performLayout (package:flutter/src/rendering/flex.dart:1253:6)
+#2      RenderObject.layout (package:flutter/src/rendering/object.dart:2715:7)
+#3      RenderConstrainedBox.performLayout (package:flutter/src/rendering/proxy_box.dart:293:14)
+#4      RenderObject.layout (package:flutter/src/rendering/object.dart:2715:7)
+#5      _RenderSingleChildViewport.performLayout (package:flutter/src/widgets/single_child_scroll_view.dart:493:14)
+#6      RenderObject.layout (package:flutter/src/rendering/object.dart:2715:7)
+#7      RenderProxyBoxMixin.performLayout (package:flutter/src/rendering/proxy_box.dart:115:18)
+#8      RenderObject.layout (package:flutter/src/rendering/object.dart:2715:7)
+#9      RenderProxyBoxMixin.performLayout (package:flutter/src/rendering/proxy_box.dart:115:18)
+#10     RenderObject.layout (package:flutter/src/rendering/object.dart:2715:7)
+#11     RenderProxyBoxMixin.performLayout (package:flutter/src/rendering/proxy_box.dart:115:18)
+#12     RenderObject.layout (package:flutter/src/rendering/object.dart:2715:7)
+#13     RenderProxyBoxMixin.performLayout (package:flutter/src/rendering/proxy_box.dart:115:18)
+#14     RenderObject.layout (package:flutter/src/rendering/object.dart:2715:7)
+#15     RenderProxyBoxMixin.performLayout (package:flutter/src/rendering/proxy_box.dart:115:18)
+#16     RenderObject.layout (package:flutter/src/rendering/object.dart:2715:7)
+#17     RenderProxyBoxMixin.performLayout (package:flutter/src/rendering/proxy_box.dart:115:18)
+#18     RenderObject.layout (package:flutter/src/rendering/object.dart:2715:7)
+#19     RenderProxyBoxMixin.performLayout (package:flutter/src/rendering/proxy_box.dart:115:18)
+#20     RenderObject.layout (package:flutter/src/rendering/object.dart:2715:7)
+#21     RenderProxyBoxMixin.performLayout (package:flutter/src/rendering/proxy_box.dart:115:18)
+#22     _RenderCustomClip.performLayout (package:flutter/src/rendering/proxy_box.dart:1483:11)
+#23     RenderObject.layout (package:flutter/src/rendering/object.dart:2715:7)
+#24     RenderPadding.performLayout (package:flutter/src/rendering/shifted_box.dart:243:12)
+#25     RenderObject.layout (package:flutter/src/rendering/object.dart:2715:7)
+#26     RenderPadding.performLayout (package:flutter/src/rendering/shifted_box.dart:243:12)
+#27     RenderObject.layout (package:flutter/src/rendering/object.dart:2715:7)
+#28     MultiChildLayoutDelegate.layoutChild (package:flutter/src/rendering/custom_layout.dart:180:12)
+#29     _ScaffoldLayout.performLayout (package:flutter/src/material/scaffold.dart:1118:7)
+#30     MultiChildLayoutDelegate._callPerformLayout (package:flutter/src/rendering/custom_layout.dart:249:7)
+#31     RenderCustomMultiChildLayoutBox.performLayout (package:flutter/src/rendering/custom_layout.dart:419:14)
+#32     RenderObject.layout (package:flutter/src/rendering/object.dart:2715:7)
+#33     RenderProxyBoxMixin.performLayout (package:flutter/src/rendering/proxy_box.dart:115:18)
+#34     RenderObject.layout (package:flutter/src/rendering/object.dart:2715:7)
+#35     RenderProxyBoxMixin.performLayout (package:flutter/src/rendering/proxy_box.dart:115:18)
+#36     _RenderCustomClip.performLayout (package:flutter/src/rendering/proxy_box.dart:1483:11)
+#37     RenderObject.layout (package:flutter/src/rendering/object.dart:2715:7)
+#38     RenderProxyBoxMixin.performLayout (package:flutter/src/rendering/proxy_box.dart:115:18)
+#39     RenderObject.layout (package:flutter/src/rendering/object.dart:2715:7)
+#40     RenderProxyBoxMixin.performLayout (package:flutter/src/rendering/proxy_box.dart:115:18)
+#41     RenderObject.layout (package:flutter/src/rendering/object.dart:2715:7)
+#42     RenderProxyBoxMixin.performLayout (package:flutter/src/rendering/proxy_box.dart:115:18)
+#43     RenderObject.layout (package:flutter/src/rendering/object.dart:2715:7)
+#44     RenderProxyBoxMixin.performLayout (package:flutter/src/rendering/proxy_box.dart:115:18)
+#45     RenderObject.layout (package:flutter/src/rendering/object.dart:2715:7)
+#46     RenderProxyBoxMixin.performLayout (package:flutter/src/rendering/proxy_box.dart:115:18)
+#47     RenderObject.layout (package:flutter/src/rendering/object.dart:2715:7)
+#48     RenderOffstage.performLayout (package:flutter/src/rendering/proxy_box.dart:3748:14)
+#49     RenderObject.layout (package:flutter/src/rendering/object.dart:2715:7)
+#50     RenderProxyBoxMixin.performLayout (package:flutter/src/rendering/proxy_box.dart:115:18)
+#51     RenderObject.layout (package:flutter/src/rendering/object.dart:2715:7)
+#52     _RenderTheaterMixin.layoutChild (package:flutter/src/widgets/overlay.dart:1076:13)
+#53     _RenderTheater.performLayout (package:flutter/src/widgets/overlay.dart:1422:9)
+#54     RenderObject._layoutWithoutResize (package:flutter/src/rendering/object.dart:2548:7)
+#55     PipelineOwner.flushLayout (package:flutter/src/rendering/object.dart:1112:18)
+#56     PipelineOwner.flushLayout (package:flutter/src/rendering/object.dart:1125:15)
+#57     RendererBinding.drawFrame (package:flutter/src/rendering/binding.dart:616:23)
+#58     WidgetsBinding.drawFrame (package:flutter/src/widgets/binding.dart:1231:13)
+#59     RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:482:5)
+#60     SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1442:15)
+#61     SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1355:9)
+#62     SchedulerBinding._handleDrawFrame (package:flutter/src/scheduler/binding.dart:1208:5)
+#63     _invoke (dart:ui/hooks.dart:316:13)
+#64     PlatformDispatcher._drawFrame (dart:ui/platform_dispatcher.dart:428:5)
+#65     _drawFrame (dart:ui/hooks.dart:288:31)
+
+The following RenderObject was being processed when the exception was fired: RenderFlex#7f8e8 relayoutBoundary=up13 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+    parentData: <none> (can use size)
+    constraints: BoxConstraints(0.0<=w<=379.4, 716.3<=h<=Infinity)
+    size: MISSING
+    direction: vertical
+    mainAxisAlignment: start
+    mainAxisSize: min
+    crossAxisAlignment: stretch
+    verticalDirection: down
+    spacing: 0.0
+    child 1: RenderSemanticsAnnotations#5a988 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+        parentData: offset=Offset(0.0, 0.0); flex=null; fit=null
+        constraints: MISSING
+        semantic boundary
+        size: MISSING
+        child: RenderPadding#f78c4 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+            parentData: <none>
+            constraints: MISSING
+            size: MISSING
+            padding: EdgeInsets.all(4.0)
+            textDirection: ltr
+            child: RenderPhysicalShape#fc7e8 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+                parentData: offset=Offset(0.0, 0.0)
+                constraints: MISSING
+                size: MISSING
+                elevation: 1.0
+                color: Color(alpha: 1.0000, red: 0.9725, green: 0.9451, blue: 0.9804, colorSpace: ColorSpace.sRGB)
+                shadowColor: Color(alpha: 1.0000, red: 0.9725, green: 0.9451, blue: 0.9804, colorSpace: ColorSpace.sRGB)
+                clipper: ShapeBorderClipper
+                child: RenderCustomPaint#820ab NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+                    parentData: <none>
+                    constraints: MISSING
+                    size: MISSING
+                    painter: null
+                    foregroundPainter: _ShapeBorderPainter#e41c4()
+    child 2: RenderConstrainedBox#359ce NEEDS-LAYOUT NEEDS-PAINT
+        parentData: offset=Offset(0.0, 0.0); flex=null; fit=null
+        constraints: MISSING
+        size: MISSING
+        additionalConstraints: BoxConstraints(0.0<=w<=Infinity, h=16.0)
+    child 3: RenderSemanticsAnnotations#78a1a NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+        parentData: offset=Offset(0.0, 0.0); flex=null; fit=null
+        constraints: MISSING
+        semantic boundary
+        size: MISSING
+        child: RenderPadding#8c90b NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+            parentData: <none>
+            constraints: MISSING
+            size: MISSING
+            padding: EdgeInsets.all(4.0)
+            textDirection: ltr
+            child: RenderPhysicalShape#70b81 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+                parentData: offset=Offset(0.0, 0.0)
+                constraints: MISSING
+                size: MISSING
+                elevation: 1.0
+                color: Color(alpha: 1.0000, red: 0.9725, green: 0.9451, blue: 0.9804, colorSpace: ColorSpace.sRGB)
+                shadowColor: Color(alpha: 1.0000, red: 0.9725, green: 0.9451, blue: 0.9804, colorSpace: ColorSpace.sRGB)
+                clipper: ShapeBorderClipper
+                child: RenderCustomPaint#c63e4 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+                    parentData: <none>
+                    constraints: MISSING
+                    size: MISSING
+                    painter: null
+                    foregroundPainter: _ShapeBorderPainter#41e7e()
+    child 4: RenderConstrainedBox#cf4e4 NEEDS-LAYOUT NEEDS-PAINT
+        parentData: offset=Offset(0.0, 0.0); flex=null; fit=null
+        constraints: MISSING
+        size: MISSING
+        additionalConstraints: BoxConstraints(0.0<=w<=Infinity, h=16.0)
+    child 5: RenderConstrainedBox#4dcfd NEEDS-LAYOUT NEEDS-PAINT
+        parentData: offset=Offset(0.0, 0.0); flex=1; fit=FlexFit.tight
+        constraints: MISSING
+        size: MISSING
+        additionalConstraints: BoxConstraints(w=0.0, h=0.0)
+    child 6: RenderSemanticsAnnotations#cf31e NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+        parentData: offset=Offset(0.0, 0.0); flex=null; fit=null
+        constraints: MISSING
+        semantic boundary
+        size: MISSING
+        child: _RenderInputPadding#15380 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+            parentData: <none>
+            constraints: MISSING
+            size: MISSING
+            child: RenderConstrainedBox#ee6b3 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+                parentData: offset=Offset(0.0, 0.0)
+                constraints: MISSING
+                size: MISSING
+                additionalConstraints: BoxConstraints(64.0<=w<=Infinity, 40.0<=h<=Infinity)
+                child: RenderPhysicalShape#5498e NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+                    parentData: <none>
+                    constraints: MISSING
+                    size: MISSING
+                    elevation: 1.0
+                    color: Color(alpha: 1.0000, red: 0.9725, green: 0.9451, blue: 0.9804, colorSpace: ColorSpace.sRGB)
+                    shadowColor: Color(alpha: 1.0000, red: 0.9725, green: 0.9451, blue: 0.9804, colorSpace: ColorSpace.sRGB)
+                    clipper: ShapeBorderClipper
+RenderObject: RenderFlex#7f8e8 relayoutBoundary=up13 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+    parentData: <none> (can use size)
+    constraints: BoxConstraints(0.0<=w<=379.4, 716.3<=h<=Infinity)
+    size: MISSING
+    direction: vertical
+    mainAxisAlignment: start
+    mainAxisSize: min
+    crossAxisAlignment: stretch
+    verticalDirection: down
+    spacing: 0.0
+    child 1: RenderSemanticsAnnotations#5a988 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+        parentData: offset=Offset(0.0, 0.0); flex=null; fit=null
+        constraints: MISSING
+        semantic boundary
+        size: MISSING
+        child: RenderPadding#f78c4 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+            parentData: <none>
+            constraints: MISSING
+            size: MISSING
+            padding: EdgeInsets.all(4.0)
+            textDirection: ltr
+            child: RenderPhysicalShape#fc7e8 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+                parentData: offset=Offset(0.0, 0.0)
+                constraints: MISSING
+                size: MISSING
+                elevation: 1.0
+                color: Color(alpha: 1.0000, red: 0.9725, green: 0.9451, blue: 0.9804, colorSpace: ColorSpace.sRGB)
+                shadowColor: Color(alpha: 1.0000, red: 0.9725, green: 0.9451, blue: 0.9804, colorSpace: ColorSpace.sRGB)
+                clipper: ShapeBorderClipper
+                child: RenderCustomPaint#820ab NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+                    parentData: <none>
+                    constraints: MISSING
+                    size: MISSING
+                    painter: null
+                    foregroundPainter: _ShapeBorderPainter#e41c4()
+    child 2: RenderConstrainedBox#359ce NEEDS-LAYOUT NEEDS-PAINT
+        parentData: offset=Offset(0.0, 0.0); flex=null; fit=null
+        constraints: MISSING
+        size: MISSING
+        additionalConstraints: BoxConstraints(0.0<=w<=Infinity, h=16.0)
+    child 3: RenderSemanticsAnnotations#78a1a NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+        parentData: offset=Offset(0.0, 0.0); flex=null; fit=null
+        constraints: MISSING
+        semantic boundary
+        size: MISSING
+        child: RenderPadding#8c90b NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+            parentData: <none>
+            constraints: MISSING
+            size: MISSING
+            padding: EdgeInsets.all(4.0)
+            textDirection: ltr
+            child: RenderPhysicalShape#70b81 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+                parentData: offset=Offset(0.0, 0.0)
+                constraints: MISSING
+                size: MISSING
+                elevation: 1.0
+                color: Color(alpha: 1.0000, red: 0.9725, green: 0.9451, blue: 0.9804, colorSpace: ColorSpace.sRGB)
+                shadowColor: Color(alpha: 1.0000, red: 0.9725, green: 0.9451, blue: 0.9804, colorSpace: ColorSpace.sRGB)
+                clipper: ShapeBorderClipper
+                child: RenderCustomPaint#c63e4 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+                    parentData: <none>
+                    constraints: MISSING
+                    size: MISSING
+                    painter: null
+                    foregroundPainter: _ShapeBorderPainter#41e7e()
+    child 4: RenderConstrainedBox#cf4e4 NEEDS-LAYOUT NEEDS-PAINT
+        parentData: offset=Offset(0.0, 0.0); flex=null; fit=null
+        constraints: MISSING
+        size: MISSING
+        additionalConstraints: BoxConstraints(0.0<=w<=Infinity, h=16.0)
+    child 5: RenderConstrainedBox#4dcfd NEEDS-LAYOUT NEEDS-PAINT
+        parentData: offset=Offset(0.0, 0.0); flex=1; fit=FlexFit.tight
+        constraints: MISSING
+        size: MISSING
+        additionalConstraints: BoxConstraints(w=0.0, h=0.0)
+    child 6: RenderSemanticsAnnotations#cf31e NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+        parentData: offset=Offset(0.0, 0.0); flex=null; fit=null
+        constraints: MISSING
+        semantic boundary
+        size: MISSING
+        child: _RenderInputPadding#15380 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+            parentData: <none>
+            constraints: MISSING
+            size: MISSING
+            child: RenderConstrainedBox#ee6b3 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+                parentData: offset=Offset(0.0, 0.0)
+                constraints: MISSING
+                size: MISSING
+                additionalConstraints: BoxConstraints(64.0<=w<=Infinity, 40.0<=h<=Infinity)
+                child: RenderPhysicalShape#5498e NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+                    parentData: <none>
+                    constraints: MISSING
+                    size: MISSING
+                    elevation: 1.0
+                    color: Color(alpha: 1.0000, red: 0.9725, green: 0.9451, blue: 0.9804, colorSpace: ColorSpace.sRGB)
+                    shadowColor: Color(alpha: 1.0000, red: 0.9725, green: 0.9451, blue: 0.9804, colorSpace: ColorSpace.sRGB)
+                    clipper: ShapeBorderClipper
+════════════════════════════════════════════════════════════════════════════════
+
+════════ Exception caught by rendering library ═════════════════════════════════
+RenderBox was not laid out: RenderFlex#7f8e8 relayoutBoundary=up13 NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+'package:flutter/src/rendering/box.dart':
+Failed assertion: line 2251 pos 12: 'hasSize'
+The relevant error-causing widget was:
+    ConstrainedBox ConstrainedBox:file:///home/kaike/projetos%20pessoais/video_maker/video_maker/lib/screens/video_generation_screen.dart:96:20
+════════════════════════════════════════════════════════════════════════════════
+
+════════ Exception caught by rendering library ═════════════════════════════════
+RenderBox was not laid out: RenderConstrainedBox#a00c0 relayoutBoundary=up12 NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+'package:flutter/src/rendering/box.dart':
+Failed assertion: line 2251 pos 12: 'hasSize'
+The relevant error-causing widget was:
+    SingleChildScrollView SingleChildScrollView:file:///home/kaike/projetos%20pessoais/video_maker/video_maker/lib/screens/video_generation_screen.dart:94:18
+════════════════════════════════════════════════════════════════════════════════
+
+════════ Exception caught by rendering library ═════════════════════════════════
+RenderBox was not laid out: _RenderSingleChildViewport#8446b relayoutBoundary=up11 NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+'package:flutter/src/rendering/box.dart':
+Failed assertion: line 2251 pos 12: 'hasSize'
+The relevant error-causing widget was:
+    SingleChildScrollView SingleChildScrollView:file:///home/kaike/projetos%20pessoais/video_maker/video_maker/lib/screens/video_generation_screen.dart:94:18
+════════════════════════════════════════════════════════════════════════════════
+
+════════ Exception caught by rendering library ═════════════════════════════════
+RenderBox was not laid out: RenderIgnorePointer#10abb relayoutBoundary=up10 NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+'package:flutter/src/rendering/box.dart':
+Failed assertion: line 2251 pos 12: 'hasSize'
+The relevant error-causing widget was:
+    SingleChildScrollView SingleChildScrollView:file:///home/kaike/projetos%20pessoais/video_maker/video_maker/lib/screens/video_generation_screen.dart:94:18
+════════════════════════════════════════════════════════════════════════════════
+
+════════ Exception caught by rendering library ═════════════════════════════════
+RenderBox was not laid out: RenderSemanticsAnnotations#34747 relayoutBoundary=up9 NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+'package:flutter/src/rendering/box.dart':
+Failed assertion: line 2251 pos 12: 'hasSize'
+The relevant error-causing widget was:
+    SingleChildScrollView SingleChildScrollView:file:///home/kaike/projetos%20pessoais/video_maker/video_maker/lib/screens/video_generation_screen.dart:94:18
+════════════════════════════════════════════════════════════════════════════════
+
+════════ Exception caught by rendering library ═════════════════════════════════
+RenderBox was not laid out: RenderPointerListener#9ca7c relayoutBoundary=up8 NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+'package:flutter/src/rendering/box.dart':
+Failed assertion: line 2251 pos 12: 'hasSize'
+The relevant error-causing widget was:
+    SingleChildScrollView SingleChildScrollView:file:///home/kaike/projetos%20pessoais/video_maker/video_maker/lib/screens/video_generation_screen.dart:94:18
+════════════════════════════════════════════════════════════════════════════════
+
+════════ Exception caught by rendering library ═════════════════════════════════
+RenderBox was not laid out: RenderSemanticsGestureHandler#62d31 relayoutBoundary=up7 NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+'package:flutter/src/rendering/box.dart':
+Failed assertion: line 2251 pos 12: 'hasSize'
+The relevant error-causing widget was:
+    SingleChildScrollView SingleChildScrollView:file:///home/kaike/projetos%20pessoais/video_maker/video_maker/lib/screens/video_generation_screen.dart:94:18
+════════════════════════════════════════════════════════════════════════════════
+
+════════ Exception caught by rendering library ═════════════════════════════════
+RenderBox was not laid out: RenderPointerListener#fd0a4 relayoutBoundary=up6 NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+'package:flutter/src/rendering/box.dart':
+Failed assertion: line 2251 pos 12: 'hasSize'
+The relevant error-causing widget was:
+    SingleChildScrollView SingleChildScrollView:file:///home/kaike/projetos%20pessoais/video_maker/video_maker/lib/screens/video_generation_screen.dart:94:18
+════════════════════════════════════════════════════════════════════════════════
+
+════════ Exception caught by rendering library ═════════════════════════════════
+RenderBox was not laid out: _RenderScrollSemantics#6d4da relayoutBoundary=up5 NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+'package:flutter/src/rendering/box.dart':
+Failed assertion: line 2251 pos 12: 'hasSize'
+The relevant error-causing widget was:
+    SingleChildScrollView SingleChildScrollView:file:///home/kaike/projetos%20pessoais/video_maker/video_maker/lib/screens/video_generation_screen.dart:94:18
+════════════════════════════════════════════════════════════════════════════════
+
+════════ Exception caught by rendering library ═════════════════════════════════
+RenderBox was not laid out: RenderTransform#e9c7d relayoutBoundary=up4 NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+'package:flutter/src/rendering/box.dart':
+Failed assertion: line 2251 pos 12: 'hasSize'
+The relevant error-causing widget was:
+    SingleChildScrollView SingleChildScrollView:file:///home/kaike/projetos%20pessoais/video_maker/video_maker/lib/screens/video_generation_screen.dart:94:18
+════════════════════════════════════════════════════════════════════════════════
+
+════════ Exception caught by rendering library ═════════════════════════════════
+RenderBox was not laid out: RenderClipRect#e3705 relayoutBoundary=up3 NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+'package:flutter/src/rendering/box.dart':
+Failed assertion: line 2251 pos 12: 'hasSize'
+The relevant error-causing widget was:
+    Padding Padding:file:///home/kaike/projetos%20pessoais/video_maker/video_maker/lib/screens/video_generation_screen.dart:92:16
+════════════════════════════════════════════════════════════════════════════════
+
+════════ Exception caught by rendering library ═════════════════════════════════
+RenderBox was not laid out: RenderPadding#a5f79 relayoutBoundary=up2 NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+'package:flutter/src/rendering/box.dart':
+Failed assertion: line 2251 pos 12: 'hasSize'
+The relevant error-causing widget was:
+    SafeArea SafeArea:file:///home/kaike/projetos%20pessoais/video_maker/video_maker/lib/screens/video_generation_screen.dart:91:13
+════════════════════════════════════════════════════════════════════════════════
+
+════════ Exception caught by rendering library ═════════════════════════════════
+RenderBox was not laid out: RenderPadding#a0a8a relayoutBoundary=up1 NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
+'package:flutter/src/rendering/box.dart':
+Failed assertion: line 2251 pos 12: 'hasSize'
+The relevant error-causing widget was:
+    Scaffold Scaffold:file:///home/kaike/projetos%20pessoais/video_maker/video_maker/lib/screens/video_generation_screen.dart:52:32
+════════════════════════════════════════════════════════════════════════════════
+
+════════ Exception caught by rendering library ═════════════════════════════════
+RenderBox was not laid out: RenderTransform#e9c7d relayoutBoundary=up4
+'package:flutter/src/rendering/box.dart':
+Failed assertion: line 2251 pos 12: 'hasSize'
+The relevant error-causing widget was:
+    SingleChildScrollView SingleChildScrollView:file:///home/kaike/projetos%20pessoais/video_maker/video_maker/lib/screens/video_generation_screen.dart:94:18
+════════════════════════════════════════════════════════════════════════════════
+I/flutter ( 8921): [23:18:45] DEBUG/LogService: Serviço de log inicializado com sucesso
+I/flutter ( 8921): [23:18:45] INFO/VideoGeneratorService: Serviço de geração de vídeo inicializado
+D/BufferPoolAccessor2.0( 8921): bufferpool2 0xb400006fe17e1828 : 0(0 size) total buffers - 0(0 size) used buffers - 16/21 (recycle/alloc) - 8/40 (fetch/transfer)
+D/BufferPoolAccessor2.0( 8921): bufferpool2 0xb400006fe173aa28 : 0(0 size) total buffers - 0(0 size) used buffers - 8/13 (recycle/alloc) - 4/8 (fetch/transfer)
+D/BufferPoolAccessor2.0( 8921): evictor expired: 2, evicted: 2

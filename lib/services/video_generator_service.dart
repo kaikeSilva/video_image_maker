@@ -1,8 +1,9 @@
 import 'dart:io';
+import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:uuid/uuid.dart'; // Usado para gerar nomes de arquivos únicos
 import 'package:just_audio/just_audio.dart'; // Para obter duração do áudio
+import '../utils/encoder_config.dart'; // Para usar as classes de qualidade e formato
 // import 'package:disk_space/disk_space.dart';  // Removido para resolver problema de namespace
 import '../models/timeline_item.dart';
 import '../models/image_sequence_item.dart';
@@ -236,13 +237,19 @@ class VideoGeneratorService {
   /// [audioPath] - Caminho do arquivo de áudio MP3
   /// [images] - Lista de imagens com timestamps
   /// [outputPath] - Caminho para salvar o vídeo gerado
-  /// [quality] - Configuração de qualidade do vídeo
+  /// [quality] - Configuração de qualidade do vídeo (legado)
+  /// [videoFormat] - Formato do vídeo (celular ou desktop)
+  /// [encoderQuality] - Qualidade do vídeo usando o novo sistema
   /// [progressCallback] - Callback para atualizar o progresso da geração
+  /// 
+  /// Retorna o caminho do vídeo gerado ou null em caso de erro
   Future<String?> generateVideo({
     required String audioPath,
     required List<TimelineItem> images,
     String? outputPath,
     VideoQualityConfig quality = VideoQualityConfig.medium,
+    VideoFormat videoFormat = VideoFormat.mobile,
+    VideoQuality encoderQuality = VideoQuality.medium,
     Function(VideoGenerationProgress)? progressCallback,
     bool saveToGallery = true,
     bool saveToDownloads = true,
@@ -271,6 +278,12 @@ class VideoGeneratorService {
     }
     
     try {
+      // Log dos parâmetros de formato e qualidade
+      _logService.info('VideoGeneratorService', 'Formato de vídeo selecionado: ${videoFormat.displayName}');
+      _logService.info('VideoGeneratorService', 'Qualidade de vídeo selecionada: ${encoderQuality.displayName}');
+      _logService.info('VideoGeneratorService', 'Dimensões: ${encoderQuality.getWidth(videoFormat)}x${encoderQuality.getHeight(videoFormat)}');
+      _logService.info('VideoGeneratorService', 'Bitrate: ${(encoderQuality.videoBitrate / 1000000).toStringAsFixed(1)} Mbps');
+      
       // Notifica início do processo
       progressCallback?.call(VideoGenerationProgress(
         progress: 0.0,

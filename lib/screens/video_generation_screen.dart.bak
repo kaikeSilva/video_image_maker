@@ -7,7 +7,7 @@ import '../services/video_generator_service.dart';
 import '../services/storage_service.dart';
 import '../services/share_service.dart';
 import '../models/timeline_item.dart';
-// import '../routes.dart'; // Removido pois não está sendo utilizado
+import '../routes.dart';
 import '../widgets/progress_indicator_widget.dart';
 import '../widgets/loading_overlay.dart';
 import '../utils/encoder_config.dart';
@@ -150,19 +150,9 @@ class _VideoGenerationScreenState extends State<VideoGenerationScreen> {
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8),
-                    Text(
-                      'Áudio: ${_getAudioFileName(projectProvider.project.audioFilePath)}',
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
-                    Text(
-                      'Imagens: ${projectProvider.project.timelineItems.length}',
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Text(
-                      'Duração Estimada: ${_formatDuration(projectProvider.project.audioDuration)}',
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    Text('Áudio: ${_getAudioFileName(projectProvider.project.audioFilePath)}'),
+                    Text('Imagens: ${projectProvider.project.timelineItems.length}'),
+                    Text('Duração Estimada: ${_formatDuration(projectProvider.project.audioDuration)}'),
                   ],
                 ),
               ),
@@ -181,7 +171,7 @@ class _VideoGenerationScreenState extends State<VideoGenerationScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Flexible(
+                          Expanded(
                             child: Text(
                               'Status: ${_progress.currentStep}',
                               style: TextStyle(
@@ -254,7 +244,7 @@ class _VideoGenerationScreenState extends State<VideoGenerationScreen> {
                 ),
               ),
             
-            const SizedBox(height: 16),
+            const Spacer(),
             
             // Botão para gerar vídeo
             if (!_isGenerating && !_progress.isCompleted)
@@ -284,50 +274,39 @@ class _VideoGenerationScreenState extends State<VideoGenerationScreen> {
                   ),
                   const SizedBox(height: 16),
                   
-                  // Botões de ação adicionais
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Row(
-                      children: [
-                        Flexible(
-                          flex: 1,
-                          child: OutlinedButton.icon(
-                            icon: const Icon(Icons.save_alt),
-                            label: const Text('Salvar'),
-                            onPressed: _saveVideoAgain,
-                          ),
+                  // Ações secundárias
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          icon: const Icon(Icons.share),
+                          label: const Text('Compartilhar'),
+                          onPressed: _shareVideo,
                         ),
-                        const SizedBox(width: 16),
-                        Flexible(
-                          flex: 1,
-                          child: OutlinedButton.icon(
-                            icon: const Icon(Icons.share),
-                            label: const Text('Compartilhar'),
-                            onPressed: _shareVideo,
-                          ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          icon: const Icon(Icons.edit),
+                          label: const Text('Novo Projeto'),
+                          onPressed: () {
+                            Navigator.pushNamedAndRemoveUntil(
+                              context, 
+                              Routes.home, 
+                              (route) => false,
+                            );
+                          },
                         ),
-                      ],
-                    ),
-                  ),
-                  
-                  // Botão para criar novo projeto
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    child: OutlinedButton.icon(
-                      icon: const Icon(Icons.add),
-                      label: const Text('Novo Projeto'),
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(context, '/home');
-                      },
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),
-    )));
+    );
     
     // Escolhe qual interface de progresso usar com base no estado da geração
     if (useOverlay) {

@@ -29,6 +29,7 @@ class QuickVideoEncoderService {
     required String inputAudioPath,
     required Function(double) onProgress,
     VideoQuality quality = VideoQuality.medium,
+    VideoFormat format = VideoFormat.mobile,
     int? timeoutSeconds,
   }) async {
     try {
@@ -74,11 +75,13 @@ class QuickVideoEncoderService {
       const int sampleRate = 44100;
 
       _logService.info('QuickVideoEncoderService', 'Qualidade de vídeo selecionada: ${quality.displayName}');
-      _logService.info('QuickVideoEncoderService', 'Dimensões: ${quality.width}x${quality.height}, Bitrate: ${quality.videoBitrate / 1000000} Mbps');
+      _logService.info('QuickVideoEncoderService', 'Formato de vídeo: ${format.displayName}');
+      _logService.info('QuickVideoEncoderService', 'Dimensões: ${quality.getWidth(format)}x${quality.getHeight(format)}, Bitrate: ${quality.videoBitrate / 1000000} Mbps');
 
-      // Configura e inicializa o encoder com a qualidade selecionada
+      // Configura e inicializa o encoder com a qualidade e formato selecionados
       final encoderConfig = EncoderConfig(
         quality: quality,
+        format: format,
         fps: fps,
         audioChannels: audioChannels,
         audioBitrate: audioBitrate,
@@ -111,8 +114,8 @@ class QuickVideoEncoderService {
         images: images,
         totalFrames: totalFrames,
         fps: fps,
-        width: quality.width,
-        height: quality.height,
+        width: quality.getWidth(format),
+        height: quality.getHeight(format),
         pcmAudioBytes: pcmAudioBytes,
         sampleRate: sampleRate,
         audioChannels: audioChannels,

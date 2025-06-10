@@ -1,5 +1,30 @@
 import 'package:flutter_quick_video_encoder/flutter_quick_video_encoder.dart';
 
+/// Enum para os formatos de vídeo
+enum VideoFormat {
+  /// Formato vertical para celular (9:16)
+  mobile,
+  
+  /// Formato horizontal para desktop (16:9)
+  desktop
+}
+
+/// Extensão para obter informações sobre o formato de vídeo
+extension VideoFormatExtension on VideoFormat {
+  /// Obtém o nome legível do formato
+  String get displayName {
+    switch (this) {
+      case VideoFormat.mobile:
+        return 'Celular (Vertical 9:16)';
+      case VideoFormat.desktop:
+        return 'Desktop (Horizontal 16:9)';
+    }
+  }
+  
+  /// Verifica se o formato é vertical
+  bool get isVertical => this == VideoFormat.mobile;
+}
+
 /// Enum para as opções de qualidade de vídeo
 enum VideoQuality {
   /// Alta qualidade (1080x1920, 3.5 Mbps)
@@ -17,8 +42,8 @@ enum VideoQuality {
 
 /// Extensão para obter as configurações de cada qualidade de vídeo
 extension VideoQualityExtension on VideoQuality {
-  /// Obtém a largura do vídeo para esta qualidade
-  int get width {
+  /// Obtém a largura base do vídeo para esta qualidade (para formato mobile)
+  int get baseWidth {
     switch (this) {
       case VideoQuality.high:
         return 1080;
@@ -31,8 +56,8 @@ extension VideoQualityExtension on VideoQuality {
     }
   }
   
-  /// Obtém a altura do vídeo para esta qualidade
-  int get height {
+  /// Obtém a altura base do vídeo para esta qualidade (para formato mobile)
+  int get baseHeight {
     switch (this) {
       case VideoQuality.high:
         return 1920;
@@ -42,6 +67,26 @@ extension VideoQualityExtension on VideoQuality {
         return 960;
       case VideoQuality.veryLow:
         return 640;
+    }
+  }
+  
+  /// Obtém a largura do vídeo para esta qualidade e formato
+  int getWidth(VideoFormat format) {
+    if (format == VideoFormat.mobile) {
+      return baseWidth;
+    } else {
+      // Para desktop, invertemos a proporção (16:9)
+      return baseHeight;
+    }
+  }
+  
+  /// Obtém a altura do vídeo para esta qualidade e formato
+  int getHeight(VideoFormat format) {
+    if (format == VideoFormat.mobile) {
+      return baseHeight;
+    } else {
+      // Para desktop, invertemos a proporção (16:9)
+      return baseWidth;
     }
   }
   
@@ -79,6 +124,9 @@ class EncoderConfig {
   /// Qualidade do vídeo
   final VideoQuality quality;
   
+  /// Formato do vídeo (celular ou desktop)
+  final VideoFormat format;
+  
   /// Largura do vídeo em pixels
   final int width;
   
@@ -110,13 +158,14 @@ class EncoderConfig {
   EncoderConfig({
     required this.outputPath,
     this.quality = VideoQuality.medium,
+    this.format = VideoFormat.mobile,
     this.fps = 30,
     this.audioChannels = 2,
     this.audioBitrate = 128000, // 128 kbps
     this.sampleRate = 44100,
     this.profileLevel = ProfileLevel.baseline31,
-  }) : width = quality.width,
-       height = quality.height,
+  }) : width = quality.getWidth(format),
+       height = quality.getHeight(format),
        videoBitrate = quality.videoBitrate;
        
   /// Construtor alternativo que permite especificar valores personalizados
@@ -130,7 +179,8 @@ class EncoderConfig {
     this.audioBitrate = 128000,
     this.sampleRate = 44100,
     this.profileLevel = ProfileLevel.baseline31,
-  }) : quality = VideoQuality.high; // Valor padrão, mas não usado neste construtor
+  }) : quality = VideoQuality.high, // Valor padrão, mas não usado neste construtor
+       format = VideoFormat.mobile; // Valor padrão, mas não usado neste construtor
 
   /// Inicializa o codificador com estas configurações
   Future<void> setupEncoder() async {
